@@ -1,0 +1,269 @@
+body {
+    /* The image used */
+    background-image: url("https://img.freepik.com/premium-photo/furniture-office-background-dark_87720-269186.jpg");
+    backdrop-filter: blur(25px);
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+/* THIS IS THE STYLE FOR SIDEBAR */
+
+.sidebar .nav {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.sidebar .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 13px 0;
+}
+
+.sidebar .nav-item a i {
+    font-size: 24px;
+    color: white;
+}
+
+.sidebar .nav-item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+}
+
+.nav-link i {
+    font-size: 24px;
+    margin: 8px 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+.sidebar .nav-item a {
+    position: relative;
+}
+
+.sidebar .nav-item a::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 60px;
+    opacity: 0;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 14px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateX(-10px);
+    pointer-events: none;
+}
+
+.sidebar .nav-item a:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+/* END OF THE STYLE FOR SIDEBAR */
+
+/* THIS IS THE STYLE FOR TOPBAR */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-welcome {
+    font-size: 14px;
+    color: #fff;
+}
+.dropdown-oval-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    padding: 10px 70px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+}
+
+.dropdown-toggle {
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.dropdown-item {
+    color: #333;
+}
+.fa-solid {
+    font-size: 21px;
+    color: #fff;
+}
+
+div.topbar {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 95%;
+    max-width: 1200px;
+    height: 55px;
+}
+div.kuwago1Promos {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 4px;
+}
+#promoCarousel .card-img-top {
+    max-height: 120px;
+    object-fit: cover;
+}
+.carousel-item .card-footer {
+    position: relative;
+    z-index: 20;
+}
+
+.carousel-item .btn {
+    position: relative;
+    z-index: 25;
+}
+div.carousel {
+    max-width: 330px;
+}
+.carousel-inner {
+    height: 100%;
+    display: flex;
+}
+
+div.scrollable-description {
+    height: 50px;
+    overflow-y: scroll;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+div.scrollable-description::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}
+
+div.scrollable-dish {
+    height: 40px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+div.scrollable-dish::-webkit-scrollbar {
+    display: none;
+}
+
+h4.scrollable-title {
+    height: 50px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+h4.scrollable-title::-webkit-scrollbar {
+    display: none;
+}
+
+ul.list-group {
+    scrollbar-width: thin;
+    scrollbar-color: white transparent;
+}
+
+ul.list-group::-webkit-scrollbar {
+    width: 8px;
+}
+
+ul.list-group::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 4px;
+}
+
+ul.list-group::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+div.createPromo {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 5px;
+}
+
+/* Make the text white */
+.text-white {
+    color: white;
+}
+
+/* Custom input style */
+input.custom-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white; /* Just a white line at the bottom */
+    color: white; /* Make input text white */
+    border-radius: 0;
+}
+
+/* Style for the input fields on focus */
+input.custom-input:focus {
+    outline: none; /* Remove default focus outline */
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+}
+
+textarea.custom-input:focus {
+    outline: none; /* Remove default focus outline */
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+}
+
+textarea.custom-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white; /* Just a white line at the bottom */
+    color: white; /* Make input text white */
+    border-radius: 0;
+}
+
+/* Ensure the button has good contrast */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}

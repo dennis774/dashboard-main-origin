@@ -1,0 +1,634 @@
+div.nav-bar {
+    margin: 40px 0 20px 0;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* div.side-bar {
+    
+} */
+div.side-bar ul.nav {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    transition: width 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+div.contents {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+div.card-box {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+div.footer {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 40px;
+}
+
+.modal-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #333;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    color: #fff; /* Change text color to white */
+}
+
+.modal-content h5 {
+    margin-bottom: 20px;
+}
+
+.modal-content .form-label {
+    color: #fff; /* Make the label color white */
+}
+
+.modal-content input[type="date"] {
+    color: #000; /* Set input text color to black for visibility */
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    /* The image used */
+    background-image: url("https://t4.ftcdn.net/jpg/07/94/30/45/360_F_794304521_O4o0Y5UrvKtDxBNHY9utMowV2VhuhRpk.jpg");
+    backdrop-filter: blur(15px);
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Style for icons */
+i {
+    color: #ffffff;
+}
+/* Style for User Accounts */
+.account-page h3,
+.account-page span,
+.account-page p,
+.account-page label {
+    color: #ffffff;
+}
+
+.account-page .delete-button button {
+    padding: 0;
+}
+.account-page span {
+    font-size: x-large;
+    margin-left: 10px;
+}
+
+.account-page img {
+    border: 2px solid #ffffff;
+    border-radius: 100%;
+}
+
+/* Style for TopBar */
+.nav-bar img {
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+}
+
+/* business style */
+
+.businessesCard {
+    background-color: #fff; /* Sets a white background for the container */
+    padding: 20px; /* Optional: Adds padding */
+    border-radius: 10px; /* Optional: Rounds the corners */
+}
+div.businessName{
+    font-weight: bold;
+}
+img.logos{
+    width: 70px;
+    height: 70px;
+ }
+
+
+
+
+img.businesses{
+    width: 200px;
+    height: 125px;
+    border-radius: 10px;
+}
+
+
+p.businessSections{
+    font-weight: bold;
+}
+input.editBusiness {
+    color:#000;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+textarea.businessIndexDesc {
+    height: 100px;
+    width: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border: none;
+}
+
+
+textarea.businessIndexDesc::-webkit-scrollbar {
+    display: none;
+}
+button.updateBusiness{
+    background: none;
+    border: none;
+    font-size: 20px;
+}
+ 
+a.backtoIndex{
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+ }
+
+/*  */
+
+a.addBusinessbutton{
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+ }
+.businessesCard {
+    background-color: #fff; /* Sets a white background for the container */
+    padding: 20px; /* Optional: Adds padding */
+    border-radius: 10px; /* Optional: Rounds the corners */
+}
+div.businessName{
+    font-weight: bold;
+}
+img.logos{
+    width: 70px;
+    height: 70px;
+ }
+img.businesses{
+    width: 200px;
+    height: 125px;
+    border-radius: 10px;
+}
+p.businessSections{
+    font-weight: bold;
+}
+div.businessIndexDesc {
+    height: 90px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+
+div.businessIndexDesc::-webkit-scrollbar {
+    display: none;
+}
+button.businessDelete{
+    color: #000;
+    font-size: 20px;
+    text-decoration: none;
+    border: none;
+    background: none;
+ }
+
+
+
+
+
+
+
+
+
+
+ /* KUWAGO1 MAIN DASHBOARD */
+ /* KUWAGO 1 MAIN DASHBOARD */
+div.kuwago1Main {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+div.card-boxKuwago1 {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    height: 140px;
+    width: 183px;
+    margin: 4px;
+}
+div.chartsKuwago1 {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.compare{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    margin: 3px;
+}
+div.card-targetSales {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    height: 140px;
+    margin: 3px;
+}
+
+/* KUWAGO 1 SALES DASHBOARD */
+div.kuwago1Sales{
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+div.donutChart{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    height: 230px;
+    text-align: center;
+    position: relative;
+    line-height: 1.0; 
+    
+}
+#myChart1 {
+    width: 100%; /* Make it responsive to the column */
+    max-width: 120px; /* Adjust as necessary */
+    position: relative;
+}
+div.salesChartKuwago1, div.salesChartKuwago2{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.kuwagoLeastSelling{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    width: 262px;
+}
+div.salesByCat{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.topSelling{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+/* KUWAGO1 EXPENSESTABS */
+div.expensesChart{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.totalExpense {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+  
+}
+div.recentPur{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.expensesbyCat{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+
+
+
+
+.modal-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #333;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    color: #fff; /* Change text color to white */
+}
+
+.modal-content h5 {
+    margin-bottom: 20px;
+}
+
+.modal-content .form-label {
+    color: #fff; /* Make the label color white */
+}
+
+.modal-content input[type="date"] {
+    color: #000; /* Set input text color to black for visibility */
+}
+
+body,
+html {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    /* The image used */
+    background-image: url("https://img.freepik.com/premium-photo/furniture-office-background-dark_87720-269186.jpg");
+    backdrop-filter: blur(25px);
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+
+}
+
+/* Style for icons */
+i {
+    color: #ffffff;
+}
+/* Style for User Accounts */
+.account-page h3,
+.account-page span,
+.account-page p,
+.account-page label {
+    color: #ffffff;
+}
+
+.account-page .delete-button button {
+    padding: 0;
+}
+.account-page span {
+    font-size: x-large;
+    margin-left: 10px;
+}
+
+.account-page img {
+    border: 2px solid #ffffff;
+    border-radius: 100%;
+}
+
+/* Style for TopBar */
+.nav-bar img {
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*END STYLE FOR TOPBAR */
+
+
+/* THIS IS THE STYLE FOR GENERAL BLADE'S MAIN CONTENT */
+div.UdDesignMain{
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+div.salesTab, div.profitsTab, div.expensesTab, div.targetTabs{
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    margin: 3px auto; 
+    height:100px;
+}
+div.printingChart, div.merchChart{
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(10px); 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 3px auto; 
+    height:177px;
+    color: #fff;
+}
+/* END OF THE STYLE FOR GENERAL BLADE'S MAIN CONTENT */
+
+
+
+
+
+
+
+
+
+
+/* THIS IS THE STYLE FOR SALES BLADE'S MAIN CONTENT */
+div.UdDesignSales{
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px; 
+    padding: 5px 20px;;
+    margin: 20px auto; 
+}
+
+div.paymentMethod, div.salesChart{
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px; 
+    margin: 2px auto; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    height:190px;
+}
+div.salesByCat{
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    height:200px;
+    margin: 2px auto; 
+}
+
+div.topSell{
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px; 
+    margin: 2px auto; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    height:200px;
+    
+}
+/* END OF THE STYLE FOR SALES BLADE'S MAIN CONTENT */
+
+
+
+
+
+/*  STYLE FOR EXPENSES BLADE'S MAIN CONTENT */
+
+div.UdDesignExpenses{
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px; 
+    padding: 5px 20px;;
+    margin: 20px auto; 
+}
+div.totalexpenses{
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    height:200px;
+    width: 40%;
+    margin-right: 15px;
+}
+div.expensesChart{
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(10px); 
+    border-radius: 10px; 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    height:200px;
+}
+
+
+ div.expenseByCat{
+    background: rgba(255, 255, 255, 0.3); 
+    backdrop-filter: blur(10px); 
+    border-radius: 10px; 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    height:200px;
+    margin: 3px auto; 
+}
+/* END OF THE STYLE FOR EXPENSES BLADE'S MAIN CONTENT */
+
+
+
+
+
+
+
+/* STYLES FOR USER EDIT ACCOUNT */
+.glass-background {
+    width: 150px; /* Slightly larger than the image */
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Glass blur effect */
+    border-radius: 15px; /* Slightly rounded corners for the glass container */
+    padding: 10px; /* Optional padding for space around the image */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+}
+img.profile-image {
+    width: 130px; /* Set width to make the image square */
+    height: 130px; /* Set height to make the image square */
+    border-radius: 15px; /* Slightly rounded corners */
+    object-fit: cover; /* Ensures the image fills the area without stretching */
+}
