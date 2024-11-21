@@ -23,6 +23,7 @@
                             <option value="overall" {{ request('interval') == 'overall' ? 'selected' : '' }}>Overall</option>
                             <option value="custom" {{ request('interval') == 'custom' ? 'selected' : '' }}>Custom</option>
                         </select>
+                        <i class="fa-solid fa-chevron-down dropdown-icon"></i>
                     </div>
                 </div>
             </div>
@@ -52,6 +53,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    const dateFilter = document.getElementById('dateFilter');
+    const dropdownIcon = document.querySelector('.dropdown-icon');
+
+    dateFilter.addEventListener('focus', () => {
+        dropdownIcon.classList.remove('fa-chevron-down');
+        dropdownIcon.classList.add('fa-chevron-up');
+    });
+
+    dateFilter.addEventListener('blur', () => {
+        dropdownIcon.classList.remove('fa-chevron-up');
+        dropdownIcon.classList.add('fa-chevron-down');
+    });
+</script>
 
 <style>
 .footer {
@@ -100,4 +116,27 @@
     width: 400px; 
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.select-wrapper {
+    display: flex;
+    align-items: center; /* Align text and icon vertically */
+    gap: 5px; /* Add space between text and icon */
+    color: white; /* Text and icon color */
+}
+
+.dropdownforModal {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    appearance: none; /* Removes default select arrow */
+}
+
+.dropdown-icon {
+    font-size: 16px;
+    display: inline-block; /* Ensure icon stays inline with text */
+}
+
 </style>
