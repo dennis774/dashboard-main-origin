@@ -134,7 +134,15 @@ button.signIn{
         font-size: 16px;
     }
 
+    input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear, /* For Internet Explorer and Edge */
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button, /* For Chrome, Safari */
+input[type="password"]::-webkit-outer-spin-button {
+    display: none;
+    appearance: none;
 
+}
 
 
 
@@ -192,6 +200,13 @@ button.signIn{
                                                     autocomplete="new-password"
                                                 />
                                                 <button
+                                                type="button"
+                                                id="togglePassword"
+                                                style="position: absolute; right: 40px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.2rem; color: gray;"
+                                            >
+                                                👁️
+                                            </button>
+                                                <button
                                                     type="button"
                                                     onclick="document.getElementById('password').value='';"
                                                 >
@@ -235,6 +250,16 @@ button.signIn{
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+    
+            // Change the icon based on the state
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+    </script>
 
 </body>
 </html>

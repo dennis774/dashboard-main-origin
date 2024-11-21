@@ -1,185 +1,173 @@
+
 @extends('general.index-two') @section('content')
 
 <div class="container account-page">
     <div class="container text-center">
-        <div class="row pt-5 pb-5">
-            <div class="col-lg-2">
-                <a href="{{ route('account.show', ['account' => $user->id]) }}">
-                    <i class="fa-solid fa-arrow-left fa-xl"></i>
-                </a>
+        <div class="row">
+            <div class="col-lg-2 mt-4">
+                <div class="col-lg-2">
+                    <a href="{{ url('/account') }}"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
+                </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-8 mt-4 mb-5">
                 @if ($user->role == 'owner')
-                <h3>Edit My Account</h3>
+                <h3 style="">Edit My Account</h3>
                 @else
-                <h3>Edit User Account</h3>
+                <h3 style="">Edit User Account</h3>
                 @endif
             </div>
-            <div class="col-lg-2"></div>
+            <div class="col-lg-2 mt-4"></div>
         </div>
     </div>
 
-    <div class="container">
+
+    <div class="class">
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
-                <div class="container">
-                    @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
-                    <form method="POST" action="{{url('/account', $user->id)}}" enctype="multipart/form-data">
-                        @csrf @method('PUT')
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-4 pt-5 pb-5">
-                                    <img src="{{ asset('user_images/' . $user->user_image) }}" alt="User Image" width="100">
-                                    <div class="form-group mb-3">
-                                        <label for="user_image">User Image</label>
-                                        <input type="file" class="form-control" name="user_image" value="{{ $user->user_image }}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="container">
-                                                    <div class="row">
-                                                        <div class="col-lg-5">
-                                                            <p id="roleDisplay2">
-                                                                @if ($user->role == 'owner') Business owner @elseif ($user->role == 'general') Finance Officer @elseif ($user->role == 'kuwago') Operational Manager
-                                                                @elseif($user->role=='uddesign') Operational Manager @endif
-                                                            </p>
-                                                        </div>
-
-                                                        <div class="col-lg-2"></div>
-
-                                                        <div class="col-lg-5">
-                                                            <button type="submit" class="btn btn-warning">Save</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <label for="username" class="form-label"></label>
-                                                <input type="text" class="form-control" name="name" value="{{ $user->name }}" placeholder="Username" required />
-                                            </div>
-
-                                            <div class="col-lg-12">
-                                                <label for="description" class="form-label"></label>
-                                                <input type="text" class="form-control" name="description" value="{{ $user->description }}" placeholder="Add Description" required />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+              <form method="POST" action="{{url('/account', $user->id)}}" enctype="multipart/form-data">
+                    @csrf @method('PUT')
+                <div class="class">
+                    <div class="row">
+                        <div class="col-lg-4 d-flex justify-content-center align-items-center">
+                            <div class="glass-background">
+                                <img src="{{ asset('user_images/' . $user->user_image) }}" alt="User Image" class="profile-image" style="cursor: pointer;" onclick="document.getElementById('userImageInput').click();">
+                                <!-- Hidden file input for updating the user image -->
+                                <input type="file" id="userImageInput" name="user_image" style="display: none;" onchange="previewImage(event)">
                             </div>
-
+                        </div>
+                        
+                        <div class="col-lg-8">
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <p>Access</p>
-                                    <div class="dropdown">
-                                        @if ($user->role == 'owner')
-                                        <select class="form-control" id="roleSelect" name="role" onchange="syncRole()">
-                                            <option value="owner" {{ $user->role == 'owner' ? 'selected' : '' }}>Owner</option>
-                                        </select>
-                                        @else
-                                        <select class="form-control" id="roleSelect" name="role" onchange="syncRole()">
-                                            <option value="general" {{ $user->role == 'general' ? 'selected' : '' }}>General</option>
-                                            <option value="kuwago" {{ $user->role == 'kuwago' ? 'selected' : '' }}>Kuwago</option>
-                                            <option value="uddesign" {{ $user->role == 'uddesign' ? 'selected' : '' }}>UdDesign</option>
-                                        </select>
-                                        @endif
-                                    </div>
+                                <div class="col-lg-5">
+                                    <p id="roleDisplay2">
+                                        @if ($user->role == 'owner') Business owner @elseif ($user->role == 'general') Finance Officer @elseif ($user->role == 'kuwago') Operational Manager
+                                        @elseif($user->role=='uddesign') Operational Manager @endif
+                                    </p>                                </div>
+                                <div class="col-lg-2">
                                 </div>
-                                <div class="col-lg-6">
-                                    <p>Role</p>
-                                    <div class="dropdown">
-                                        <p id="roleDisplay">
-                                            @if ($user->role == 'owner') Business owner @elseif ($user->role == 'general') Finance Officer @elseif ($user->role == 'kuwago') Operational Manager @elseif($user->role =='uddesign') Operational
-                                            Manager @endif
-                                        </p>
-                                    </div>
-                                </div>
+                                <div class="col-lg-5">
+                                    <button type="submit" class="btn btn-warning">Save</button>                                </div>
                             </div>
-
+                           <div class="conatiner">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <p>Profile</p>
+                                    <label for="username" class="form-label"></label>
+                                    <input type="text" class="form-control editUser" name="name" value="{{ $user->name }}" placeholder="Username" required />
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="">
-                                        <label for="first_name" class="form-label">Firstname: </label>
-                                        <input type="text" class="form-control" name="first_name" value="{{ $user->first_name }}" placeholder="First Name" required />
-                                    </div>
-                                    <div class="">
-                                        <label for="last_name" class="form-label">Lastname: </label>
-                                        <input type="text" class="form-control" name="last_name" value="{{ $user->last_name }}" placeholder="Last Name" required />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="">
-                                        <label for="middle_name" class="form-label">Initial: </label>
-                                        <input type="text" class="form-control" name="initial" value="{{ $user->initial }}" placeholder="Initial" required />
-                                    </div>
-                                    <div class="">
-                                        <label for="suffix" class="form-label">Suffix: </label>
-                                        <input type="text" class="form-control" name="suffix" value="{{ $user->suffix }}" placeholder="Suffix" />
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <p>Contact</p>
+                                    <label for="description" class="form-label"></label>
+                                    <input type="text" class="form-control editUser" name="description" value="{{ $user->description }}" placeholder="Add Description" required />
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="d-flex align-items-center">
-                                        <label for="email" class="form-label pe-3">Email: </label>
-                                        <input type="text" class="form-control" name="email" value="{{ $user->email }}" placeholder="Enter Email" required />
-                                    </div>
-                                    <div class="d-flex align-items-center mt-2">
-                                        <label for="phone_number" class="form-label pe-2">Phone: </label>
-                                        <input type="text" class="form-control" name="phone_number" value="{{ $user->phone_number }}" placeholder="Enter Phone Number" required />
-                                    </div>
-                                </div>
+                           </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-lg-12">
+                                <p>Access</p>
                             </div>
-
-                            <div class="row">
-                                <div class="col-lg-8"></div>
-                                <div class="col-lg-4">
+                           </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="dropdown">
                                     @if ($user->role == 'owner')
-                                    <button class="btn btn-light">
-                                        <a href="/account/password">
-                                            Change Password
-                                        </a>
-                                    </button>
-                                    @else @endif
+                                    <select class="form-control" id="roleSelect" name="role" onchange="syncRole()">
+                                        <option value="owner" {{ $user->role == 'owner' ? 'selected' : '' }}>Owner</option>
+                                    </select>
+                                    @else
+                                    <select class="form-control" id="roleSelect" name="role" onchange="syncRole()">
+                                        <option value="general" {{ $user->role == 'general' ? 'selected' : '' }}>General</option>
+                                        <option value="kuwago" {{ $user->role == 'kuwago' ? 'selected' : '' }}>Kuwago</option>
+                                        <option value="uddesign" {{ $user->role == 'uddesign' ? 'selected' : '' }}>UdDesign</option>
+                                    </select>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-lg-2"></div>
+                            <div class="col-lg-5">
+                                <div class="dropdown">
+                                    <p id="roleDisplay">
+                                        @if ($user->role == 'owner') Business owner @elseif ($user->role == 'general') Finance Officer @elseif ($user->role == 'kuwago') Operational Manager @elseif($user->role =='uddesign') Operational
+                                        Manager @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p>Profile</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="">
+                                    <label for="first_name" class="form-label">Firstname: </label>
+                                    <input type="text" class="form-control editUser" name="first_name" value="{{ $user->first_name }}" placeholder="First Name" required />
+                                </div>
+                                <div class="">
+                                    <label for="last_name" class="form-label">Lastname: </label>
+                                    <input type="text" class="form-control editUser" name="last_name" value="{{ $user->last_name }}" placeholder="Last Name" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="">
+                                    <label for="middle_name" class="form-label">Initial: </label>
+                                    <input type="text" class="form-control editUser" name="initial" value="{{ $user->initial }}" placeholder="Initial" required />
+                                </div>
+                                <div class="">
+                                    <label for="suffix" class="form-label">Suffix: </label>
+                                    <input type="text" class="form-control editUser" name="suffix" value="{{ $user->suffix }}" placeholder="Suffix" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p>Contact</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="d-flex align-items-center">
+                                    <label for="email" class="form-label pe-3">Email: </label>
+                                    <input type="text" class="form-control editUser" name="email" value="{{ $user->email }}" placeholder="Enter Email" required />
+                                </div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <label for="phone_number" class="form-label pe-2">Phone: </label>
+                                    <input type="text" class="form-control editUser" name="phone_number" value="{{ $user->phone_number }}" placeholder="Enter Phone Number" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8"></div>
+                            <div class="col-lg-4">
+                                @if ($user->role == 'owner')
+                                <button class="btn">
+                                    <a href="/account/password">
+                                        Change Password
+                                    </a>
+                                </button>
+                                @else @endif
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-                @endif
+              </form>
             </div>
             <div class="col-lg-2"></div>
         </div>
     </div>
 </div>
+
+<script>
+    // JavaScript function to preview selected image
+    function previewImage(event) {
+        const image = document.querySelector('img[alt="User Image"]');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
 
 <script>
     function syncRole() {
@@ -206,4 +194,25 @@
         roleDisplay.innerText = roleText;
     }
 </script>
+
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -34,6 +34,7 @@ Route::middleware(['auth', 'kuwagoRole:owner,general,kuwago'])->group(function (
     Route::get('kuwago-one/expenses', [Kuwago_OneController::class, 'chart_expenses_kuwago_one'])->name('general.kuwago-one.expenses');
     Route::get('kuwago-one/sales', [Kuwago_OneController::class, 'chart_sales_kuwago_one'])->name('general.kuwago-one.sales');
 
+
     Route::get('kuwago-two', [Kuwago_TwoController::class, 'general_kuwago_two'])->name('general.kuwago-two.dashboard');
     Route::get('kuwago-two/expenses', [Kuwago_TwoController::class, 'chart_expenses_kuwago_two'])->name('general.kuwago-two.expenses');
     Route::get('kuwago-two/sales', [Kuwago_TwoController::class, 'chart_sales_kuwago_two'])->name('general.kuwago-two.sales');

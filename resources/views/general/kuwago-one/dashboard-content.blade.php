@@ -76,44 +76,38 @@
                         <div class="row">
                             <div class="col-lg-12 chartsKuwago1" style="height: 265px; position: relative;">
                                 <canvas id="myChart"></canvas>
-                                <form action="{{ route('refresh.data') }}" method="GET" style="position: absolute; top: 1px; right: 10px;">
-                                    <button type="submit" class="btn btn-link p-0" style="color: #007bff;">
-                                        <i class="fas fa-sync-alt fa-lg"></i>
-                                    </button>
-                                </form>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-12 d-flex justify-content-start" style="color: #fff; font-weight: bold;">
-                            <p>Compare With</p>
+                        <div class="col-lg-12 mt-2 d-flex justify-content-start" style="color: #fff; font-weight: bold;">
+                            <div>Compare With</div>
                         </div>
                     </div>
 
                     <div class="col-lg-12 card-box">
                         <div class="container">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <p>This week</p>
-                                    <div class="mt-2"><i class="fas fa-dollar-sign"></i> Total Profit: ₱ {{$thisWeekProfit}}</div>
-                                    <div><i class="fas fa-chart-line"></i> Total Sales: ₱ {{$thisWeekSales}}</div>
-                                    <div><i class="fas fa-money-bill-wave"></i> Total Expenses: ₱ {{$thisWeekExpenses}}</div>
-                                    <div><i class="fas fa-shopping-cart"></i> Total Orders: {{$thisWeekOrders}}</div>
+                            <div class="row mt-0">
+                                <div class="col-lg-6 leftData">
+                                    <div style="font-weight:bold; font-size:20px;">This week</div>
+                                    <div class="mb-1" style="font-size:15px;"><i class="fas fa-dollar-sign"></i> Total Profit: ₱ {{$thisWeekProfit}}</div>
+                                    <div class="mb-1" style="font-size:15px;"><i class="fas fa-chart-line"></i> Total Sales: ₱ {{$thisWeekSales}}</div>
+                                    <div class="mb-1" style="font-size:15px;"><i class="fas fa-money-bill-wave"></i> Total Expenses: ₱ {{$thisWeekExpenses}}</div>
+                                    <div class="mb-1" style="font-size:15px;"><i class="fas fa-shopping-cart"></i> Total Orders: {{$thisWeekOrders}}</div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <p>Last Week</p>
-                                    <div class="mt-2"><i class="fas fa-dollar-sign"></i> Total Profit: ₱ {{$lastWeekProfit}}</div>
-                                    <div><i class="fas fa-chart-line"></i> Total Sales: ₱ {{$lastWeekSales}}</div>
-                                    <div><i class="fas fa-money-bill-wave"></i> Total Expenses: ₱ {{$lastWeekExpenses}}</div>
-                                    <div><i class="fas fa-shopping-cart"></i> Total Orders: {{$lastWeekOrders}}</div>
+                                <div class="col-lg-6 rightData">
+                                    <div style="font-weight:bold; font-size:20px;">Last Week</div>
+                                    <div class="mb-1" style="font-size:15px;"><i class="fas fa-dollar-sign"></i> Total Profit: ₱ {{$lastWeekProfit}}</div>
+                                    <div class="mb-1" style="font-size:15px;"><i class="fas fa-chart-line"></i> Total Sales: ₱ {{$lastWeekSales}}</div>
+                                    <div class="mb-1" style="font-size:15px;"><i class="fas fa-money-bill-wave"></i> Total Expenses: ₱ {{$lastWeekExpenses}}</div>
+                                    <div class="mb-1" style="font-size:15px;"><i class="fas fa-shopping-cart"></i> Total Orders: {{$lastWeekOrders}}</div>
                                     
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
-                    
+                 
                 </div>
             </div>
         </div>

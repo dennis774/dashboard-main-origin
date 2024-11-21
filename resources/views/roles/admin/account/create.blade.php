@@ -33,7 +33,8 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-4 pt-5 pb-5">
-                                    <img src="https://via.placeholder.com/80" alt="User Image" class="user-image" />
+                                    <img src="{{ asset('user_images/default-image.jpg') }}" alt="User Image" class="profile-image" style="cursor: pointer;" onclick="document.getElementById('userImageInput').click();">
+                                    <input type="file" id="userImageInput" name="user_image" style="display: none;" onchange="previewImage(event)">
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="container">
@@ -156,6 +157,14 @@
 
         roleDisplay2.innerText = roleText;
         roleDisplay.innerText = roleText;
+    }
+</script>
+
+<script>
+    // JavaScript function to preview selected image
+    function previewImage(event) {
+        const image = document.querySelector('img[alt="User Image"]');
+        image.src = URL.createObjectURL(event.target.files[0]);
     }
 </script>
 @endsection

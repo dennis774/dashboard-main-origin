@@ -6,7 +6,7 @@
                 <div class="col-lg-4 d-flex justify-content-center">
                     <button onclick="generatePDF()" class="btn btn-outline-light">Generate PDF</button>
                 </div>
-                <div class="col-lg-8 d-flex justify-content-center align-items-center">
+                <div class="col-lg-5 d-flex justify-content-center align-items-center">
                     <div class="dropdown select-wrapper">
                         <select id="dateFilter" onchange="handleFilterChange()" class="dropdownforModal">
                             <option value="" selected disabled>Select filter</option>
@@ -25,6 +25,13 @@
                         </select>
                         <i class="fa-solid fa-chevron-down dropdown-icon"></i>
                     </div>
+                </div>
+                <div class="col-lg-3 d-flex justify-content-center align-items-center">
+                    <form action="{{ route('refresh.data') }}" method="GET">
+                        <button type="submit" class="btn btn-link  px-2 refreshButton" style="color: #007bff;">
+                            <i class="fas fa-sync-alt fa-lg refreshIcon"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

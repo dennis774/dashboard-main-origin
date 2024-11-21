@@ -632,3 +632,106 @@ img.profile-image {
     border-radius: 15px; /* Slightly rounded corners */
     object-fit: cover; /* Ensures the image fills the area without stretching */
 }
+
+
+
+
+
+
+/* STYLES FOR USER EDIT ACCOUNT */
+.glass-background {
+    width: 150px; /* Slightly larger than the image */
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Glass blur effect */
+    border-radius: 15px; /* Slightly rounded corners for the glass container */
+    padding: 10px; /* Optional padding for space around the image */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+}
+img.profile-image {
+    width: 130px; /* Set width to make the image square */
+    height: 130px; /* Set height to make the image square */
+    border-radius: 15px; /* Slightly rounded corners */
+    object-fit: cover; /* Ensures the image fills the area without stretching */
+}
+
+
+
+
+
+
+/* STYLES FOR USER SHOW ACOUNT */
+img.showAccount{
+    width: 130px; /* Set width to make the image square */
+    height: 130px; /* Set height to make the image square */
+    border-radius: 15px; /* Slightly rounded corners */
+    object-fit: cover; /* Ensures the image fills the area without stretching */
+}
+
+div.allInfo{
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input.editUser{
+    background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            width: 100%;
+            outline: none;
+            transition: all 0.3s ease;
+}
+
+input.editUser:focus{
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+    outline: none;
+}
+
+
+
+input.editMyaccount{
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input.editMyaccount:focus{
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+    outline: none;
+}
+
+
+
+button.refreshButton{
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+button.refreshButton:hover{
+    background-color: #000;
+}
+
+button i.refreshIcon{
+    color: #000;
+}
+button i.refreshIcon:hover{
+    color: #fff;
+}
