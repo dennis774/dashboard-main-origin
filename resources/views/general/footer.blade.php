@@ -145,5 +145,9 @@
     font-size: 16px;
     display: inline-block; /* Ensure icon stays inline with text */
 }
+#dateFilter {
+    border-bottom: 2px solid white; /* White line under the dropdown */
+}
+
 
 </style>

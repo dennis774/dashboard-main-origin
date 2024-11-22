@@ -41,6 +41,22 @@ class Kuwago_TwoController extends Controller
         $thisWeekOrders = $currentWeekData->sum('orders');
         $thisWeekProfit = $thisWeekSales - $thisWeekExpenses;
 
+        $currentMonthStart = Carbon::now()->startOfMonth();
+        $currentMonthEnd = Carbon::now()->endOfMonth();
+        $currentMonthData = FakeDataTwo::whereBetween('date', [$currentMonthStart, $currentMonthEnd])->get();
+        $thisMonthSales = $currentMonthData->sum('sales');
+        $thisMonthExpenses = $currentMonthData->sum('expenses');
+        $thisMonthOrders = $currentMonthData->sum('orders');
+        $thisMonthProfit = $thisMonthSales - $thisMonthExpenses;
+
+        $currentYearStart = Carbon::now()->startOfYear();
+        $currentYearEnd = Carbon::now()->endOfYear();
+        $currentYearData = FakeDataTwo::whereBetween('date', [$currentYearStart, $currentYearEnd])->get();
+        $thisYearSales = $currentYearData->sum('sales');
+        $thisYearExpenses = $currentYearData->sum('expenses');
+        $thisYearOrders = $currentYearData->sum('orders');
+        $thisYearProfit = $thisYearSales - $thisYearExpenses;
+
         $lastWeekStart = Carbon::now()->subWeek()->startOfWeek();
         $lastWeekEnd = Carbon::now()->subWeek()->endOfWeek();
         $lastWeekData = FakeDataTwo::whereBetween('date', [$lastWeekStart, $lastWeekEnd])->get();
@@ -48,6 +64,22 @@ class Kuwago_TwoController extends Controller
         $lastWeekExpenses = $lastWeekData->sum('expenses');
         $lastWeekOrders = $lastWeekData->sum('orders');
         $lastWeekProfit = $lastWeekSales - $lastWeekExpenses;
+
+        $lastMonthStart = Carbon::now()->subMonth()->startOfMonth();
+        $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
+        $lastMonthData = FakeDataTwo::whereBetween('date', [$lastMonthStart, $lastMonthEnd])->get();
+        $lastMonthSales = $lastMonthData->sum('sales');
+        $lastMonthExpenses = $lastMonthData->sum('expenses');
+        $lastMonthOrders = $lastMonthData->sum('orders');
+        $lastMonthProfit = $lastMonthSales - $lastMonthExpenses;
+
+        $lastYearStart = Carbon::now()->subYear()->startOfYear();
+        $lastYearEnd = Carbon::now()->subYear()->endOfYear();
+        $lastYearData = FakeDataTwo::whereBetween('date', [$lastYearStart, $lastYearEnd])->get();
+        $lastYearSales = $lastYearData->sum('sales');
+        $lastYearExpenses = $lastYearData->sum('expenses');
+        $lastYearOrders = $lastYearData->sum('orders');
+        $lastYearProfit = $lastYearSales - $lastYearExpenses;
 
         $totalSales = $chartdata->sum('sales');
         $totalProfit = $chartdata->sum('profit');
@@ -59,11 +91,21 @@ class Kuwago_TwoController extends Controller
         $thisWeek = compact('thisWeekSales', 'thisWeekProfit', 'thisWeekExpenses', 'thisWeekOrders');
         $lastWeek = compact('lastWeekSales', 'lastWeekProfit', 'lastWeekExpenses', 'lastWeekOrders');
 
+        $thisMonth = compact('thisMonthSales', 'thisMonthProfit', 'thisMonthExpenses', 'thisMonthOrders');
+        $lastMonth = compact('lastMonthSales', 'lastMonthProfit', 'lastMonthExpenses', 'lastMonthOrders');
+
+        $thisYear = compact('thisYearSales', 'thisYearProfit', 'thisYearExpenses', 'thisYearOrders');
+        $lastYear = compact('lastYearSales', 'lastYearProfit', 'lastYearExpenses', 'lastYearOrders');
+
         return view('general.kuwago-two.dashboard', array_merge(
             compact('actionRoute', 'chartdata'), 
             $totals, 
             $thisWeek, 
-            $lastWeek
+            $lastWeek,
+            $thisMonth, 
+            $lastMonth,
+            $thisYear, 
+            $lastYear
         ));
     }
     // for /kuwago-two/sales
