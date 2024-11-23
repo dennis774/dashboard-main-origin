@@ -60,6 +60,7 @@
                         </div>
                     </div>
 
+                   <div class="container">
                     <div class="row allInfo mt-3 mb-3">
                         <div class="col-lg-6">
                             <div class="d-flex align-items-baseline">
@@ -128,6 +129,7 @@
                             </div>
                         </div>
                     </div>
+                   </div>
                 </div>
             </div>
             <div class="col-lg-2 d-flex justify-content-center align-items-center">

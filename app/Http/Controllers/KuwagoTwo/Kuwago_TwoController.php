@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\KuwagoTwo;
 
+use App\Models\Promo;
 use App\Models\FakeDataTwo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -258,4 +259,6 @@ class Kuwago_TwoController extends Controller
                 return ['start' => Carbon::parse($request->input('start_date')), 'end' => Carbon::parse($request->input('end_date'))];
         }
     }
+
+
 }

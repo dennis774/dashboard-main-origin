@@ -78,11 +78,6 @@
                         <div class="row">
                             <div class="col-lg-12 chartsKuwago1" style="height: 265px; position: relative;">
                                 <canvas id="myChart"></canvas>
-                                <form action="{{ route('refresh.data') }}" method="GET" style="position: absolute; top: 1px; right: 10px;">
-                                    <button type="submit" class="btn btn-link p-0" style="color: #007bff;">
-                                        <i class="fas fa-sync-alt fa-lg"></i>
-                                    </button>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -94,7 +89,7 @@
                     </div>
 
 
-                    <div class="col-lg-12 card-box">
+                    <div class="col-lg-12 card-boxCompare">
                         <div style="position: relative;">
                             <div class="row">
                                 <!-- Left Side Section -->

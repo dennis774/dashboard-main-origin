@@ -1,15 +1,16 @@
-@extends('general.index-two') @section('content')
+@extends('general.index-two') 
+@section('content')
 
 <div class="container account-page">
     <div class="container text-center">
-        <div class="row pt-5 pb-5">
-            <div class="col-lg-2">
+        <div class="row pb-5">
+            <div class="col-lg-2 mt-4">
                 <a href="{{ url('/account') }}"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-8 mt-4">
                 <h3>Create New User</h3>
             </div>
-            <div class="col-lg-2"></div>
+            <div class="col-lg-2 mt-4"></div>
         </div>
     </div>
 
@@ -58,12 +59,12 @@
                                             </div>
                                             <div class="col-lg-12">
                                                 <label for="username" class="form-label"></label>
-                                                <input type="text" class="form-control" name="name" placeholder="Username" required />
+                                                <input type="text" class="form-control createUser" name="name" placeholder="Username" required />
                                             </div>
 
                                             <div class="col-lg-12">
                                                 <label for="description" class="form-label"></label>
-                                                <input type="text" class="form-control" name="description" placeholder="Add Description" required />
+                                                <input type="text" class="form-control createUser" name="description" placeholder="Add Description" required />
                                             </div>
                                         </div>
                                     </div>
@@ -108,15 +109,15 @@
                                 <div class="col-lg-12">
                                     <div class="d-flex align-items-center mt-2">
                                         <label for="phone_number" class="form-label pe-2">Phone: </label>
-                                        <input type="text" class="form-control" name="phone_number" placeholder="Enter Phone Number" required />
+                                        <input type="text" class="form-control createUser" name="phone_number" placeholder="Enter Phone Number" required />
                                     </div>
                                     <div class="d-flex align-items-center mt-2">
                                         <label for="email" class="form-label pe-3">Email: </label>
-                                        <input type="text" class="form-control" name="email" placeholder="Enter Email" required />
+                                        <input type="text" class="form-control createUser" name="email" placeholder="Enter Email" required />
                                     </div>
                                     <div class="d-flex align-items-center mt-2">
                                         <label for="password" class="form-label pe-2">password: </label>
-                                        <input type="text" class="form-control" name="password" value="Kuwago1Accounts" placeholder="Enter Phone Number" required />
+                                        <input type="text" class="form-control createUser" name="password" value="Kuwago1Accounts" placeholder="Enter Password" required />
                                     </div>
                                 </div>
                             </div>
@@ -158,13 +159,12 @@
         roleDisplay2.innerText = roleText;
         roleDisplay.innerText = roleText;
     }
-</script>
 
-<script>
     // JavaScript function to preview selected image
     function previewImage(event) {
         const image = document.querySelector('img[alt="User Image"]');
         image.src = URL.createObjectURL(event.target.files[0]);
     }
 </script>
+
 @endsection

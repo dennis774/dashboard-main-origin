@@ -18,7 +18,6 @@
             <!-- Navbar -->
             @include('general.navbar')
             <!-- /.navbar -->
-
             @yield('content') @include('general.footer')
         </div>
         <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>

@@ -38,6 +38,7 @@
                         </div>
                         
                         <div class="col-lg-8">
+                           <div class="container">
                             <div class="row">
                                 <div class="col-lg-5">
                                     <p id="roleDisplay2">
@@ -46,22 +47,27 @@
                                     </p>                                </div>
                                 <div class="col-lg-2">
                                 </div>
-                                <div class="col-lg-5">
+                                <div class="col-lg-5 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-warning">Save</button>                                </div>
                             </div>
+                           </div>
                            <div class="conatiner">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <label for="username" class="form-label"></label>
-                                    <input type="text" class="form-control editMyaccount" name="name" value="{{ $user->name }}" placeholder="Username" required />
+                           <div class="container">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label for="username" class="form-label"></label>
+                                        <input type="text" class="form-control editMyaccount" name="name" value="{{ $user->name }}" placeholder="Username" required />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <label for="description" class="form-label"></label>
-                                    <input type="text" class="form-control editMyaccount" name="description" value="{{ $user->description }}" placeholder="Add Description" required />
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label for="description" class="form-label"></label>
+                                        <input type="text" class="form-control editMyaccount" name="description" value="{{ $user->description }}" placeholder="Add Description" required />
+                                    </div>
                                 </div>
-                            </div>
+                               </div>
+                           </div>
                            </div>
                         </div>
                         <div class="row ">
@@ -144,11 +150,11 @@
                             <div class="col-lg-8"></div>
                             <div class="col-lg-4">
                                 @if ($user->role == 'owner')
-                                <button class="btn">
-                                    <a href="/account/password">
-                                        Change Password
+                                <div class="container mt-1">
+                                    <a href="/account/password" style="color: #fff;">
+                                        <p>Change Password</p>
                                     </a>
-                                </button>
+                                </div>
                                 @else @endif
                             </div>
                         </div>

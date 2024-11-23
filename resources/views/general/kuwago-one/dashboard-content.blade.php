@@ -86,7 +86,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12 card-box">
+                    <div class="col-lg-12 card-boxCompare">
                         <div style="position: relative;">
                             <div class="row">
                                 <!-- Left Side Section -->
