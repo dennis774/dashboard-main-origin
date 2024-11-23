@@ -65,19 +65,22 @@ form .form-control:focus {
 /* Style for the submit button */
 
 
-form .btn-warning {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    border:none;
-   
+button.editBudAlloc{
+
+background: rgba(255, 255, 255, 0.2);
+color: #fff;
+border: 1px solid rgba(255, 255, 255, 0.3);
+padding: 10px 20px;
+border-radius: 10px;
+cursor: pointer;
+transition: all 0.3s ease;
+width: 100%;
 }
 
-
-form .btn-warning:hover {
-    background: rgba(255, 255, 255, 0.3);
+button.editBudAlloc:hover {
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid rgba(255, 255, 255, 0.6);
+box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 .button-container {
     text-align: center; /* Center-aligns the button */
@@ -139,7 +142,7 @@ form .btn-warning:hover {
                     </div>
        
                     <div class="button-container">
-                        <button type="submit" class="btn btn-warning mt-3">Update</button>
+                        <button type="submit" class="btn editBudAlloc mt-3">Update</button>
                     </div>
                 </form>
             </div>
