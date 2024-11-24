@@ -23,7 +23,7 @@
                                     </i>
                                 </div>
                                 <div class="col-lg-12d-flex align-items-center mt-3" style="font-size: 25px; font-weight: bold;">
-                                    <p>₱{{$totalSales}}</p>
+                                    <p>₱{{number_format($totalSales, 2)}}</p>
                                 </div>
                             </div>
 
@@ -34,7 +34,7 @@
                                     </i>
                                 </div>
                                 <div class="col-lg-12d-flex align-items-center mt-3" style="font-size: 25px; font-weight: bold;">
-                                    <p>₱{{$totalProfit}}</p>
+                                    <p>₱{{number_format($totalProfit, 2)}}</p>
                                 </div>
                             </div>
 
@@ -45,7 +45,7 @@
                                     </i>
                                 </div>
                                 <div class="col-lg-12d-flex align-items-center mt-3" style="font-size: 25px; font-weight: bold;">
-                                    <p>₱{{$totalExpenses}}</p>
+                                    <p>₱{{number_format($totalExpenses, 2)}}</p>
                                 </div>
                             </div>
 

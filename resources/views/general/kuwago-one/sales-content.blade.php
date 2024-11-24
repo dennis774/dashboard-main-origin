@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-lg-2 donutChart p-2 mx-3">
                     <p>Total Sales</p>
-                    <p style="font-weight: bold;">₱{{$totalSales}}</p>
+                    <p style="font-weight: bold;">₱{{number_format($totalSales,2)}}</p>
                     <div class="chart-container d-flex justify-content-center">
                         <canvas id="myChart1"></canvas>
                     </div>
