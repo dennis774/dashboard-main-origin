@@ -65,20 +65,25 @@ form .form-control:focus {
 
 
 /* Style for the submit button */
-form .btn-success {
-    color: #fff;
+button.createBudAlloc{
+
     background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
     border-radius: 10px;
-    border:none;
-   
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+button.createBudAlloc:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 
-form .btn-success:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
 .button-container {
     text-align: center; /* Center-aligns the button */
     margin-top: 15px; /* Optional: Adds space above the button */
@@ -147,7 +152,7 @@ form .btn-success:hover {
                         <input type="date" name="end_date" id="end_date" class="form-control custom-date" required>
                     </div>                    
                     <div class="button-container">
-                        <button type="submit" class="btn btn-success mt-3">Create Allocation</button>
+                        <button type="submit" class="btn createBudAlloc mt-3">Create Allocation</button>
                     </div>
                 </form>
             </div>

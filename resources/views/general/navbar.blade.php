@@ -1,5 +1,4 @@
 {{-- START OF TOP BAR --}}
-{{-- START OF TOP BAR --}}
 <div class="container">
     <div class="row">
         <div class="col-lg-2">.</div>
@@ -67,9 +66,6 @@
     </div>
   </div>
 {{-- END OF TOP BAR --}}
-
-{{-- END OF TOP BAR --}}
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var currentUrl = window.location.href;

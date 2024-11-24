@@ -183,8 +183,12 @@ class Kuwago_OneController extends Controller
         $actionRoute = route($view);
         $thisWeek = $this->getCurrentWeekData();
         $lastWeek = $this->getLastWeekData();
+        $thisMonth = $this->getCurrentMonthData();
+        $lastMonth = $this->getLastMonthData();
+        $thisYear = $this->getCurrentYearData();
+        $lastYear = $this->getLastYearData();
 
-        return view($view, array_merge(compact('actionRoute', 'chartdata'), $totals, $thisWeek, $lastWeek));
+        return view($view, array_merge(compact('actionRoute', 'chartdata'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
     }
 
     // Gets the current week's data for sales, expenses, orders, and profit
@@ -208,6 +212,52 @@ class Kuwago_OneController extends Controller
             'lastWeekExpenses' => $lastWeekData->sum('expenses'),
             'lastWeekOrders' => $lastWeekData->sum('orders'),
             'lastWeekProfit' => $lastWeekData->sum('sales') - $lastWeekData->sum('expenses'),
+        ];
+    }
+    // Gets the current week's data for sales, expenses, orders, and profit
+    private function getCurrentMonthData()
+    {
+        $currentMonthData = FakeData::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
+        return [
+            'thisMonthSales' => $currentMonthData->sum('sales'),
+            'thisMonthExpenses' => $currentMonthData->sum('expenses'),
+            'thisMonthOrders' => $currentMonthData->sum('orders'),
+            'thisMonthProfit' => $currentMonthData->sum('sales') - $currentMonthData->sum('expenses'),
+        ];
+    }
+
+    // Gets the last week's data for sales, expenses, orders, and profit
+    private function getLastMonthData()
+    {
+        $lastMonthData = FakeData::whereBetween('date', [Carbon::now()->subMonth()->startOfMonth(),Carbon::now()->subMonth()->endOfMonth(),])->get();
+        return [
+            'lastMonthSales' => $lastMonthData->sum('sales'),
+            'lastMonthExpenses' => $lastMonthData->sum('expenses'),
+            'lastMonthOrders' => $lastMonthData->sum('orders'),
+            'lastMonthProfit' => $lastMonthData->sum('sales') - $lastMonthData->sum('expenses'),
+        ];
+    }
+    // Gets the current week's data for sales, expenses, orders, and profit
+    private function getCurrentYearData()
+    {
+        $currentYearData = FakeData::whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
+        return [
+            'thisYearSales' => $currentYearData->sum('sales'),
+            'thisYearExpenses' => $currentYearData->sum('expenses'),
+            'thisYearOrders' => $currentYearData->sum('orders'),
+            'thisYearProfit' => $currentYearData->sum('sales') - $currentYearData->sum('expenses'),
+        ];
+    }
+
+    // Gets the last week's data for sales, expenses, orders, and profit
+    private function getLastYearData()
+    {
+        $lastYearData = FakeData::whereBetween('date', [Carbon::now()->subYear()->startOfYear(),Carbon::now()->subYear()->endOfYear(),])->get();
+        return [
+            'lastYearSales' => $lastYearData->sum('sales'),
+            'lastYearExpenses' => $lastYearData->sum('expenses'),
+            'lastYearOrders' => $lastYearData->sum('orders'),
+            'lastYearProfit' => $lastYearData->sum('sales') - $lastYearData->sum('expenses'),
         ];
     }
 }

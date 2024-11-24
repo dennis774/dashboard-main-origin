@@ -1,14 +1,14 @@
 @extends('general.index-two') @section('content')
 <div class="container account-page">
     <div class="container text-center">
-        <div class="row pt-5 pb-5">
-            <div class="col-lg-2">
+        <div class="row pb-5">
+            <div class="col-lg-2 mt-4">
                 <a href="{{ route('general.kuwago-one.dashboard') }}"><i class="fa-solid fa-arrow-left fa-xl"></i></a>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-8 mt-4">
                 <h3>Accounts</h3>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 mt-4">
                 <a href="{{ route('account.create') }}"><i class="fa-solid fa-plus fa-xl"></i></a>
             </div>
         </div>
@@ -25,14 +25,14 @@
                         <div class="col-lg-12"><i class="fa-regular fa-user fa-xl"></i><span>All Accounts</span></div>
                     </div>
                 </div>
-                <div class="container overflow-auto" style="height: 400px;">
+                <div class="container overflow-auto mt-5" style="height: 400px;">
                     <div class="row">
                         @foreach($users as $user)
                         <div class="col-lg-10">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-lg-3 text-center">
-                                        <img src="{{ asset('user_images/' . $user->user_image) }}" alt="User Image" width="100">
+                                        <img src="{{ asset('user_images/' . $user->user_image) }}" alt="User Image" style="width: 70px; height:70px;">
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="container">
@@ -55,7 +55,7 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <a href="{{ route('account.show', ['account' => $user->id]) }}">
-                                            <i class="fa-regular fa-pen-to-square fa-xl"></i>
+                                            <i class="fa-regular fa-eye fa-xl"></i>
                                         </a>
                                     </div>
                                     

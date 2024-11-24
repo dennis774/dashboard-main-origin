@@ -61,30 +61,34 @@ form .form-control:focus {
     outline: none; /* Remove outline */
     border-bottom: 1px solid #fff; /* Keep white underline on focus */
     background: transparent;
+    color: #fff;
 }
 
 
 /* Style for the submit button */
-form .btn-success {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    border:none;
-   
-}
 
-
-form .btn-success:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
 .button-container {
     text-align: center; /* Center-aligns the button */
     margin-top: 15px; /* Optional: Adds space above the button */
 }
 
+button.createTargetSale{
+    
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+}
 
+button.createTargetSale:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
 
 
 </style>
@@ -145,7 +149,7 @@ form .btn-success:hover {
                         <input type="date" name="end_date" id="end_date" class="form-control custom-date" required>
                     </div>                    
                     <div class="button-container">
-                        <button type="submit" class="btn btn-success mt-3">Create Target Sale</button>
+                        <button type="submit" class="btn createTargetSale mt-3">Create Target Sale</button>
                     </div>
                 </form>
             </div>
