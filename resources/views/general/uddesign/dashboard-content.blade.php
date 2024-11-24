@@ -20,6 +20,7 @@
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-lg-6">
+                                            <h1>Your API Token</h1> @if(session('uddesign_api_token')) <p>{{ session('uddesign_api_token') }}</p> @else <p>No API Token found in session.</p> @endif
                                                 <i class="fa-solid fa-chart-line"></i>
                                                 <p>Total Sales</p>
                                                 <p>₱{{ $totalSales }}</p>
@@ -74,8 +75,13 @@
                     <div class="col-lg-6">
                         <div class="container">
                             <div class="row">
-                                <div class="col-lg-12 card-box">
+                                <div class="col-lg-12 card-box"  style="position: relative;">
                                     <canvas id="PrintingChart" width="400" height="150"></canvas>
+                                    <form action="{{ route('uddesign.refresh.data') }}" method="GET" style="position: absolute; top: 1px; right: 10px;">
+                                    <button type="submit" class="btn btn-link p-0" style="color: #007bff;">
+                                        <i class="fas fa-sync-alt fa-lg"></i>
+                                    </button>
+                                    </form>
                                 </div>
                                 <div class="col-lg-12 card-box">
                                     <canvas id="MerchChart" width="400" height="150"></canvas>
