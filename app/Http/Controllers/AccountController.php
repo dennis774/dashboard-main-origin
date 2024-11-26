@@ -33,7 +33,7 @@ class AccountController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:510',
             'user_image' => 'nullable|image',
             'email' => 'required|string|email|max:255|unique:users',
             'phone_number' => 'required|string|max:255',
@@ -80,7 +80,7 @@ class AccountController extends Controller
         $user = User::findOrFail($id);
         $rules=[
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:510',
             'user_image' => 'nullable|image',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',

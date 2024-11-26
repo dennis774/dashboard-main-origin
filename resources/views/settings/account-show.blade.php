@@ -45,12 +45,11 @@
                                             </p>
                                         </div>
                                         <div class="d-flex align-items-baseline">
-                                            <strong class="me-2">Username:</strong>
-                                            <p>{{ $user->name }}</p>
+                                            <div class="me-2" style="font-size:17px;">Name: <span style="font-size:18px; font-weight:500;">{{ $user->name }}</span></div>
                                         </div>
                                         <div>
                                             <strong>Description:</strong>
-                                            <div style="max-height: 100px; overflow-y: auto;">
+                                            <div style="max-height: 60px; overflow-x: hidden; padding: 5px; font-size: 13px; scrollbar-width: none; -ms-overflow-style: none;">
                                                 {{ $user->description }}
                                             </div>
                                         </div>
@@ -62,77 +61,74 @@
 
                    <div class="container">
                     <div class="row allInfo mt-3 mb-3">
-                        <div class="col-lg-6">
-                            <div class="d-flex align-items-baseline">
-                                <strong class="me-2">Access:</strong>
-                                <p>{{ $user->role }}</p>
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                                <div class="me-2" style="font-size:17px;">Access:<span style="font-size:18px; font-weight:500;">{{ $user->role }}</span></div>
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="d-flex align-items-baseline">
-                                <strong class="me-2">Role:</strong>
-                                <p id="roleDisplay">
-                                    @if ($user->role == 'owner') Business owner 
-                                    @elseif ($user->role == 'general') Finance Officer 
-                                    @elseif ($user->role == 'kuwago') Operational Manager 
-                                    @elseif ($user->role == 'uddesign') Operational Manager 
+                            <div class="d-flex align-items-center">
+                                <div class="me-2">Role:</div>
+                                <div class="d-flex align-items-center" id="roleDisplay" style="font-size:17px;">
+                                    @if ($user->role == 'owner')
+                                        Business owner
+                                    @elseif ($user->role == 'general')
+                                        Finance Officer
+                                    @elseif ($user->role == 'kuwago')
+                                        Operational Manager
+                                    @elseif ($user->role == 'uddesign')
+                                        Operational Manager
                                     @endif
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <strong style="color: #fff;">Profile</strong>
+                            <div style="color: #fff; font-weight:bold; font-size:20px; ">Profile</div>
                         </div>
                     </div>
 
                     <div class="row allInfo mb-3">
                         <div class="col-lg-6">
                             <div class="d-flex align-items-baseline">
-                                <strong class="me-2">Firstname:</strong>
-                                <p>{{ $user->first_name }}</p>
+                                <div class="me-2" style="font-size:17px;">First Name: <span style="font-size:18px; font-weight:500;">{{ $user->first_name }}</span></div>
                             </div>
                             <div class="d-flex align-items-baseline">
-                                <strong class="me-2">Lastname:</strong>
-                                <p>{{ $user->last_name }}</p>
+                                <div class="me-2" style="font-size:17px;">Last Name: <span style="font-size:18px; font-weight:500;">{{ $user->last_name }}</span></div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-baseline">
-                                <strong class="me-2">Initial:</strong>
-                                <p>{{ $user->initial }}</p>
+                                <div class="me-2" style="font-size:17px;">Initial: <span style="font-size:18px; font-weight:500;">{{ $user->initial }}</span></div>
                             </div>
                             <div class="d-flex align-items-baseline">
-                                <strong class="me-2">Suffix:</strong>
-                                <p>{{ $user->suffix }}</p>
+                                <div class="me-2" style="font-size:17px;">Suffix: <span style="font-size:18px; font-weight:500;">{{ $user->suffix }}</span></div>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <strong style="color: #fff;">Contact</strong>
+                            <div style="color: #fff; font-weight:bold; font-size:20px; ">Contact</div>
                         </div>
                     </div>
 
                     <div class="row allInfo">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-baseline">
-                                <strong class="me-2">Email:</strong>
-                                <p>{{ $user->email }}</p>
+                                <div class="me-2" style="font-size:17px;">Email: <span style="font-size:18px; font-weight:500;">{{ $user->email }}</span></div>
                             </div>
                             <div class="d-flex align-items-baseline mt-2">
-                                <strong class="me-2">Phone:</strong>
-                                <p>{{ $user->phone_number }}</p>
+                                <div class="me-2" style="font-size:17px;">Phone Number: <span style="font-size:18px; font-weight:500;">{{ $user->phone_number }}</span></div>
                             </div>
                         </div>
                     </div>
                    </div>
                 </div>
             </div>
-            <div class="col-lg-2 d-flex justify-content-center align-items-center">
+            <div class="col-lg-2 d-flex justify-content-center">
                 <a href="{{ route('settings.account-edit', ['id' => Auth::user()->id]) }}">
                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                 </a>

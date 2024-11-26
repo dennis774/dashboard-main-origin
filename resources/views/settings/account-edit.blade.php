@@ -39,17 +39,19 @@
                         
                         <div class="col-lg-8">
                            <div class="container">
+                           <div class="container">
                             <div class="row">
                                 <div class="col-lg-5">
-                                    <p id="roleDisplay2">
+                                    <div class="col-lg-5 d-flex justify-content-center" id="roleDisplay2" style="color:#fff; font-weight:bold; font-size:16px; width:100%;">
                                         @if ($user->role == 'owner') Business owner @elseif ($user->role == 'general') Finance Officer @elseif ($user->role == 'kuwago') Operational Manager
                                         @elseif($user->role=='uddesign') Operational Manager @endif
-                                    </p>                                </div>
+                                    </div>                                </div>
                                 <div class="col-lg-2">
                                 </div>
                                 <div class="col-lg-5 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-warning">Save</button>                                </div>
                             </div>
+                           </div>
                            </div>
                            <div class="conatiner">
                            <div class="container">
@@ -94,10 +96,10 @@
                             <div class="col-lg-2"></div>
                             <div class="col-lg-5">
                                 <div class="dropdown">
-                                    <p id="roleDisplay">
+                                    <div class="col-lg-5 d-flex justify-content-center" id="roleDisplay" style="color:#fff; font-weight:bold; font-size:16px; width:60%;">
                                         @if ($user->role == 'owner') Business owner @elseif ($user->role == 'general') Finance Officer @elseif ($user->role == 'kuwago') Operational Manager @elseif($user->role =='uddesign') Operational
                                         Manager @endif
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
