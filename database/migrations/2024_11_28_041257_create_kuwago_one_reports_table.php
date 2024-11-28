@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fake_data_twos', function (Blueprint $table) {
+        Schema::create('kuwago_one_reports', function (Blueprint $table) {
             $table->id();
-            $table->float('orders');
-            $table->float('expenses');
-            $table->float('cash');
-            $table->float('gcash');
+            $table->float('orders')->nullable();
+            $table->float('cash')->nullable();
+            $table->float('gcash')->nullable();
             $table->float('sales');
+            $table->float('expenses')->nullable();
             $table->date('date');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fake_data_twos');
+        Schema::dropIfExists('kuwago_one_reports');
     }
 };

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\KuwagoOne;
 
 use App\Models\User;
-use App\Models\FakeData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\KuwagoOneReport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -90,7 +90,7 @@ class Kuwago_OneController extends Controller
                     'end' => Carbon::now()->subYear()->endOfYear(),
                 ];
             case 'overall':
-                return ['start' => Carbon::parse(FakeData::min('date')), 'end' => Carbon::parse(FakeData::max('date'))];
+                return ['start' => Carbon::parse(KuwagoOneReport::min('date')), 'end' => Carbon::parse(KuwagoOneReport::max('date'))];
             case 'custom':
                 return ['start' => Carbon::parse($request->input('start_date')), 'end' => Carbon::parse($request->input('end_date'))];
             default:
@@ -127,7 +127,7 @@ class Kuwago_OneController extends Controller
         $selectFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $fields));
 
         // Fetch and aggregate chart data
-        $chartdata = FakeData::whereBetween('date', [$dates['start'], $dates['end']])
+        $chartdata = KuwagoOneReport::whereBetween('date', [$dates['start'], $dates['end']])
             ->selectRaw(($interval === 'overall' ? 'YEAR(date)' : ($interval === 'thisyear' || $interval === 'lastyear' ? 'DATE_FORMAT(date, "%Y-%m")' : 'date')) . " as period, $selectFields")
             ->groupBy(DB::raw($interval === 'overall' ? 'YEAR(date)' : ($interval === 'thisyear' || $interval === 'lastyear' ? 'DATE_FORMAT(date, "%Y-%m")' : 'date')))
             ->get()
@@ -194,7 +194,7 @@ class Kuwago_OneController extends Controller
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentWeekData()
     {
-        $currentWeekData = FakeData::whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
+        $currentWeekData = KuwagoOneReport::whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
         return [
             'thisWeekSales' => $currentWeekData->sum('sales'),
             'thisWeekExpenses' => $currentWeekData->sum('expenses'),
@@ -206,7 +206,7 @@ class Kuwago_OneController extends Controller
     // Gets the last week's data for sales, expenses, orders, and profit
     private function getLastWeekData()
     {
-        $lastWeekData = FakeData::whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(),Carbon::now()->subWeek()->endOfWeek(),])->get();
+        $lastWeekData = KuwagoOneReport::whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(),Carbon::now()->subWeek()->endOfWeek(),])->get();
         return [
             'lastWeekSales' => $lastWeekData->sum('sales'),
             'lastWeekExpenses' => $lastWeekData->sum('expenses'),
@@ -217,7 +217,7 @@ class Kuwago_OneController extends Controller
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentMonthData()
     {
-        $currentMonthData = FakeData::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
+        $currentMonthData = KuwagoOneReport::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
         return [
             'thisMonthSales' => $currentMonthData->sum('sales'),
             'thisMonthExpenses' => $currentMonthData->sum('expenses'),
@@ -229,7 +229,7 @@ class Kuwago_OneController extends Controller
     // Gets the last week's data for sales, expenses, orders, and profit
     private function getLastMonthData()
     {
-        $lastMonthData = FakeData::whereBetween('date', [Carbon::now()->subMonth()->startOfMonth(),Carbon::now()->subMonth()->endOfMonth(),])->get();
+        $lastMonthData = KuwagoOneReport::whereBetween('date', [Carbon::now()->subMonth()->startOfMonth(),Carbon::now()->subMonth()->endOfMonth(),])->get();
         return [
             'lastMonthSales' => $lastMonthData->sum('sales'),
             'lastMonthExpenses' => $lastMonthData->sum('expenses'),
@@ -240,7 +240,7 @@ class Kuwago_OneController extends Controller
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentYearData()
     {
-        $currentYearData = FakeData::whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
+        $currentYearData = KuwagoOneReport::whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
         return [
             'thisYearSales' => $currentYearData->sum('sales'),
             'thisYearExpenses' => $currentYearData->sum('expenses'),
@@ -252,7 +252,7 @@ class Kuwago_OneController extends Controller
     // Gets the last week's data for sales, expenses, orders, and profit
     private function getLastYearData()
     {
-        $lastYearData = FakeData::whereBetween('date', [Carbon::now()->subYear()->startOfYear(),Carbon::now()->subYear()->endOfYear(),])->get();
+        $lastYearData = KuwagoOneReport::whereBetween('date', [Carbon::now()->subYear()->startOfYear(),Carbon::now()->subYear()->endOfYear(),])->get();
         return [
             'lastYearSales' => $lastYearData->sum('sales'),
             'lastYearExpenses' => $lastYearData->sum('expenses'),

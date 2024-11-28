@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
 
 class LoginSuccessful
 {
@@ -14,7 +15,7 @@ class LoginSuccessful
      */
     public function __construct()
     {
-
+        // Initialization if needed
     }
 
     /**
@@ -22,37 +23,54 @@ class LoginSuccessful
      */
     public function handle(Login $event): void
     {
-        // Get user details from the event
         $user = $event->user;
-
-        // Create a new Guzzle client
         $client = new Client();
 
-        try {
-            // Make the POST request to `uddesign` with email and password
-            $response = $client->request('POST', env('UDDESIGN_API_URL', '').'/api/login', [
-                'form_params' => [
-                    'email' => env('UDDESIGN_API_EMAIL', ''),
-                    'password' => env('UDDESIGN_API_PASSWORD', ''),
-                ],
-            ]);
+        $apiConfigs = [
+            'uddesign' => [
+                'url' => env('UDDESIGN_API_URL', '') . '/api/login',
+                'email' => env('UDDESIGN_API_EMAIL', ''),
+                'password' => env('UDDESIGN_API_PASSWORD', ''),
+                'session_key' => 'uddesign_api_token',
+            ],
+            'kuwago_one' => [
+                'url' => env('KUWAGO_ONE_API_URL', '') . '/api/login',
+                'email' => env('KUWAGO_ONE_API_EMAIL', ''),
+                'password' => env('KUWAGO_ONE_API_PASSWORD', ''),
+                'session_key' => 'kuwago_one_api_token',
+            ],
+            'kuwago_two' => [
+                'url' => env('KUWAGO_TWO_API_URL', '') . '/api/login',
+                'email' => env('KUWAGO_TWO_API_EMAIL', ''),
+                'password' => env('KUWAGO_TWO_API_PASSWORD', ''),
+                'session_key' => 'kuwago_two_api_token',
+            ],
+        ];
 
-            // Decode the response body
-            $body_contents = json_decode($response->getBody()->getContents(), true);
-
-            if ($response->getStatusCode() == 200 && isset($body_contents['token'])) {
-                // Store the token in the session
-                session(['uddesign_api_token' => $body_contents['token']]);
-            } else {
-                // Handle failure to retrieve token
-                // Log or handle the error as necessary
-            }
-            // $api_token = session('api_token');
-            // dd($api_token);
-        } catch (\Exception $e) {
-            // Handle exception
-            // Log or handle the error as necessary
+        foreach ($apiConfigs as $config) {
+            $this->fetchApiToken($client, $config['url'], $config['email'], $config['password'], $config['session_key']);
         }
     }
 
+    private function fetchApiToken($client, $url, $email, $password, $sessionKey)
+    {
+        try {
+            $response = $client->request('POST', $url, [
+                'form_params' => [
+                    'email' => $email,
+                    'password' => $password,
+                ],
+            ]);
+
+            $body_contents = json_decode($response->getBody()->getContents(), true);
+
+            if ($response->getStatusCode() == 200 && isset($body_contents['token'])) {
+                session([$sessionKey => $body_contents['token']]);
+            } else {
+                Log::warning("Failed to retrieve token from {$url}");
+            }
+        } catch (\Exception $e) {
+            Log::error("Failed to fetch API token from {$url}: " . $e->getMessage());
+        }
+    }
 }

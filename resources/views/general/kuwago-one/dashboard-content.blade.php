@@ -172,6 +172,8 @@
                                 </div>
                     
                                 <!-- Right Side Section -->
+                                
+                                <!-- Right Side Section -->
                                 <div class="col-lg-6" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
                                     <select id="filterRight" class="form-select mb-1 comparedd select-no-arrow" style="width: 75%; color: white; background-color: #333; border-color: #555; border-bottom: 2px solid white; border-radius:0; font-weight: bold;">
                                         <!-- Adjusted width -->
@@ -179,7 +181,7 @@
                                         <option value="lastMonthRight">Last Month</option>
                                         <option value="lastYearRight">Last Year</option>
                                     </select>
-                                    <div id="LastWeekRight" class="filter-section-right" style="display: block;">
+                                    <div id="lastWeekRight" class="filter-section-right" style="display: block;">
                                         <div class="col-lg-12 mb-2 junctions">
                                             <div>
                                                 <i class="fa-solid fa-hand-holding-dollar">
@@ -211,7 +213,7 @@
                                                 </i>
                                             </div>
                                             <div>
-                                                <i class="fa-solid fa-money-bill-trend-up" >
+                                                <i class="fa-solid fa-money-bill-trend-up">
                                                     <span style="font-family:'Calibri'; font-size: 16px;">Total Sales: ₱ {{$lastMonthSales}}</span>
                                                 </i>
                                             </div>
@@ -252,6 +254,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

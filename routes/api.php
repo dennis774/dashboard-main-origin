@@ -11,12 +11,11 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 // Route::get('refresh-data', [DataController::class, 'refreshData']);
-Route::get('api-token', [ApiTokenController::class, 'getApiToken']);
-Route::get('register', [ApiTokenController::class, 'registerUser']);
+// Route::get('api-token', [ApiTokenController::class, 'getApiToken']);
+// Route::get('register', [ApiTokenController::class, 'registerUser']);
 // Route::get('refresh-data', [DataController::class, 'refreshData'])->name('refresh.data');
-
+// Route::get('/uddesign-refresh-data', [DataController::class, 'Uddesign_Refresh_Data'])->name('uddesign.refresh.data');
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/refresh-data', [DataController::class, 'refreshData'])->name('refresh.data');
-    Route::get('/uddesign-refresh-data', [DataController::class, 'Uddesign_Refresh_Data'])->name('uddesign.refresh.data');
+    Route::get('/refresh-data', [DataController::class, 'refreshData'])->name('refresh.data'); 
 });
 

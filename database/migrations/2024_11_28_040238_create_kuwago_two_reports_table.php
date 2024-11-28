@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chart_data', function (Blueprint $table) {
+        Schema::create('kuwago_two_reports', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->float('cash')->nullable();
-            $table->float('gcash')->nullable();
-            $table->float('total_remittance');
+            $table->float('orders');
+            $table->float('cash');
+            $table->float('gcash');
+            $table->float('sales');
+            $table->float('expenses');
             $table->date('date');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chart_data');
+        Schema::dropIfExists('kuwago_two_reports');
     }
 };

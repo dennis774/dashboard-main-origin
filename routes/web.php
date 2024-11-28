@@ -7,7 +7,6 @@ use App\Http\Controllers\TargetSalesController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\BusinessInfoController;
 use App\Http\Controllers\BudgetAllocationController;
-use App\Http\Controllers\KuwagoOne\CompareWithController;
 use App\Http\Controllers\Uddesign\UddesignController;
 use App\Http\Controllers\KuwagoOne\Kuwago_OneController;
 use App\Http\Controllers\KuwagoTwo\Kuwago_TwoController;
@@ -16,6 +15,7 @@ use App\Http\Controllers\PromoController;
 Route::get('/', function () {
     return view('auth.login');
 })->middleware('redirectIfAuthenticated')->name('login');
+
 Route::get('kuwago-one', [AccountController::class, 'navbar_index'])->name('general.kuwago-one.dashboard');
 
 Route::get('kuwago-one', function () {

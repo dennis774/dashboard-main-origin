@@ -182,7 +182,7 @@
                                         <option value="lastMonthRight">Last Month</option>
                                         <option value="lastYearRight">Last Year</option>
                                     </select>
-                                    <div id="LastWeekRight" class="filter-section-right" style="display: block;">
+                                    <div id="lastWeekRight" class="filter-section-right" style="display: block;">
                                         <div class="col-lg-12 mb-2 junctions">
                                             <div>
                                                 <i class="fa-solid fa-hand-holding-dollar">
