@@ -25,14 +25,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{url('/uddesign/promos')}}" 
-                                class="{{ request()->routeIs('general.uddesign.promos') ? 'active' : '' }}" 
+                                <a href="{{route('general.uddesign.uddeals')}}" 
+                                class="{{ request()->routeIs('general.uddesign.uddeals') ? 'active' : '' }}" 
                                 data-tooltip="Promos"> 
                                     <i class="fa-solid fa-tags"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{url('/uddesign/feedbacks')}}" 
+                                <a href="{{route('general.uddesign.feedbacks')}}" 
                                 class="{{ request()->routeIs('general.uddesign.feedbacks') ? 'active' : '' }}" 
                                 data-tooltip="Feedbacks"> 
                                     <i class="fa-solid fa-star"></i>

@@ -1,17 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DealController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\TargetSalesController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\BusinessInfoController;
 use App\Http\Controllers\BudgetAllocationController;
-use App\Http\Controllers\KuwagoOne\CompareWithController;
+use App\Http\Controllers\UddesignFeedbackController;
 use App\Http\Controllers\Uddesign\UddesignController;
 use App\Http\Controllers\KuwagoOne\Kuwago_OneController;
 use App\Http\Controllers\KuwagoTwo\Kuwago_TwoController;
-use App\Http\Controllers\PromoController;
+use App\Http\Controllers\KuwagoOne\CompareWithController;
+
 
 Route::get('/', function () {
     return view('auth.login');
@@ -21,6 +25,27 @@ Route::get('kuwago-one', [AccountController::class, 'navbar_index'])->name('gene
 Route::get('kuwago-one', function () {
     return view('general.kuwago-one.dashboard');
 })->middleware(['auth', 'verified'])->name('general.kuwago-one.dashboard');
+
+Route::get('page1', function () {
+    return view('general.executive.page1');
+})->name('general.executive.page1');
+
+Route::get('page2', function () {
+    return view('general.executive.page2');
+})->name('general.executive.page2');
+
+
+Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+Route::get('/feedback/import', [FeedbackController::class, 'importFeedbackOne']);
+Route::get('/feedback/import', [FeedbackController::class, 'importFeedbackTwo']);
+Route::post('/feedback/filter-by-date', [FeedbackController::class, 'filterByDate'])->name('feedback.filterByDate');
+
+
+Route::get('/uddesignfeedback', [UddesignFeedbackController::class, 'index'])->name('uddesignfeedback.index');
+Route::get('/uddesignfeedback/fetch', [UddesignFeedbackController::class, 'fetchAndStoreFeedback']);
+Route::post('/uddesignfeedback/filter-by-date', [UddesignFeedbackController::class, 'filterByDate'])->name('uddesignfeedback.filterByDate');
+
+
 
 Route::middleware(['auth', 'ensureUserIsAuthorized'])->group(function () {
     Route::get('settings/{id}', [UserAccountController::class, 'show'])->name('settings.account-show');
@@ -33,16 +58,25 @@ Route::middleware(['auth', 'kuwagoRole:owner,general,kuwago'])->group(function (
     Route::get('kuwago-one', [Kuwago_OneController::class, 'general_kuwago_one'])->name('general.kuwago-one.dashboard');
     Route::get('kuwago-one/expenses', [Kuwago_OneController::class, 'chart_expenses_kuwago_one'])->name('general.kuwago-one.expenses');
     Route::get('kuwago-one/sales', [Kuwago_OneController::class, 'chart_sales_kuwago_one'])->name('general.kuwago-one.sales');
+    Route::get('kuwago-one/promos', [Kuwago_OneController::class, 'kuwagoOnepromos'])->name('general.kuwago-one.promos');
+    Route::get('kuwago-one/feedbacks', [Kuwago_OneController::class, 'showFeedbacks'])->name('general.kuwago-one.feedbacks');
+
 
     Route::get('kuwago-two', [Kuwago_TwoController::class, 'general_kuwago_two'])->name('general.kuwago-two.dashboard');
     Route::get('kuwago-two/expenses', [Kuwago_TwoController::class, 'chart_expenses_kuwago_two'])->name('general.kuwago-two.expenses');
     Route::get('kuwago-two/sales', [Kuwago_TwoController::class, 'chart_sales_kuwago_two'])->name('general.kuwago-two.sales');
+    Route::get('kuwago-two/promos', [Kuwago_TwoController::class, 'kuwagoTwopromos'])->name('general.kuwago-two.promos');
+    Route::get('kuwago-two/feedbacks', [Kuwago_TwoController::class, 'showFeedbacks'])->name('general.kuwago-two.feedbacks');
+
 });
 
 Route::middleware(['auth', 'uddesignRole:owner,general,uddesign'])->group(function () {
     Route::get('uddesign', [UddesignController::class, 'general_uddesign'])->name('general.uddesign.dashboard');
     Route::get('uddesign/expenses', [UddesignController::class, 'chart_expenses_uddesign'])->name('general.uddesign.expenses');
     Route::get('uddesign/sales', [UddesignController::class, 'chart_sales_uddesign'])->name('general.uddesign.sales');
+    Route::get('uddesign/uddeals', [UddesignController::class, 'uddeals'])->name('general.uddesign.uddeals');
+    Route::get('uddesign/feedbacks', [UddesignController::class, 'showFeedbacks'])->name('general.uddesign.feedbacks');
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -58,7 +92,10 @@ Route::middleware(['auth', 'role:owner'])->group(function(){
     Route::resource('promos', PromoController::class);
     Route::resource('targetSales', TargetSalesController::class);
     Route::resource('budgetAllocations',BudgetAllocationController::class);
+
+
 });
+Route::resource('deals', DealController::class);
 
 
 require __DIR__.'/auth.php';

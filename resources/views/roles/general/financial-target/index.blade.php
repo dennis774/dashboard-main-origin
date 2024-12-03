@@ -16,11 +16,11 @@
     </head>
     <style>
         body {
-            background-image: url("https://t4.ftcdn.net/jpg/07/94/30/45/360_F_794304521_O4o0Y5UrvKtDxBNHY9utMowV2VhuhRpk.jpg");
+            background-image: url("https://img.freepik.com/premium-photo/furniture-office-background-dark_87720-269186.jpg");
+            backdrop-filter: blur(25px);
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
-            backdrop-filter: blur(20px); /* Optional: adds blur effect */
             min-height: 100vh; /* Ensures it covers the full viewport height */
         }
         h4.currentTraget {
@@ -103,10 +103,7 @@
             border-collapse: collapse;
             color: #fff;
         }
-        .selected {
-        background-color: #040101 !important; /* Change to your preferred color */
-        color: #333; /* Adjust text color if needed */
-    }
+       
     </style>
 
 
@@ -161,7 +158,7 @@
                             </thead>
                             <tbody>
                                 @foreach($targetSales as $targetSale)
-                                <tr class="selectable-row">
+                                <tr class="selectable-row" data-bs-toggle="modal" data-bs-target="#targetSaleModal" data-business-type="{{ $targetSale->business_type }}" data-amount="₱{{ number_format($targetSale->amount, 2) }}" data-start-date="{{ $targetSale->start_date->format('Y-m-d') }}" data-end-date="{{ $targetSale->end_date->format('Y-m-d') }}">
                                     <td>{{ $targetSale->business_type }}</td>
                                     <td>₱{{ number_format($targetSale->amount, 2) }}</td>
                                     <td>{{ $targetSale->start_date->format('Y-m-d') }}</td>
@@ -179,7 +176,7 @@
                         </table>
                     </div>
                 </div>
-   
+            
                 <!-- Budget Allocations Table -->
                 <div class="col-lg-6 targetsColumn">
                     <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
@@ -195,7 +192,7 @@
                             </thead>
                             <tbody>
                                 @foreach($budgetAllocations as $budgetAllocation)
-                                <tr class="selectable-row">
+                                <tr class="selectable-row" data-bs-toggle="modal" data-bs-target="#budgetAllocationModal" data-business-type="{{ $budgetAllocation->business_type }}" data-amount="₱{{ number_format($budgetAllocation->amount, 2) }}" data-start-date="{{ $budgetAllocation->start_date->format('Y-m-d') }}" data-end-date="{{ $budgetAllocation->end_date->format('Y-m-d') }}">
                                     <td>{{ $budgetAllocation->business_type }}</td>
                                     <td>₱{{ number_format($budgetAllocation->amount, 2) }}</td>
                                     <td>{{ $budgetAllocation->start_date->format('Y-m-d') }}</td>
@@ -214,16 +211,100 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Modal for Target Sales -->
+            <div class="modal fade" id="targetSaleModal" tabindex="-1" aria-labelledby="targetSaleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="targetSaleModalLabel">Display this Target Sale</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Business Type:</strong> <span id="modalBusinessType"></span></p>
+                            <p><strong>Amount:</strong> <span id="modalAmount"></span></p>
+                            <p><strong>Start Date:</strong> <span id="modalStartDate"></span></p>
+                            <p><strong>End Date:</strong> <span id="modalEndDate"></span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Display</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal for Budget Allocations -->
+            <div class="modal fade" id="budgetAllocationModal" tabindex="-1" aria-labelledby="budgetAllocationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="budgetAllocationModalLabel">Display this Budget Allocation</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Business Type:</strong> <span id="modalBusinessType"></span></p>
+                            <p><strong>Amount:</strong> <span id="modalAmount"></span></p>
+                            <p><strong>Start Date:</strong> <span id="modalStartDate"></span></p>
+                            <p><strong>End Date:</strong> <span id="modalEndDate"></span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Display</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var targetSaleModal = document.getElementById('targetSaleModal');
+                    var budgetAllocationModal = document.getElementById('budgetAllocationModal');
+            
+                    targetSaleModal.addEventListener('show.bs.modal', function(event) {
+                        var button = event.relatedTarget;
+                        var businessType = button.getAttribute('data-business-type');
+                        var amount = button.getAttribute('data-amount');
+                        var startDate = button.getAttribute('data-start-date');
+                        var endDate = button.getAttribute('data-end-date');
+            
+                        var modalBusinessType = targetSaleModal.querySelector('#modalBusinessType');
+                        var modalAmount = targetSaleModal.querySelector('#modalAmount');
+                        var modalStartDate = targetSaleModal.querySelector('#modalStartDate');
+                        var modalEndDate = targetSaleModal.querySelector('#modalEndDate');
+            
+                        modalBusinessType.textContent = businessType;
+                        modalAmount.textContent = amount;
+                        modalStartDate.textContent = startDate;
+                        modalEndDate.textContent = endDate;
+                    });
+            
+                    budgetAllocationModal.addEventListener('show.bs.modal', function(event) {
+                        var button = event.relatedTarget;
+                        var businessType = button.getAttribute('data-business-type');
+                        var amount = button.getAttribute('data-amount');
+                        var startDate = button.getAttribute('data-start-date');
+                        var endDate = button.getAttribute('data-end-date');
+            
+                        var modalBusinessType = budgetAllocationModal.querySelector('#modalBusinessType');
+                        var modalAmount = budgetAllocationModal.querySelector('#modalAmount');
+                        var modalStartDate = budgetAllocationModal.querySelector('#modalStartDate');
+                        var modalEndDate = budgetAllocationModal.querySelector('#modalEndDate');
+            
+                        modalBusinessType.textContent = businessType;
+                        modalAmount.textContent = amount;
+                        modalStartDate.textContent = startDate;
+                        modalEndDate.textContent = endDate;
+                    });
+                });
+            </script>
+            
        
    
        
 
 
-            <div class="row mt-3">
-                <div class="col-lg-12 d-flex justify-content-end">
-                    <h6 class="displayTarget">Display</h6>
-                </div>
-            </div>
+        
 
 
             <!-- Target History Link -->

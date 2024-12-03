@@ -84,12 +84,22 @@
                                     <select class="form-control" id="roleSelect" name="role" onchange="syncRole()">
                                         <option value="owner" {{ $user->role == 'owner' ? 'selected' : '' }}>Owner</option>
                                     </select>
-                                    @else
+
+                                    @elseif ($user->role == 'general')
                                     <select class="form-control" id="roleSelect" name="role" onchange="syncRole()">
                                         <option value="general" {{ $user->role == 'general' ? 'selected' : '' }}>General</option>
-                                        <option value="kuwago" {{ $user->role == 'kuwago' ? 'selected' : '' }}>Kuwago</option>
-                                        <option value="uddesign" {{ $user->role == 'uddesign' ? 'selected' : '' }}>UdDesign</option>
                                     </select>
+
+                                    @elseif ($user->role == 'kuwago')
+                                    <select class="form-control" id="roleSelect" name="role" onchange="syncRole()">
+                                        <option value="kuwago" {{ $user->role == 'kuwago' ? 'selected' : '' }}>Kuwago</option>
+                                    </select>
+
+                                    @elseif ($user->role == 'uddesign')
+                                    <select class="form-control" id="roleSelect" name="role" onchange="syncRole()">
+                                        <option value="uddesign" {{ $user->role == 'uddesign' ? 'selected' : '' }}>Uddesign</option>
+                                    </select>
+
                                     @endif
                                 </div>
                             </div>
@@ -151,13 +161,13 @@
                         <div class="row">
                             <div class="col-lg-8"></div>
                             <div class="col-lg-4">
-                                @if ($user->role == 'owner')
+                                
                                 <div class="container mt-1">
                                     <a href="/account/password" style="color: #fff;">
                                         <p>Change Password</p>
                                     </a>
                                 </div>
-                                @else @endif
+                                
                             </div>
                         </div>
                     </div>

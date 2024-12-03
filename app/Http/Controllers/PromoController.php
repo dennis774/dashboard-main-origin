@@ -11,8 +11,8 @@ class PromoController extends Controller
     // Show all promos
     public function index()
     {
-        $promos = Promo::all();
-        return view('promos.index', compact('promos'));
+        $promos = Promo::orderBy('created_at', 'desc')->get();
+        return view('general.kuwago-one.promos', compact('promos'));
     }
 
 
@@ -54,7 +54,7 @@ class PromoController extends Controller
             'promo_image' => $imagePath,
         ]);
    
-        return redirect()->route('promos.index');
+        return redirect()->route('general.kuwago-one.promos');
     }
    
  
@@ -102,7 +102,7 @@ class PromoController extends Controller
             'promo_image' => $promo->image,
         ]);
    
-        return redirect()->route('promos.index');
+        return redirect()->route('general.kuwago-one.promos')->with('success', 'Promo updated successfully!');
     }
 
 
@@ -110,7 +110,7 @@ class PromoController extends Controller
     public function destroy(Promo $promo)
     {
         $promo->delete();
-        return redirect()->route('promos.index');
+        return redirect()->route('general.kuwago-one.promos');
     }
 
 }

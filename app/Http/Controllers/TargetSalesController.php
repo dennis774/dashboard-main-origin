@@ -105,4 +105,22 @@ class TargetSalesController extends Controller
         return redirect()->route('targetSales.index')->with('success', 'Target sale deleted successfully!');
     }
 
+    public function fetchTargetSaleAmount(Request $request)
+    {
+        $businessType = $request->input('business_type');
+        $targetSale = TargetSales::where('business_type', $businessType)->first();
+
+        if ($targetSale) {
+            return response()->json([
+                'amount' => '₱' . number_format($targetSale->amount, 2)
+            ]);
+        }
+
+        return response()->json([
+            'amount' => null
+        ]);
+    }
+
+
+
 }

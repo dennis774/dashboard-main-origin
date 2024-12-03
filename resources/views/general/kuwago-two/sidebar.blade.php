@@ -25,16 +25,16 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{url('/kuwago-two/promos')}}" 
+                                <a href="{{route('general.kuwago-two.promos')}}" 
                                 class="{{ request()->routeIs('general.kuwago-two.promos') ? 'active' : '' }}" 
                                 data-tooltip="Promos"> 
                                     <i class="fa-solid fa-tags"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{url('/kuwago-two/feedbacks')}}" 
-                                class="{{ request()->routeIs('general.kuwago-two.feedbacks') ? 'active' : '' }}" 
-                                data-tooltip="Feedbacks"> 
+                                <a href="{{ route('general.kuwago-two.feedbacks') }}"
+                                    class="{{ request()->routeIs('general.kuwago-two.feedbacks') ? 'active' : '' }}"
+                                    data-tooltip="Feedbacks">
                                     <i class="fa-solid fa-star"></i>
                                 </a>
                             </li>

@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    'google' => [
+        'sheet_id' => env('GOOGLE_SHEET_ID'),
+        'service_account_path' => env('GOOGLE_SERVICE_ACCOUNT_PATH'),
+    
+        
+    ],
+    
+      'udgoogle' => [
+        'ud_sheet_id' => env('UD_GOOGLE_SHEET_ID'),
+        'ud_service_account_path' => env('UD_GOOGLE_SERVICE_ACCOUNT_PATH'),
+    ],
+
 ];

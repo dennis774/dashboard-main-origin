@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\KuwagoOne;
 
-use App\Models\User;
+use App\Models\Feedback;
+use App\Models\Promo;
 use App\Models\FakeData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -260,4 +261,31 @@ class Kuwago_OneController extends Controller
             'lastYearProfit' => $lastYearData->sum('sales') - $lastYearData->sum('expenses'),
         ];
     }
+
+    
+    public function showFeedbacks()
+{
+    $feedback = Feedback::orderBy('feedback_date', 'desc')->get();
+    $averageRating = $feedback->avg('rating');
+
+    // Calculate rating counts
+    $ratingCounts = [
+        1 => $feedback->where('rating', 1)->count(),
+        2 => $feedback->where('rating', 2)->count(),
+        3 => $feedback->where('rating', 3)->count(),
+        4 => $feedback->where('rating', 4)->count(),
+        5 => $feedback->where('rating', 5)->count(),
+    ];
+
+    return view('general.kuwago-one.feedbacks', compact('feedback', 'averageRating', 'ratingCounts'));
+}
+
+public function kuwagoOnepromos(Request $request)
+{
+    $sort = $request->get('sort', 'newest');
+    $promos = Promo::orderBy('created_at', $sort === 'newest' ? 'desc' : 'asc')->get();
+
+    return view('general.kuwago-one.promos', compact('promos'));
+}
+
 }
