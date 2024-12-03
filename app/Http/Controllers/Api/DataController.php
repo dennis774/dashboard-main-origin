@@ -10,165 +10,268 @@ use App\Models\KuwagoOneReport;
 use App\Models\KuwagoTwoReport;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use App\Models\KuwagoOne\KuwagoOneDishes;
+use App\Models\KuwagoTwo\KuwagoTwoDishes;
+use App\Models\Uddesign\UddesignMerchType;
+use App\Models\Uddesign\UddesignPrintType;
+use App\Models\KuwagoOne\KuwagoOneCategory;
+use App\Models\KuwagoTwo\KuwagoTwoCategory;
+use App\Models\Uddesign\UddesignMerchDetail;
+use App\Models\Uddesign\UddesignPrintDetail;
+use App\Models\Uddesign\UddesignMerchCategory;
+use App\Models\Uddesign\UddesignPrintCategory;
+use App\Models\KuwagoOne\KuwagoOneOrderDetails;
+use App\Models\KuwagoTwo\KuwagoTwoOrderDetails;
 
 class DataController extends Controller
 {
-    public function refreshData(Request $request)
-    {
-        // Call the first function
-        $this->Uddesign_Refresh_Data($request);
+    // UNIVERSAL REFRESH BUTTON HANDLER
+    public function refreshData(Request $request, $type)
+    {        
+        switch ($type) {
+            case 'uddesign':
+                $this->Uddesign_Refresh_Data($request);
+                $this->refreshUddesignDetails($request, 'uddesign_api_token', env('UDDESIGN_API_URL', ''));
+                break;
+            case 'kuwago_one':
+                $this->Kuwago_One_Refresh_Data($request);
+                $this->refreshOrderDetails($request, 'kuwago_one_api_token', env('KUWAGO_ONE_API_URL', ''), KuwagoOneOrderDetails::class);
+                break;
+            case 'kuwago_two':
+                $this->Kuwago_Two_Refresh_Data($request);
+                $this->refreshOrderDetails($request, 'kuwago_two_api_token', env('KUWAGO_TWO_API_URL', ''), KuwagoTwoOrderDetails::class);
+                break;
+            default:
+                return back()->with('failed', 'Invalid type specified.');
+        }
 
-        // Call the second function
-        $this->Kuwago_One_Refresh_Data($request);
-
-        // Call the second function
-        $this->Kuwago_Two_Refresh_Data($request);
-
-        // Return a response
         return back()->with('status', 'Data refreshed successfully!');
     }
 
+    // UDDESIGN DATA REFRESH FUNCTION
     public function Uddesign_Refresh_Data(Request $request)
     {
-        // Retrieve the API token from the session
         $apiToken = $request->session()->get('uddesign_api_token');
-
         if (!$apiToken) {
-            return redirect()
-                ->back()
-                ->with('failed', 'API token not found in session.');
+            return redirect()->back()->with('failed', 'API token not found in session.');
         }
 
-        // Make the GET request using the Http facade with the token
-        $response = Http::withToken($apiToken)->get(env('UDDESIGN_API_URL', '') . '/api/data');
+        $this->fetchAndInsertData($apiToken, env('UDDESIGN_API_URL', ''), '/api/data', UddesignReport::class, function ($report) {
+            return [
+                'cash' => $report['cash'],
+                'gcash' => $report['gcash'],
+                'print_sales' => $report['print_sales'],
+                'merch_sales' => $report['merch_sales'],
+                'custom_sales' => $report['custom_sales'],
+                'total_sales' => $report['total_sales'],
+                'print_expenses' => $report['print_expenses'],
+                'merch_expenses' => $report['merch_expenses'],
+                'custom_expenses' => $report['custom_expenses'],
+                'total_expenses' => $report['total_expenses'],
+                'date' => Carbon::parse($report['date'])->format('Y-m-d H:i:s'),
+            ];
+        });
 
-        if ($response->successful()) {
-            $body_contents = $response->json();
+        $this->fetchAndInsertData($apiToken, env('UDDESIGN_API_URL', ''), '/api/merch-category', UddesignMerchCategory::class, function ($category) {
+            return [
+                'merch_category_id' => $category['id'],
+                'name' => $category['name'],
+            ];
+        });
 
-            // Truncate the existing table data
-            UddesignReport::truncate();
+        $this->fetchAndInsertData($apiToken, env('UDDESIGN_API_URL', ''), '/api/merch-type', UddesignMerchType::class, function ($merch) {
+            return [
+                'merch_type_id' => $merch['id'],
+                'merch_category_id' => $merch['merch_category_id'],
+                'name' => $merch['name'],
+            ];
+        });
 
-            // Prepare the data array
-            $array_of_data = [];
+        $this->fetchAndInsertData($apiToken, env('UDDESIGN_API_URL', ''), '/api/print-category', UddesignPrintCategory::class, function ($category) {
+            return [
+                'print_category_id' => $category['id'],
+                'name' => $category['name'],
+            ];
+        });
 
-            foreach ($body_contents['data'] as $content) {
-                $array_of_data[] = [
-                    'cash' => $content['cash'],
-                    'gcash' => $content['gcash'],
-                    'print_sales' => $content['print_sales'],
-                    'merch_sales' => $content['merch_sales'],
-                    'custom_sales' => $content['custom_sales'],
-                    'total_sales' => $content['total_sales'],
-                    'print_expenses' => $content['print_expenses'],
-                    'merch_expenses' => $content['merch_expenses'],
-                    'custom_expenses' => $content['custom_expenses'],
-                    'total_expenses' => $content['total_expenses'],
-                    'date' => Carbon::parse($content['date'])->format('Y-m-d H:i:s'),
-                ];
-            }
-
-            // Insert the new data
-            UddesignReport::insert($array_of_data);
-
-            return redirect()
-                ->back()
-                ->with('success', 'Data refreshed successfully!');
-        } else {
-            return redirect()
-                ->back()
-                ->with('failed', 'Failed to fetch data from the API.');
-        }
+        $this->fetchAndInsertData($apiToken, env('UDDESIGN_API_URL', ''), '/api/print-type', UddesignPrintType::class, function ($print) {
+            return [
+                'print_type_id' => $print['id'],
+                'print_category_id' => $print['print_category_id'],
+                'name' => $print['name'],
+            ];
+        });
     }
 
+    // KUWAGO ONE DATA REFRESH FUNCTION
     public function Kuwago_One_Refresh_Data(Request $request)
     {
-        // Retrieve the API token from the session
         $apiToken = $request->session()->get('kuwago_one_api_token');
-
         if (!$apiToken) {
-            return redirect()
-                ->back()
-                ->with('failed', 'API token not found in session.');
+            return redirect()->back()->with('failed', 'API token not found in session.');
         }
 
-        // Make the GET request using the Http facade with the token
-        $response = Http::withToken($apiToken)->get(env('KUWAGO_ONE_API_URL', '') . '/api/data');
+        $this->fetchAndInsertData($apiToken, env('KUWAGO_ONE_API_URL', ''), '/api/reports', KuwagoOneReport::class, function ($report) {
+            return [
+                'cash' => $report['cash'],
+                'gcash' => $report['gcash'],
+                'sales' => $report['total_remittance'],
+                'date' => $report['date'],
+            ];
+        });
 
-        if ($response->successful()) {
-            $body_contents = $response->json();
+        $this->fetchAndInsertData($apiToken, env('KUWAGO_ONE_API_URL', ''), '/api/categories', KuwagoOneCategory::class, function ($category) {
+            return [
+                'category_id' => $category['id'],
+                'name' => $category['name'],
+            ];
+        });
 
-            // Truncate the existing table data
-            KuwagoOneReport::truncate();
-
-            // Prepare the data array
-            $array_of_data = [];
-
-            foreach ($body_contents['data'] as $content) {
-                $array_of_data[] = [
-                    'cash' => $content['cash'],
-                    'gcash' => $content['gcash'],
-                    'sales' => $content['total_remittance'],
-                    'date' => $content['date'],
-                ];
-            }
-
-            // Insert the new data
-            KuwagoOneReport::insert($array_of_data);
-
-            return redirect()
-                ->back()
-                ->with('success', 'Data refreshed successfully!');
-        } else {
-            return redirect()
-                ->back()
-                ->with('failed', 'Failed to fetch data from the API.');
-        }
+        $this->fetchAndInsertData($apiToken, env('KUWAGO_ONE_API_URL', ''), '/api/dishes', KuwagoOneDishes::class, function ($dish) {
+            return [
+                'dish_id' => $dish['id'],
+                'category_id' => $dish['category_id'],
+                'name' => $dish['name'],
+            ];
+        });
     }
 
+    // KUWAGO TWO DATA REFRESH FUNCTION
     public function Kuwago_Two_Refresh_Data(Request $request)
     {
-        // Retrieve the API token from the session
         $apiToken = $request->session()->get('kuwago_two_api_token');
-
         if (!$apiToken) {
-            return redirect()
-                ->back()
-                ->with('failed', 'API token not found in session.');
+            return redirect()->back()->with('failed', 'API token not found in session.');
         }
 
-        // Make the GET request using the Http facade with the token
-        $response = Http::withToken($apiToken)->get(env('KUWAGO_TWO_API_URL', '') . '/api/data');
+        $this->fetchAndInsertData($apiToken, env('KUWAGO_TWO_API_URL', ''), '/api/reports', KuwagoTwoReport::class, function ($report) {
+            return [
+                'orders' => $report['orders'],
+                'cash' => $report['cash'],
+                'gcash' => $report['gcash'],
+                'sales' => $report['sales'],
+                'expenses' => $report['expenses'],
+                'date' => $report['date'],
+            ];
+        });
 
-        if ($response->successful()) {
-            $body_contents = $response->json();
+        $this->fetchAndInsertData($apiToken, env('KUWAGO_TWO_API_URL', ''), '/api/categories', KuwagoTwoCategory::class, function ($category) {
+            return [
+                'category_id' => $category['id'],
+                'name' => $category['name'],
+            ];
+        });
 
-            // Truncate the existing table data
-            KuwagoTwoReport::truncate();
+        $this->fetchAndInsertData($apiToken, env('KUWAGO_TWO_API_URL', ''), '/api/dishes', KuwagoTwoDishes::class, function ($dish) {
+            return [
+                'dish_id' => $dish['id'],
+                'category_id' => $dish['category_id'],
+                'name' => $dish['name'],
+            ];
+        });
+    }
 
-            // Prepare the data array
-            $array_of_data = [];
+    // UNIVERSAL ORDER DETAILS REFRESH FUNCTION
+    public function refreshOrderDetails(Request $request, $tokenKey, $baseUrl, $model)
+    {
+        $apiToken = $request->session()->get($tokenKey);
+        if (!$apiToken) {
+            return redirect()->back()->with('failed', 'API token not found in session.');
+        }
 
-            foreach ($body_contents['data'] as $content) {
-                $array_of_data[] = [
-                    'orders' => $content['orders'],
-                    'cash' => $content['cash'],
-                    'gcash' => $content['gcash'],
-                    'sales' => $content['sales'],
-                    'expenses' => $content['expenses'],
-                    'date' => $content['date'],
-                ];
+        $this->fetchAndInsertDataInBatches($apiToken, $baseUrl, '/api/order-details', $model, function ($orderDetail) {
+            return [
+                'dish_id' => $orderDetail['dish_id'],
+                'pcs' => $orderDetail['pcs'],
+                'date' => Carbon::parse($orderDetail['date'])->format('Y-m-d H:i:s'),
+            ];
+        });
+
+        return redirect()->back()->with('success', 'Order Details refreshed successfully!');
+    }
+
+
+    public function refreshUddesignDetails(Request $request, $tokenKey, $baseUrl)
+    {
+        $apiToken = $request->session()->get($tokenKey);
+        if (!$apiToken) {
+            return redirect()->back()->with('failed', 'API token not found in session.');
+        }
+
+        $this->fetchAndInsertDataInBatches($apiToken, $baseUrl, '/api/merch-details', UddesignMerchDetail::class, function ($detail) {
+            return [
+                'merch_type_id' => $detail['merch_type_id'],
+                'pcs' => $detail['pcs'],
+                'date' => Carbon::parse($detail['date'])->format('Y-m-d H:i:s'),
+            ];
+        });
+
+        $this->fetchAndInsertDataInBatches($apiToken, $baseUrl, '/api/print-details', UddesignPrintDetail::class, function ($detail) {
+            return [
+                'print_type_id' => $detail['print_type_id'],
+                'pcs' => $detail['pcs'],
+                'date' => Carbon::parse($detail['date'])->format('Y-m-d H:i:s'),
+            ];
+        });
+
+        return redirect()->back()->with('success', 'Details refreshed successfully!');
+    }
+
+
+    // UNIVERSAL FETCH DATA FUNCTION
+    private function fetchAndInsertData($apiToken, $baseUrl, $endpoint, $model, $dataMappingCallback)
+    {
+        $response = Http::withToken($apiToken)->get($baseUrl . $endpoint);
+
+        if ($response->failed()) {
+            return redirect()->back()->with('failed', 'Failed to fetch data from the API.');
+        }
+
+        $data = $response->json();
+
+        // Truncate the existing table data
+        $model::truncate();
+
+        // Prepare the data array
+        $dataArray = [];
+        foreach ($data['data'] as $item) {
+            $dataArray[] = $dataMappingCallback($item);
+        }
+
+        // Insert the new data
+        $model::insert($dataArray);
+    }
+
+    // UNIVERSAL FETCH DATA IN BATCHES FUNCTION
+    private function fetchAndInsertDataInBatches($apiToken, $baseUrl, $endpoint, $model, $dataMappingCallback, $batchSize = 1000)
+    {
+        $response = Http::withToken($apiToken)->get($baseUrl . $endpoint);
+
+        if ($response->failed()) {
+            return redirect()->back()->with('failed', 'Failed to fetch data from the API.');
+        }
+
+        $data = $response->json();
+        $model::truncate();
+
+        // Prepare the data array and insert in batches
+        $dataArray = [];
+        foreach ($data['data'] as $item) {
+            $dataArray[] = $dataMappingCallback($item);
+
+            // When data array reaches batch size, insert it and reset the array
+            if (count($dataArray) >= $batchSize) {
+                $model::insert($dataArray);
+                $dataArray = [];
             }
+        }
 
-            // Insert the new data
-            KuwagoTwoReport::insert($array_of_data);
-
-            return redirect()
-                ->back()
-                ->with('success', 'Data refreshed successfully!');
-        } else {
-            return redirect()
-                ->back()
-                ->with('failed', 'Failed to fetch data from the API.');
+        // Insert any remaining data
+        if (!empty($dataArray)) {
+            $model::insert($dataArray);
         }
     }
+
+
+    
 }

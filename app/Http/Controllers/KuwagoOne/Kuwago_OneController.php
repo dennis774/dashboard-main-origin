@@ -8,6 +8,8 @@ use Illuminate\Support\Carbon;
 use App\Models\KuwagoOneReport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\KuwagoOne\KuwagoOneOrderDetails;
+
 
 class Kuwago_OneController extends Controller
 {
@@ -20,7 +22,7 @@ class Kuwago_OneController extends Controller
     // Handles the sales view for /kuwago-one/sales
     public function chart_sales_kuwago_one(Request $request)
     {
-        return $this->generateChartData($request, 'general.kuwago-one.sales', ['sales', 'cash', 'gcash']);
+        return $this->generateChartData($request, 'general.kuwago-one.sales', ['sales', 'cash', 'gcash','category', 'total_pcs']);
     }
 
     // Handles the expenses view for /kuwago-one/expenses
@@ -125,61 +127,85 @@ class Kuwago_OneController extends Controller
         $interval = $request->input('interval', 'thisweek');
         $dates = $this->getDateRange($interval, $request);
         $selectFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $fields));
-
-        // Fetch and aggregate chart data
+    
+        // Fetch and aggregate chart data for reports (excluding category and total_pcs)
+        $reportFields = array_filter($fields, fn($field) => !in_array($field, ['category', 'total_pcs']));
+        $selectReportFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $reportFields));
+        
         $chartdata = KuwagoOneReport::whereBetween('date', [$dates['start'], $dates['end']])
-            ->selectRaw(($interval === 'overall' ? 'YEAR(date)' : ($interval === 'thisyear' || $interval === 'lastyear' ? 'DATE_FORMAT(date, "%Y-%m")' : 'date')) . " as period, $selectFields")
+            ->selectRaw(($interval === 'overall' ? 'YEAR(date)' : ($interval === 'thisyear' || $interval === 'lastyear' ? 'DATE_FORMAT(date, "%Y-%m")' : 'date')) . " as period, $selectReportFields")
             ->groupBy(DB::raw($interval === 'overall' ? 'YEAR(date)' : ($interval === 'thisyear' || $interval === 'lastyear' ? 'DATE_FORMAT(date, "%Y-%m")' : 'date')))
             ->get()
             ->map(function ($item) use ($interval) {
                 $item->date = $this->formatDate($interval, $item->period);
                 return $item;
             });
-
+    
         // Ensure aggregation of overall data into one period
         if ($interval === 'overall') {
-            $chartdata = $chartdata->reduce(function ($carry, $item) use ($fields) {
+            $chartdata = $chartdata->reduce(function ($carry, $item) use ($reportFields) {
                 if (is_null($carry)) {
                     return $item;
                 }
-                foreach ($fields as $field) {
+                foreach ($reportFields as $field) {
                     $carry->$field += $item->$field;
                 }
                 return $carry;
             }, null);
-
+    
             $chartdata = collect([$chartdata]);
         } else {
             // Generate all dates within the interval
             $allDates = $this->generateDateRange($dates['start'], $dates['end'], $interval);
-
+    
             // Combine all dates with chart data, ensuring all dates are represented
-            $chartdata = collect($allDates)->map(function ($date) use ($chartdata, $interval, $fields) {
+            $chartdata = collect($allDates)->map(function ($date) use ($chartdata, $interval, $reportFields) {
                 $formattedDate = $this->formatDate($interval, $date);
                 $data = $chartdata->firstWhere('date', $formattedDate);
-
+    
                 $item = ['date' => $formattedDate];
-                foreach ($fields as $field) {
+                foreach ($reportFields as $field) {
                     $item[$field] = $data ? $data->$field : 0;
                 }
                 return (object) $item;
             });
         }
-
+    
         // Calculate totals and profit
         $totals = [];
-        foreach ($fields as $field) {
+        foreach ($reportFields as $field) {
             $totals["total" . ucfirst($field)] = $chartdata->sum($field);
         }
-
+    
         // Calculate profit if both sales and expenses fields are present
-        if (in_array('sales', $fields) && in_array('expenses', $fields)) {
+        if (in_array('sales', $reportFields) && in_array('expenses', $reportFields)) {
             $chartdata->each(function ($item) {
                 $item->profit = $item->sales - $item->expenses;
             });
             $totals['totalProfit'] = $chartdata->sum('profit');
         }
+    
+        // Fetch and aggregate chart data by category for order details
+        $chartCategoryData = KuwagoOneOrderDetails::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('kuwago_one_dishes', 'kuwago_one_order_details.dish_id', '=', 'kuwago_one_dishes.id')
+            ->join('kuwago_one_categories', 'kuwago_one_dishes.category_id', '=', 'kuwago_one_categories.category_id')
+            ->selectRaw('kuwago_one_categories.name as category, SUM(kuwago_one_order_details.pcs) as total_pcs')
+            ->groupBy('kuwago_one_categories.name')
+            ->get();
 
+         // Fetch and aggregate data for dishes
+        $dishData = KuwagoOneOrderDetails::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('kuwago_one_dishes', 'kuwago_one_order_details.dish_id', '=', 'kuwago_one_dishes.id')
+            ->selectRaw('kuwago_one_dishes.name as dish, SUM(kuwago_one_order_details.pcs) as total_pcs')
+            ->groupBy('kuwago_one_dishes.name')
+            ->get();
+
+        // Get the top 5 most sold dishes
+        $topDishes = $dishData->sortByDesc('total_pcs')->take(5);
+
+        // Get the bottom 5 least sold dishes
+        $bottomDishes = $dishData->sortBy('total_pcs')->take(5);
+    
         $actionRoute = route($view);
         $thisWeek = $this->getCurrentWeekData();
         $lastWeek = $this->getLastWeekData();
@@ -188,9 +214,9 @@ class Kuwago_OneController extends Controller
         $thisYear = $this->getCurrentYearData();
         $lastYear = $this->getLastYearData();
 
-        return view($view, array_merge(compact('actionRoute', 'chartdata'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
+        return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
     }
-
+    
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentWeekData()
     {

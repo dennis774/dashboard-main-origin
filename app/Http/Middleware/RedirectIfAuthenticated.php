@@ -15,7 +15,7 @@ class RedirectIfAuthenticated
             // return redirect('/home'); // Adjust the path as needed
             switch ($request->user()->role) {
                 case 'owner':
-                    return redirect('/kuwago-one');
+                    return redirect('/executive');
                 case 'general':
                     return redirect('/kuwago-one');
                 case 'kuwago':

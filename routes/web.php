@@ -7,6 +7,7 @@ use App\Http\Controllers\TargetSalesController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\BusinessInfoController;
 use App\Http\Controllers\BudgetAllocationController;
+use App\Http\Controllers\Executive\ExecutiveController;
 use App\Http\Controllers\Uddesign\UddesignController;
 use App\Http\Controllers\KuwagoOne\Kuwago_OneController;
 use App\Http\Controllers\KuwagoTwo\Kuwago_TwoController;
@@ -16,11 +17,11 @@ Route::get('/', function () {
     return view('auth.login');
 })->middleware('redirectIfAuthenticated')->name('login');
 
-Route::get('kuwago-one', [AccountController::class, 'navbar_index'])->name('general.kuwago-one.dashboard');
+// Route::get('kuwago-one', [AccountController::class, 'navbar_index'])->name('general.kuwago-one.dashboard');
 
-Route::get('kuwago-one', function () {
-    return view('general.kuwago-one.dashboard');
-})->middleware(['auth', 'verified'])->name('general.kuwago-one.dashboard');
+// Route::get('kuwago-one', function () {
+//     return view('general.kuwago-one.dashboard');
+// })->middleware(['auth', 'verified'])->name('general.kuwago-one.dashboard');
 
 Route::middleware(['auth', 'ensureUserIsAuthorized'])->group(function () {
     Route::get('settings/{id}', [UserAccountController::class, 'show'])->name('settings.account-show');
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:owner'])->group(function(){
+    Route::get('executive', [ExecutiveController::class, 'index'])->name('general.executive.index');
     Route::resource('account', AccountController::class);
     Route::resource('promos', PromoController::class);
     Route::resource('targetSales', TargetSalesController::class);

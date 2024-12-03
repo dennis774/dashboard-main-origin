@@ -53,9 +53,6 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <i class="fa-solid fa-money-bill"></i>
-                                            <p>{{ session('uddesign_api_token', 'No uddesign token found') }}</p>
-                                            <p>{{ session('kuwago_one_api_token', 'No kuwago-1 token found') }}</p>
-                                            <p>{{ session('kuwago_two_api_token', 'No kuwago-2 token found') }}</p>
                                             <p>Total Expenses</p>
                                             <p>₱{{ $totalExpenses }}</p>
                                         </div>

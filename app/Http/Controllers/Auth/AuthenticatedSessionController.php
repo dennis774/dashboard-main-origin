@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
         $url = "/kuwago-one";
 
         if ($request->user()->role === "owner") {
-            $url = "/kuwago-one";
+            $url = "/executive";
         } else if($request->user()->role === "general"){
             $url = "/kuwago-one";
         } else if($request->user()->role === "kuwago"){
