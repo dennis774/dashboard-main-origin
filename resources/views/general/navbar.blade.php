@@ -17,6 +17,7 @@
                                 Business
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="{{ route('general.executive.index') }}" data-name="Executive">Executive</a></li>
                                 <li><a class="dropdown-item" href="{{ url('/kuwago-one') }}" data-name="Kuwago Cafe 1">Kuwago Cafe 1</a></li>
                                 <li><a class="dropdown-item" href="{{ url('/kuwago-two') }}" data-name="Kuwago Cafe 2">Kuwago Cafe 2</a></li>
                                 <li><a class="dropdown-item" href="{{ url('/uddesign') }}" data-name="Uddesign">Uddesign</a></li>

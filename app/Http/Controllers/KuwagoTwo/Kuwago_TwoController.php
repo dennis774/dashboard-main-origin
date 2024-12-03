@@ -4,11 +4,12 @@ namespace App\Http\Controllers\KuwagoTwo;
 
 use App\Models\Promo;
 use App\Models\Feedback;
-use App\Models\FakeDataTwo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\KuwagoTwoReport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\KuwagoTwo\KuwagoTwoOrderDetails;
 
 class Kuwago_TwoController extends Controller
 {
@@ -21,7 +22,7 @@ class Kuwago_TwoController extends Controller
     // Handles the sales view for /kuwago-two/sales
     public function chart_sales_kuwago_two(Request $request)
     {
-        return $this->generateChartData($request, 'general.kuwago-two.sales', ['sales', 'cash', 'gcash']);
+        return $this->generateChartData($request, 'general.kuwago-two.sales', ['sales', 'cash', 'gcash','category', 'total_pcs']);
     }
 
     // Handles the expenses view for /kuwago-two/expenses
@@ -91,7 +92,7 @@ class Kuwago_TwoController extends Controller
                     'end' => Carbon::now()->subYear()->endOfYear(),
                 ];
             case 'overall':
-                return ['start' => Carbon::parse(FakeDataTwo::min('date')), 'end' => Carbon::parse(FakeDataTwo::max('date'))];
+                return ['start' => Carbon::parse(KuwagoTwoReport::min('date')), 'end' => Carbon::parse(KuwagoTwoReport::max('date'))];
             case 'custom':
                 return ['start' => Carbon::parse($request->input('start_date')), 'end' => Carbon::parse($request->input('end_date'))];
             default:
@@ -126,61 +127,85 @@ class Kuwago_TwoController extends Controller
         $interval = $request->input('interval', 'thisweek');
         $dates = $this->getDateRange($interval, $request);
         $selectFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $fields));
-
-        // Fetch and aggregate chart data
-        $chartdata = FakeDataTwo::whereBetween('date', [$dates['start'], $dates['end']])
-            ->selectRaw(($interval === 'overall' ? 'YEAR(date)' : ($interval === 'thisyear' || $interval === 'lastyear' ? 'DATE_FORMAT(date, "%Y-%m")' : 'date')) . " as period, $selectFields")
+    
+        // Fetch and aggregate chart data for reports (excluding category and total_pcs)
+        $reportFields = array_filter($fields, fn($field) => !in_array($field, ['category', 'total_pcs']));
+        $selectReportFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $reportFields));
+        
+        $chartdata = KuwagoTwoReport::whereBetween('date', [$dates['start'], $dates['end']])
+            ->selectRaw(($interval === 'overall' ? 'YEAR(date)' : ($interval === 'thisyear' || $interval === 'lastyear' ? 'DATE_FORMAT(date, "%Y-%m")' : 'date')) . " as period, $selectReportFields")
             ->groupBy(DB::raw($interval === 'overall' ? 'YEAR(date)' : ($interval === 'thisyear' || $interval === 'lastyear' ? 'DATE_FORMAT(date, "%Y-%m")' : 'date')))
             ->get()
             ->map(function ($item) use ($interval) {
                 $item->date = $this->formatDate($interval, $item->period);
                 return $item;
             });
-
-        // Ensure aggregation of overall data into one period
+    
+        // Ensure aggregation of overall data into two period
         if ($interval === 'overall') {
-            $chartdata = $chartdata->reduce(function ($carry, $item) use ($fields) {
+            $chartdata = $chartdata->reduce(function ($carry, $item) use ($reportFields) {
                 if (is_null($carry)) {
                     return $item;
                 }
-                foreach ($fields as $field) {
+                foreach ($reportFields as $field) {
                     $carry->$field += $item->$field;
                 }
                 return $carry;
             }, null);
-
+    
             $chartdata = collect([$chartdata]);
         } else {
             // Generate all dates within the interval
             $allDates = $this->generateDateRange($dates['start'], $dates['end'], $interval);
-
+    
             // Combine all dates with chart data, ensuring all dates are represented
-            $chartdata = collect($allDates)->map(function ($date) use ($chartdata, $interval, $fields) {
+            $chartdata = collect($allDates)->map(function ($date) use ($chartdata, $interval, $reportFields) {
                 $formattedDate = $this->formatDate($interval, $date);
                 $data = $chartdata->firstWhere('date', $formattedDate);
-
+    
                 $item = ['date' => $formattedDate];
-                foreach ($fields as $field) {
+                foreach ($reportFields as $field) {
                     $item[$field] = $data ? $data->$field : 0;
                 }
                 return (object) $item;
             });
         }
-
+    
         // Calculate totals and profit
         $totals = [];
-        foreach ($fields as $field) {
+        foreach ($reportFields as $field) {
             $totals["total" . ucfirst($field)] = $chartdata->sum($field);
         }
-
+    
         // Calculate profit if both sales and expenses fields are present
-        if (in_array('sales', $fields) && in_array('expenses', $fields)) {
+        if (in_array('sales', $reportFields) && in_array('expenses', $reportFields)) {
             $chartdata->each(function ($item) {
                 $item->profit = $item->sales - $item->expenses;
             });
             $totals['totalProfit'] = $chartdata->sum('profit');
         }
+    
+        // Fetch and aggregate chart data by category for order details
+        $chartCategoryData = KuwagoTwoOrderDetails::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('kuwago_two_dishes', 'kuwago_two_order_details.dish_id', '=', 'kuwago_two_dishes.id')
+            ->join('kuwago_two_categories', 'kuwago_two_dishes.category_id', '=', 'kuwago_two_categories.category_id')
+            ->selectRaw('kuwago_two_categories.name as category, SUM(kuwago_two_order_details.pcs) as total_pcs')
+            ->groupBy('kuwago_two_categories.name')
+            ->get();
 
+         // Fetch and aggregate data for dishes
+        $dishData = KuwagoTwoOrderDetails::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('kuwago_two_dishes', 'kuwago_two_order_details.dish_id', '=', 'kuwago_two_dishes.id')
+            ->selectRaw('kuwago_two_dishes.name as dish, SUM(kuwago_two_order_details.pcs) as total_pcs')
+            ->groupBy('kuwago_two_dishes.name')
+            ->get();
+
+        // Get the top 5 most sold dishes
+        $topDishes = $dishData->sortByDesc('total_pcs')->take(5);
+
+        // Get the bottom 5 least sold dishes
+        $bottomDishes = $dishData->sortBy('total_pcs')->take(5);
+    
         $actionRoute = route($view);
         $thisWeek = $this->getCurrentWeekData();
         $lastWeek = $this->getLastWeekData();
@@ -189,13 +214,13 @@ class Kuwago_TwoController extends Controller
         $thisYear = $this->getCurrentYearData();
         $lastYear = $this->getLastYearData();
 
-        return view($view, array_merge(compact('actionRoute', 'chartdata'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
+        return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
     }
 
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentWeekData()
     {
-        $currentWeekData = FakeDataTwo::whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
+        $currentWeekData = KuwagoTwoReport::whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
         return [
             'thisWeekSales' => $currentWeekData->sum('sales'),
             'thisWeekExpenses' => $currentWeekData->sum('expenses'),
@@ -207,7 +232,7 @@ class Kuwago_TwoController extends Controller
     // Gets the last week's data for sales, expenses, orders, and profit
     private function getLastWeekData()
     {
-        $lastWeekData = FakeDataTwo::whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(),Carbon::now()->subWeek()->endOfWeek(),])->get();
+        $lastWeekData = KuwagoTwoReport::whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(),Carbon::now()->subWeek()->endOfWeek(),])->get();
         return [
             'lastWeekSales' => $lastWeekData->sum('sales'),
             'lastWeekExpenses' => $lastWeekData->sum('expenses'),
@@ -218,7 +243,7 @@ class Kuwago_TwoController extends Controller
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentMonthData()
     {
-        $currentMonthData = FakeDataTwo::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
+        $currentMonthData = KuwagoTwoReport::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
         return [
             'thisMonthSales' => $currentMonthData->sum('sales'),
             'thisMonthExpenses' => $currentMonthData->sum('expenses'),
@@ -230,7 +255,7 @@ class Kuwago_TwoController extends Controller
     // Gets the last week's data for sales, expenses, orders, and profit
     private function getLastMonthData()
     {
-        $lastMonthData = FakeDataTwo::whereBetween('date', [Carbon::now()->subMonth()->startOfMonth(),Carbon::now()->subMonth()->endOfMonth(),])->get();
+        $lastMonthData = KuwagoTwoReport::whereBetween('date', [Carbon::now()->subMonth()->startOfMonth(),Carbon::now()->subMonth()->endOfMonth(),])->get();
         return [
             'lastMonthSales' => $lastMonthData->sum('sales'),
             'lastMonthExpenses' => $lastMonthData->sum('expenses'),
@@ -241,7 +266,7 @@ class Kuwago_TwoController extends Controller
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentYearData()
     {
-        $currentYearData = FakeDataTwo::whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
+        $currentYearData = KuwagoTwoReport::whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
         return [
             'thisYearSales' => $currentYearData->sum('sales'),
             'thisYearExpenses' => $currentYearData->sum('expenses'),
@@ -253,7 +278,7 @@ class Kuwago_TwoController extends Controller
     // Gets the last week's data for sales, expenses, orders, and profit
     private function getLastYearData()
     {
-        $lastYearData = FakeDataTwo::whereBetween('date', [Carbon::now()->subYear()->startOfYear(),Carbon::now()->subYear()->endOfYear(),])->get();
+        $lastYearData = KuwagoTwoReport::whereBetween('date', [Carbon::now()->subYear()->startOfYear(),Carbon::now()->subYear()->endOfYear(),])->get();
         return [
             'lastYearSales' => $lastYearData->sum('sales'),
             'lastYearExpenses' => $lastYearData->sum('expenses'),

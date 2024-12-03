@@ -10,11 +10,7 @@
                 </a>
             </div>
             <div class="col-lg-8 mt-4 mb-5">
-                @if ($user->role == 'owner')
-                <h3 style="">Edit My Account</h3>
-                @else
-                <h3 style="">Edit User Account</h3>
-                @endif
+                <h3>Edit My Account</h3>
             </div>
             <div class="col-lg-2 mt-4"></div>
         </div>

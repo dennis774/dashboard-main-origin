@@ -27,11 +27,29 @@
                     </div>
                 </div>
                 <div class="col-lg-3 d-flex justify-content-center align-items-center">
-                    <form action="{{ route('refresh.data') }}" method="GET">
-                        <button type="submit" class="btn btn-link  px-2 refreshButton" style="color: #007bff;">
-                            <i class="fas fa-sync-alt fa-lg refreshIcon"></i>
-                        </button>
-                    </form>
+                    @if(request()->routeIs(['general.uddesign.dashboard', 'general.uddesign.sales', 'general.uddesign.expenses']))
+                        <form action="{{ route('refresh.data', ['type' => 'uddesign']) }}" method="GET">
+                            <button type="submit" class="btn btn-link px-2 refreshButton" style="color: #007bff;">
+                                <i class="fas fa-sync-alt fa-lg refreshIcon"></i>
+                            </button>
+                        </form>
+                    @endif
+
+                    @if(request()->routeIs(['general.kuwago-one.dashboard', 'general.kuwago-one.sales', 'general.kuwago-one.expenses']))
+                        <form action="{{ route('refresh.data', ['type' => 'kuwago_one']) }}" method="GET">
+                            <button type="submit" class="btn btn-link px-2 refreshButton" style="color: #007bff;">
+                                <i class="fas fa-sync-alt fa-lg refreshIcon"></i>
+                            </button>
+                        </form>
+                    @endif
+                    
+                    @if(request()->routeIs(['general.kuwago-two.dashboard', 'general.kuwago-two.sales', 'general.kuwago-two.expenses']))
+                        <form action="{{ route('refresh.data', ['type' => 'kuwago_two']) }}" method="GET">
+                            <button type="submit" class="btn btn-link px-2 refreshButton" style="color: #007bff;">
+                                <i class="fas fa-sync-alt fa-lg refreshIcon"></i>
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

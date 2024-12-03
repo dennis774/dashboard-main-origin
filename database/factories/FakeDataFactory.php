@@ -22,7 +22,7 @@ class FakeDataFactory extends Factory
             'gcash' => $gcash = fake()->numberBetween(2500, 5000),
             'sales' => $cash + $gcash,
             'expenses' => fake()->numberBetween(1000, 5000),
-            'date' => fake()->dateTimeBetween('2024-01-01', '2024-11-30')->format('Y-m-d')
+            'date' => fake()->dateTimeBetween('2023-01-01', '2024-11-30')->format('Y-m-d')
         ];
         
     }

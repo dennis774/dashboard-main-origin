@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chart_data', function (Blueprint $table) {
+        Schema::create('uddesign_print_details', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->float('cash')->nullable();
-            $table->float('gcash')->nullable();
-            $table->float('total_remittance');
+            $table->foreignId('print_type_id');
+            $table->integer('pcs');
             $table->date('date');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chart_data');
+        Schema::dropIfExists('uddesign_print_details');
     }
 };

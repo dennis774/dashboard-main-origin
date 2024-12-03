@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Uddesign;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FakeDataThree extends Model
+class UddesignPrintType extends Model
 {
     use HasFactory;
-    
-    protected $guarded = [];
+    protected $guarded =[];
 }

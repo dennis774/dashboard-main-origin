@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        FakeData::factory()->Count(1000)->create();
+        FakeData::factory()->Count(731)->create();
         // FakeDataThree::factory()->Count(1000)->create();
-        FakeDataTwo::factory()->Count(1000)->create();
+        // FakeDataTwo::factory()->Count(1000)->create();
     }
 }

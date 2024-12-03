@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fake_data', function (Blueprint $table) {
+        Schema::create('kuwago_two_dishes', function (Blueprint $table) {
             $table->id();
-            $table->float('orders');
-            $table->float('expenses');
-            $table->float('cash');
-            $table->float('gcash');
-            $table->float('sales');
-            $table->date('date');
+            $table->integer('dish_id'); // Unique integer identifier
+            $table->integer('category_id'); // Unique integer identifier
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fake_data');
+        Schema::dropIfExists('kuwago_two_dishes');
     }
 };

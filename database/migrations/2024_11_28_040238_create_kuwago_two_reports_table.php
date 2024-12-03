@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fake_data_threes', function (Blueprint $table) {
+        Schema::create('kuwago_two_reports', function (Blueprint $table) {
             $table->id();
+            $table->float('orders');
             $table->float('cash');
             $table->float('gcash');
-            $table->float('print_sales');
-            $table->float('merch_sales');
-            $table->float('custom_sales');
-            $table->float('total_sales');
-            $table->float('print_expenses');
-            $table->float('merch_expenses');
-            $table->float('custom_expenses');
-            $table->float('total_expenses');
+            $table->float('sales');
+            $table->float('expenses');
             $table->date('date');
             $table->timestamps();
         });
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fake_data_threes');
+        Schema::dropIfExists('kuwago_two_reports');
     }
 };

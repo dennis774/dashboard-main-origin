@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fake_data_twos', function (Blueprint $table) {
+        Schema::create('uddesign_merch_details', function (Blueprint $table) {
             $table->id();
-            $table->float('orders');
-            $table->float('expenses');
-            $table->float('cash');
-            $table->float('gcash');
-            $table->float('sales');
+            $table->foreignId('merch_type_id');
+            $table->integer('pcs');
             $table->date('date');
             $table->timestamps();
         });
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fake_data_twos');
+        Schema::dropIfExists('uddesign_merch_details');
     }
 };
