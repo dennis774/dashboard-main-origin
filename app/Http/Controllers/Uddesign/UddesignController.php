@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Uddesign;
 
-use App\Models\UddesignFeedback;
 use App\Models\Deal;
 use Illuminate\Http\Request;
 use App\Models\UddesignReport;
 use Illuminate\Support\Carbon;
+use App\Models\UddesignFeedback;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Uddesign\UddesignOrderDetails;
+use App\Models\Uddesign\UddesignMerchDetail;
+use App\Models\Uddesign\UddesignPrintDetail;
 
 class UddesignController extends Controller
 {
@@ -22,8 +23,10 @@ class UddesignController extends Controller
         
         $interval = $request->input('interval', 'thisweek');
         $groupByField = $this->getGroupByField($interval);
-        $chartdata = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
-    
+        $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
+
+        $chartdata = $data['chartdata'];
+
         $chartdata = $chartdata->map(function ($item) {
             $item->total_profit = $item->total_sales - $item->total_expenses;
             $item->print_profit = $item->print_sales - $item->print_expenses;
@@ -31,29 +34,29 @@ class UddesignController extends Controller
             $item->custom_profit = $item->custom_sales - $item->custom_expenses;
             return $item;
         });
-    
+
         $totalPrintSales = $chartdata->sum('print_sales');
         $totalPrintProfit = $chartdata->sum('print_profit');
         $totalPrintExpenses = $chartdata->sum('print_expenses');
-    
+
         $totalMerchSales = $chartdata->sum('merch_sales');
         $totalMerchProfit = $chartdata->sum('merch_profit');
         $totalMerchExpenses = $chartdata->sum('merch_expenses');
-    
+
         $totalCustomSales = $chartdata->sum('custom_sales');
         $totalCustomProfit = $chartdata->sum('custom_profit');
         $totalCustomExpenses = $chartdata->sum('custom_expenses');
-    
+
         $totalSales = $chartdata->sum('total_sales');
         $totalProfit = $chartdata->sum('total_profit');
         $totalExpenses = $chartdata->sum('total_expenses');
-    
+
         $actionRoute = route('general.uddesign.dashboard');
         $totals = compact('totalSales', 'totalProfit', 'totalExpenses');
         $print = compact('totalPrintSales', 'totalPrintProfit', 'totalPrintExpenses');
         $merch = compact('totalMerchSales', 'totalMerchProfit', 'totalMerchExpenses');
         $custom = compact('totalCustomSales', 'totalCustomProfit', 'totalCustomExpenses');
-    
+
         return view('general.uddesign.dashboard', array_merge(
             compact('actionRoute', 'chartdata'), 
             $totals,
@@ -62,6 +65,29 @@ class UddesignController extends Controller
             $custom
         ));
     }
+
+    // public function chart_sales_uddesign(Request $request)
+    // {
+    //     $fields = [
+    //         'total_sales', 'print_sales', 'merch_sales', 'custom_sales',
+    //         'gcash', 'cash'
+    //     ];
+        
+    //     $interval = $request->input('interval', 'thisweek');
+    //     $groupByField = $this->getGroupByField($interval);
+    //     $chartdata = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
+    
+    //     $totalSales = $chartdata->sum('total_sales');
+    //     $totalPrintSales = $chartdata->sum('print_sales');
+    //     $totalMerchSales = $chartdata->sum('merch_sales');
+    //     $totalCustomSales = $chartdata->sum('custom_sales');
+    //     $totalGcash = $chartdata->sum('gcash');
+    //     $totalCash = $chartdata->sum('cash');
+    
+    //     $actionRoute = route('general.uddesign.sales');
+    
+    //     return view('general.uddesign.sales', compact('chartdata', 'totalSales', 'totalPrintSales', 'totalMerchSales', 'totalCustomSales', 'totalGcash', 'totalCash', 'actionRoute'));
+    // }
 
     public function chart_sales_uddesign(Request $request)
     {
@@ -72,18 +98,23 @@ class UddesignController extends Controller
         
         $interval = $request->input('interval', 'thisweek');
         $groupByField = $this->getGroupByField($interval);
-        $chartdata = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
-    
+        $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
+        
+        $chartdata = $data['chartdata'];
+        $printCategoryData = $data['printCategoryData'];
+        $chartCategoryData = $data['chartCategoryData'];
+        $topMerches = $data['topMerches'];
+
         $totalSales = $chartdata->sum('total_sales');
         $totalPrintSales = $chartdata->sum('print_sales');
         $totalMerchSales = $chartdata->sum('merch_sales');
         $totalCustomSales = $chartdata->sum('custom_sales');
         $totalGcash = $chartdata->sum('gcash');
         $totalCash = $chartdata->sum('cash');
-    
+
         $actionRoute = route('general.uddesign.sales');
-    
-        return view('general.uddesign.sales', compact('chartdata', 'totalSales', 'totalPrintSales', 'totalMerchSales', 'totalCustomSales', 'totalGcash', 'totalCash', 'actionRoute'));
+
+        return view('general.uddesign.sales', compact('chartdata', 'totalSales', 'totalPrintSales', 'totalMerchSales', 'totalCustomSales', 'totalGcash', 'totalCash', 'actionRoute', 'printCategoryData', 'chartCategoryData', 'topMerches'));
     }
 
     public function chart_expenses_uddesign(Request $request)
@@ -94,18 +125,58 @@ class UddesignController extends Controller
         
         $interval = $request->input('interval', 'thisweek');
         $groupByField = $this->getGroupByField($interval);
-        $chartdata = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
-
+        $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
+    
+        $chartdata = $data['chartdata'];
+    
         $totalExpenses = $chartdata->sum('total_expenses');
         $totalPrintExpenses = $chartdata->sum('print_expenses');
         $totalMerchExpenses = $chartdata->sum('merch_expenses');
         $totalCustomExpenses = $chartdata->sum('custom_expenses');
-
+    
         $actionRoute = route('general.uddesign.expenses');
-
+    
         return view('general.uddesign.expenses', compact('actionRoute', 'chartdata', 'totalExpenses', 'totalPrintExpenses', 'totalMerchExpenses', 'totalCustomExpenses'));
     }
+    
 
+
+    // private function generateChartData(Request $request, array $fields, $groupByField, $model)
+    // {
+    //     $interval = $request->input('interval', 'thisweek');
+    //     $dates = $this->getDateRange($interval, $request);
+        
+    //     $selectFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $fields));
+    //     $chartDataQuery = $model::whereBetween('date', [$dates['start'], $dates['end']])
+    //         ->selectRaw("$groupByField as period, $selectFields")
+    //         ->groupBy('period');
+
+    //     $chartdata = $chartDataQuery->get()
+    //         ->map(function ($item) use ($interval) {
+    //             $item->date = $this->formatDate($interval, $item->period);
+    //             return $item;
+    //         });
+        
+    //                 // Fetch and aggregate chart data by category for order details
+    //     $chartCategoryData = UddesignMerchDetail::whereBetween('date', [$dates['start'], $dates['end']])
+    //     ->join('kuwago_two_dishes', 'kuwago_two_order_details.dish_id', '=', 'kuwago_two_dishes.id')
+    //     ->join('kuwago_two_categories', 'kuwago_two_dishes.category_id', '=', 'kuwago_two_categories.category_id')
+    //     ->selectRaw('kuwago_two_categories.name as category, SUM(kuwago_two_order_details.pcs) as total_pcs')
+    //     ->groupBy('kuwago_two_categories.name')
+    //     ->get();
+
+    //     // Fetch and aggregate data for dishes
+    //     $dishData = UddesignMerchDetail::whereBetween('date', [$dates['start'], $dates['end']])
+    //         ->join('kuwago_two_dishes', 'kuwago_two_order_details.dish_id', '=', 'kuwago_two_dishes.id')
+    //         ->selectRaw('kuwago_two_dishes.name as dish, SUM(kuwago_two_order_details.pcs) as total_pcs')
+    //         ->groupBy('kuwago_two_dishes.name')
+    //         ->get();
+
+    //     // Get the top 5 most sold dishes
+    //     $topDishes = $dishData->sortByDesc('total_pcs')->take(5);
+
+    //     return $chartdata;
+    // }
 
     private function generateChartData(Request $request, array $fields, $groupByField, $model)
     {
@@ -123,8 +194,40 @@ class UddesignController extends Controller
                 return $item;
             });
 
-        return $chartdata;
+        // Fetch and aggregate chart data by category for order details
+        $printCategoryData = UddesignPrintDetail::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('uddesign_print_types', 'uddesign_print_details.print_type_id', '=', 'uddesign_print_types.print_type_id')
+            ->join('uddesign_print_categories', 'uddesign_print_types.print_category_id', '=', 'uddesign_print_categories.print_category_id')
+            ->selectRaw('uddesign_print_categories.name as printcategory, SUM(uddesign_print_details.pcs) as total_pcs')
+            ->groupBy('uddesign_print_categories.name')
+            ->get();
+
+        // Fetch and aggregate chart data by category for order details
+        $chartCategoryData = UddesignMerchDetail::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('uddesign_merch_types', 'uddesign_merch_details.merch_type_id', '=', 'uddesign_merch_types.merch_type_id')
+            ->join('uddesign_merch_categories', 'uddesign_merch_types.merch_category_id', '=', 'uddesign_merch_categories.merch_category_id')
+            ->selectRaw('uddesign_merch_categories.name as merchcategory, SUM(uddesign_merch_details.pcs) as total_pcs')
+            ->groupBy('uddesign_merch_categories.name')
+            ->get();
+
+        // Fetch and aggregate data for merches
+        $merchData = UddesignMerchDetail::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('uddesign_merch_types', 'uddesign_merch_details.merch_type_id', '=', 'uddesign_merch_types.merch_type_id')
+            ->selectRaw('uddesign_merch_types.name as merch, SUM(uddesign_merch_details.pcs) as total_pcs')
+            ->groupBy('uddesign_merch_types.name')
+            ->get();
+
+        // Get the top 5 most sold merches
+        $topMerches = $merchData->sortByDesc('total_pcs')->take(5);
+
+        return [
+            'chartdata' => $chartdata,
+            'printCategoryData' => $printCategoryData,
+            'chartCategoryData' => $chartCategoryData,
+            'topMerches' => $topMerches
+        ];
     }
+
 
     private function getGroupByField($interval)
     {

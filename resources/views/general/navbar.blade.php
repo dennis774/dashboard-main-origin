@@ -26,22 +26,43 @@
                     </div>
                 </div>
                 <div class="col-lg-4 d-flex justify-content-center align-items-center">
+                    
+                @if (Auth::check() && Auth::user()->role == 'owner')
+                    <div>
+                        <a href="{{ url('/business') }}" class="mx-2"><i class="fa-solid fa-store"></i></a>
+                        <a href="{{ route('targetSales.index') }}" class="mx-2"><i class="fa-solid fa-crosshairs"></i></a>
+                        <a href="{{ url('/account') }}" class="mx-2"><i class="fa-solid fa-user"></i></a>
+                        <a href="{{ route('settings.account-show', ['id' => Auth::user()->id]) }}" class="mx-2"><i class="fa-solid fa-gear"></i></a>
+                        @if (Auth::check())
+                            <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            </a>
+                            
+                            <!-- Logout Form -->
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        @endif
+                    </div>
+                @else
+                    <!-- Show something else -->
                     <div>
                         <a href="{{url('/business')}}" class="mx-2"><i class="fa-solid fa-store"></i></a>
                         <a href="{{ route('targetSales.index') }}" class="mx-2"><i class="fa-solid fa-crosshairs"></i></a>
-                        <a href="{{url('/account')}}" class="mx-2"><i class="fa-solid fa-user"></i></a>
                         <a href="{{ route('settings.account-show', ['id' => Auth::user()->id]) }}" class="mx-2"><i class="fa-solid fa-gear"></i></a>        
                         @if (Auth::check())
-                        <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                          </a>
-                          
-                          <!-- Logout Form -->
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                          </form>
+                            <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            </a>
+                            
+                            <!-- Logout Form -->
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         @endif
                     </div>
+                @endif
+
                 </div>
             </div>
         </div>

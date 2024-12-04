@@ -241,6 +241,7 @@ class Kuwago_OneController extends Controller
             'lastWeekProfit' => $lastWeekData->sum('sales') - $lastWeekData->sum('expenses'),
         ];
     }
+    
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentMonthData()
     {
@@ -264,6 +265,7 @@ class Kuwago_OneController extends Controller
             'lastMonthProfit' => $lastMonthData->sum('sales') - $lastMonthData->sum('expenses'),
         ];
     }
+
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentYearData()
     {
@@ -290,28 +292,28 @@ class Kuwago_OneController extends Controller
 
     
     public function showFeedbacks()
-{
-    $feedback = Feedback::orderBy('feedback_date', 'desc')->get();
-    $averageRating = $feedback->avg('rating');
+    {
+        $feedback = Feedback::orderBy('feedback_date', 'desc')->get();
+        $averageRating = $feedback->avg('rating');
 
-    // Calculate rating counts
-    $ratingCounts = [
-        1 => $feedback->where('rating', 1)->count(),
-        2 => $feedback->where('rating', 2)->count(),
-        3 => $feedback->where('rating', 3)->count(),
-        4 => $feedback->where('rating', 4)->count(),
-        5 => $feedback->where('rating', 5)->count(),
-    ];
+        // Calculate rating counts
+        $ratingCounts = [
+            1 => $feedback->where('rating', 1)->count(),
+            2 => $feedback->where('rating', 2)->count(),
+            3 => $feedback->where('rating', 3)->count(),
+            4 => $feedback->where('rating', 4)->count(),
+            5 => $feedback->where('rating', 5)->count(),
+        ];
 
-    return view('general.kuwago-one.feedbacks', compact('feedback', 'averageRating', 'ratingCounts'));
-}
+        return view('general.kuwago-one.feedbacks', compact('feedback', 'averageRating', 'ratingCounts'));
+    }
 
-public function kuwagoOnepromos(Request $request)
-{
-    $sort = $request->get('sort', 'newest');
-    $promos = Promo::orderBy('created_at', $sort === 'newest' ? 'desc' : 'asc')->get();
+    public function kuwagoOnepromos(Request $request)
+    {
+        $sort = $request->get('sort', 'newest');
+        $promos = Promo::orderBy('created_at', $sort === 'newest' ? 'desc' : 'asc')->get();
 
-    return view('general.kuwago-one.promos', compact('promos'));
-}
+        return view('general.kuwago-one.promos', compact('promos'));
+    }
 
 }
