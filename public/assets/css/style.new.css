@@ -1,0 +1,1518 @@
+/* NAV BAR CSS */
+.text-greeting {
+    font-family: "Helvetica Now Text";
+    font-weight: 400;
+    font-size: calc(1.1vw);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.nav-row {
+    width: 77%;
+    background-color: transparent;
+    backdrop-filter: blur(20px) brightness(70%);
+    border: 1px solid rgba(255, 255, 255, 0.311);
+    z-index: 2;
+}
+
+ion-icon .chevron-down-outline {
+    font-size: clamp(0.5rem, 2vw, 25px);
+    color: white;
+    vertical-align: middle;
+}
+
+.dropdown-arrow {
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+}
+
+button[aria-expanded="true"] .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-business-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--nav-dropdown-bg-image, url("../images/k1-bg-img.png"))
+        no-repeat center center fixed;
+    background-size: cover;
+    z-index: -1;
+    border-radius: 20px;
+    background-position: center;
+    filter: var(--dropdown-filter, blur(20px) brightness(130%) contrast(90%));
+}
+
+.dropdown-business-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: clamp(0.7rem, 1.8vw, 1.1rem);
+    letter-spacing: 2px;
+    border: 1px solid white;
+    white-space: nowrap;
+    text-align: center;
+    max-width: 95%;
+    width: 95%;
+    backdrop-filter: blur(20px) brightness(80%);
+    background-color: transparent;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.dropdown-business-btn:hover {
+    color: white !important;
+    border: 1px solid white;
+}
+
+.dropdown-business-btn:focus,
+.dropdown-business-btn:active,
+.dropdown-business-btn:nth-child(1) {
+    color: white !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.dropdown-business-menu {
+    position: absolute;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    text-align: center !important;
+    width: 85%;
+    font-size: clamp(0.7rem, 1.8vw, 1.1rem);
+    background-color: var(--nav-dropdown-menu, rgba(61, 39, 22, 0.8));
+    border: 1px solid white;
+    border-top: 0px;
+}
+
+.business-item.active {
+    background-color: var(--nav-dropdown-active, rgb(182, 119, 71));
+}
+
+.business-item:hover {
+    background-color: var(--nav-dropdown-hover, rgb(43, 27, 15));
+}
+
+.navbar-toggler {
+    height: 40px !important;
+    padding-inline: 10px;
+}
+
+.navbar-toggler:hover {
+    color: white !important;
+    border: 1px solid white;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler:nth-child(1) {
+    color: white !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.dropdown-menu-end[data-bs-popper] {
+    position: absolute;
+    right: inherit;
+    margin-top: 0;
+    text-align: center !important;
+    min-width: 12% !important;
+    background-color: rgba(61, 39, 22, 0.8);
+    border: 1px solid white;
+    border-top: 0px;
+}
+
+.dropdown-list {
+    text-align: center !important;
+}
+
+.dropdown-nav-item {
+    text-align: center !important;
+}
+/* END NAV BAR CSS */
+
+/* COMMON MODAL STYLES CSS */
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-date-label {
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+}
+
+.modal-date-button {
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+}
+/* END COMMON MODAL STYLES CSS */
+
+/* KUWAGO 1 SIDE BAR CSS */
+.nav-item-icon a.active {
+    background-color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.nav-item-icon a.active img {
+    filter: invert(100%) brightness(0%);
+}
+
+.nav-item-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* END KUWAGO 1 SIDE BAR CSS */
+
+/* BOTTOM NAV BAR */
+
+.bottom-nav-row {
+    width: 57%;
+    height: 55px;
+    border-radius: 23px;
+    background-color: transparent;
+    backdrop-filter: blur(20px) brightness(80%);
+    border: 1px solid rgba(255, 255, 255, 0.311);
+    z-index: 2;
+}
+
+.date-filter-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: clamp(0.7rem, 1.8vw, 1.1rem);
+    letter-spacing: 2px;
+    white-space: nowrap;
+    text-align: center;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.date-filter-btn:hover {
+    color: white !important;
+}
+
+.date-filter-btn:focus,
+.date-filter-btn:active,
+.date-filter-btn:nth-child(1) {
+    color: white !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border: none;
+}
+
+.date-dropdown-menu {
+    position: absolute;
+    left: 45% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    text-align: center !important;
+    width: 75%;
+    font-family: "Poppins";
+    font-size: clamp(0.7rem, 1.7vw, 0.95rem);
+    letter-spacing: 1.5px;
+    background-color: var(--date-dropdown-menu, rgba(61, 39, 22, 0.8));
+    border: 1px solid white;
+    border-bottom: 0px;
+}
+
+.date-item:hover {
+    background-color: var(--date-dropdown-hover, rgb(43, 27, 15));
+}
+
+.date-item.active {
+    background-color: var(--date-dropdown-active, rgb(182, 119, 71));
+}
+
+.dropup .dropdown-toggle::after {
+    display: none;
+}
+
+.date-dropdown-arrow {
+    font-size: clamp(0.5rem, 2vw, 25px);
+    color: white;
+    vertical-align: middle;
+}
+
+.date-dropdown-arrow {
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+}
+
+button[aria-expanded="true"] .date-dropdown-arrow {
+    transform: rotate(180deg);
+}
+/* END BOTTOM NAV BAR */
+
+div.side-bar {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    transition: width 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+div.contents {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+div.card-box {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    height: 105px;
+    width: 98%;
+}
+div.card-boxChart {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.footer {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 40px;
+}
+
+.modal-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contents {
+    background: #333;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    color: #fff; /* Change text color to white */
+}
+
+.modal-content h5 {
+    margin-bottom: 20px;
+}
+
+.modal-content .form-label {
+    color: #fff; /* Make the label color white */
+}
+
+.modal-content input[type="date"] {
+    color: #000; /* Set input text color to black for visibility */
+}
+
+/* body,
+html {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+} */
+
+* {
+    box-sizing: border-box;
+}
+
+/* body {
+
+    background-image: url("https://t4.ftcdn.net/jpg/07/94/30/45/360_F_794304521_O4o0Y5UrvKtDxBNHY9utMowV2VhuhRpk.jpg");
+    backdrop-filter: blur(15px);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+} */
+
+/* Style for icons */
+i {
+    color: #ffffff;
+}
+/* Style for User Accounts */
+.account-page h3,
+.account-page span,
+.account-page p,
+.account-page label {
+    color: #ffffff;
+}
+
+.account-page .delete-button button {
+    padding: 0;
+}
+.account-page span {
+    font-size: x-large;
+    margin-left: 10px;
+}
+
+.account-page img {
+    border: 2px solid #ffffff;
+    border-radius: 100%;
+}
+
+/* Style for TopBar */
+.nav-bar img {
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+}
+
+/* business style */
+
+.businessesCard {
+    background-color: #fff; /* Sets a white background for the container */
+    padding: 20px; /* Optional: Adds padding */
+    border-radius: 10px; /* Optional: Rounds the corners */
+}
+div.businessName {
+    font-weight: bold;
+}
+img.logos {
+    width: 70px;
+    height: 70px;
+}
+
+img.businesses {
+    width: 200px;
+    height: 125px;
+    border-radius: 10px;
+}
+
+p.businessSections {
+    font-weight: bold;
+}
+input.editBusiness {
+    color: #000;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+textarea.businessIndexDesc {
+    height: 100px;
+    width: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border: none;
+}
+
+textarea.businessIndexDesc::-webkit-scrollbar {
+    display: none;
+}
+button.updateBusiness {
+    background: none;
+    border: none;
+    font-size: 20px;
+}
+
+a.backtoIndex {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+/*  */
+
+a.addBusinessbutton {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+.businessesCard {
+    background-color: #fff; /* Sets a white background for the container */
+    padding: 20px; /* Optional: Adds padding */
+    border-radius: 10px; /* Optional: Rounds the corners */
+}
+div.businessName {
+    font-weight: bold;
+}
+img.logos {
+    width: 70px;
+    height: 70px;
+}
+img.businesses {
+    width: 200px;
+    height: 125px;
+    border-radius: 10px;
+}
+p.businessSections {
+    font-weight: bold;
+}
+div.businessIndexDesc {
+    height: 90px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+div.businessIndexDesc::-webkit-scrollbar {
+    display: none;
+}
+button.businessDelete {
+    color: #000;
+    font-size: 20px;
+    text-decoration: none;
+    border: none;
+    background: none;
+}
+
+/* UDDESIGN STYLES */
+
+.uddesign-total-text {
+    font-family: "Helvetica Now Text", sans-serif;
+    font-size: clamp(1.3rem, 1.6vw, 2rem);
+    font-weight: bold;
+    letter-spacing: 0.1px;
+    vertical-align: middle;
+}
+
+.uddesign-side-text {
+    font-family: "Poppins";
+    font-size: clamp(0.75rem, 1.6vw, 0.7rem);
+    font-weight: normal;
+    letter-spacing: 1px;
+    vertical-align: middle;
+}
+
+.uddesign-right-title {
+    font-family: "Helvetica Now Text", sans-serif;
+    font-size: clamp(0.75rem, 1.6vw, 1.1rem);
+    font-weight: normal;
+    letter-spacing: 0.1px;
+    vertical-align: middle;
+}
+
+/* END UDDESIGN STYLES */
+
+/* KUWAGO 1 MAIN DASHBOARD */
+.dashboards-body {
+    background: url("/assets/images/k1-bg-img.png") no-repeat center center
+        fixed;
+    background-size: cover;
+    max-height: 100vh;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Now Text";
+    position: relative;
+}
+
+.db-container {
+    position: relative;
+}
+
+.dashboard-side-nav {
+    position: absolute;
+    left: 0;
+    height: 315px;
+    width: 65px;
+    margin-inline: 8px;
+    background-color: transparent;
+    backdrop-filter: blur(20px) brightness(80%);
+    border: 1px solid rgba(255, 255, 255, 0.311);
+}
+
+.dashboard-panel {
+    height: 530px;
+    width: 88%;
+    margin: 0;
+    background-color: transparent;
+    backdrop-filter: blur(20px) brightness(55%);
+    border: 1px solid rgba(255, 255, 255, 0.311);
+}
+
+.compare-text {
+    font-family: "Helvetica Now Text";
+    font-size: clamp(0.75rem, 1.5vw, 1.2rem);
+    letter-spacing: 2px;
+}
+
+.dashboard-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--db-card-bg-image, url("../images/k1-bg-img.png"))
+        no-repeat center center fixed;
+    z-index: -1;
+    border-radius: 20px;
+    background-position: center;
+    filter: var(--db-card-filter, blur(30px) brightness(130%));
+}
+
+.dashboard-card {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: clamp(0.7rem, 1.8vw, 1.1rem);
+    letter-spacing: 2px;
+    border: 0.001rem solid rgba(255, 255, 255, 0.311);
+    white-space: nowrap;
+    text-align: center;
+    max-width: 100%;
+    width: 100%;
+    backdrop-filter: blur(20px) brightness(80%);
+    background-color: transparent;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.db-card-title {
+    font-family: "Helvetica Now Text";
+    font-size: clamp(0.75rem, 1.5vw, 1rem);
+    font-weight: normal;
+    letter-spacing: 0.1px;
+    vertical-align: middle;
+}
+
+.dashboard-total-text {
+    font-family: "Helvetica Now Text", sans-serif;
+    font-size: clamp(1.3rem, 1.6vw, 2.5rem);
+    font-weight: bold;
+    letter-spacing: 0.1px;
+    vertical-align: middle;
+}
+
+.left-filter-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+    letter-spacing: 2px;
+    white-space: nowrap;
+    text-align: center;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.left-filter-btn:hover {
+    color: white !important;
+}
+
+.left-filter-btn:focus,
+.left-filter-btn:active,
+.left-filter-btn:nth-child(1) {
+    color: white !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border: none;
+}
+
+.left-dropdown-arrow {
+    font-size: clamp(0.5rem, 2vw, 20px);
+    color: white;
+    vertical-align: middle;
+}
+
+.left-dropdown-arrow {
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+}
+
+.left-dropdown-arrow.active {
+    transform: rotate(180deg);
+}
+
+.left-dropdown-menu {
+    position: absolute;
+    top: 60%;
+    left: 8.5% !important;
+    /* transform: translateX(-50%) !important; */
+    text-align: center !important;
+    width: 75%;
+    font-family: "Poppins";
+    font-size: clamp(0.5rem, 1.7vw, 0.58rem);
+    letter-spacing: 1px;
+    background-color: rgba(61, 39, 22, 0.9);
+    border: 1px solid white;
+    border-top: 0px;
+}
+
+.db-compare-text {
+    font-family: "Poppins";
+    font-size: clamp(0.5rem, 1.7vw, 0.75rem);
+    letter-spacing: 1.7px;
+    color: white;
+}
+
+.left-date-option {
+    display: none;
+}
+
+.left-date-item:hover {
+    background-color: rgba(43, 27, 15, 1);
+    align-items: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.right-filter-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+    letter-spacing: 2px;
+    white-space: nowrap;
+    text-align: center;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.right-filter-btn:hover {
+    color: white !important;
+}
+
+.right-filter-btn:focus,
+.right-filter-btn:active,
+.right-filter-btn:nth-child(1) {
+    color: white !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border: none;
+}
+
+.right-dropdown-arrow {
+    font-size: clamp(0.5rem, 2vw, 20px);
+    color: white;
+    vertical-align: middle;
+}
+
+.right-dropdown-arrow {
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+}
+
+.right-dropdown-arrow.active {
+    transform: rotate(180deg);
+}
+
+.right-dropdown-menu {
+    position: absolute;
+    top: 60%;
+    left: 8.5% !important;
+    /* transform: translateX(-50%) !important; */
+    text-align: center !important;
+    width: 75%;
+    font-family: "Poppins";
+    font-size: clamp(0.5rem, 1.7vw, 0.58rem);
+    letter-spacing: 1px;
+    background-color: rgba(61, 39, 22, 0.9);
+    border: 1px solid white;
+    border-top: 0px;
+}
+
+.right-date-option {
+    display: none;
+}
+
+.right-date-item:hover {
+    background-color: rgba(43, 27, 15, 1);
+    align-items: center;
+}
+
+/* div.kuwago1Main {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+div.card-boxKuwago1 {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    height: 140px;
+    max-width: 185px;
+    margin: 3px;
+}
+div.card-boxCompare {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.chartsKuwago1 {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.compare {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.card-targetSales {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    height: 150px;
+    margin-top: 3px;
+    margin-left: 3px;
+    width: 98%;
+} */
+
+/* END KUWAGO 1 MAIN DASHBOARD */
+
+/* KUWAGO 1 SALES DASHBOARD */
+
+.main-dashboard-tile::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--main-tile-img, url("/assets/images/k1-bg-img.png"))
+        no-repeat center center fixed;
+    background-size: cover;
+    z-index: -1;
+    border-radius: 20px;
+    background-position: center;
+    filter: var(--main-tile-filter, blur(30px) brightness(150%));
+}
+
+.main-dashboard-tile {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: clamp(0.7rem, 1.8vw, 1.1rem);
+    letter-spacing: 2px;
+    border: 0.001rem solid rgba(255, 255, 255, 0.311);
+    white-space: nowrap;
+    text-align: center;
+    max-width: 100%;
+    width: 100%;
+    backdrop-filter: blur(20px) brightness(80%);
+    background-color: transparent;
+    z-index: 2;
+    overflow: hidden;
+}
+/* 
+div.kuwago1Sales {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+div.donutChart {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    height: 230px;
+    text-align: center;
+    position: relative;
+    line-height: 1;
+}
+#myChart1 {
+    width: 100%;
+    max-width: 120px; 
+    position: relative;
+}
+div.salesChartKuwago1,
+div.salesChartKuwago2 {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.kuwagoLeastSelling {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    width: 262px;
+}
+div.salesByCat {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.topSelling {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+} */
+
+/* END KUWAGO1 SALES DASHBOARD CSS */
+
+/* KUWAGO1 EXPENSES TABS */
+div.expensesChart {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.totalExpense {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.recentPur {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+div.expensesbyCat {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+/* .modal-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #333;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    color: #fff; 
+}
+
+.modal-content h5 {
+    margin-bottom: 20px;
+}
+
+.modal-content .form-label {
+    color: #fff;
+}
+
+.modal-content input[type="date"] {
+    color: #000; 
+} */
+
+/* END KUWAGO1 EXPENSES CSS */
+
+/* PROMOS DASHBOARD CSS */
+
+.promo-title {
+    font-family: "Helvetica Now Text";
+    font-size: clamp(0.75rem, 1.6vw, 1.2rem);
+    font-weight: normal;
+    letter-spacing: 2px;
+    vertical-align: middle;
+}
+
+.feedbacks-column {
+    scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+}
+
+*::-webkit-scrollbar {
+    width: 15px;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    width: 15px;
+    background-color: white;
+}
+
+::-webkit-scrollbar-track {
+    margin-top: 35px;
+}
+
+/* END PROMOS DASHBOARD CSS */
+
+/* FEEDBACKS DASHBOARD CSS */
+
+.star {
+    color: white;
+    position: relative;
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+    line-height: 85%;
+    pointer-events: none;
+}
+
+.star::before {
+    content: "★";
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #df9f14;
+    clip-path: var(--inset-value, inset(0 100% 0 0));
+    transition: clip-path 1.2s ease-out;
+}
+
+.feedback-rating-text {
+    font-family: "Helvetica Now Text";
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+    color: #422f0a;
+    font-weight: bold;
+}
+
+/* FEEDBACKS DASHBOARD CSS */
+
+/* body,
+html {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+} */
+
+/* Style for icons */
+i {
+    color: #ffffff;
+}
+/* Style for User Accounts */
+.account-page h3,
+.account-page span,
+.account-page p,
+.account-page label {
+    color: #ffffff;
+}
+
+.account-page .delete-button button {
+    padding: 0;
+}
+.account-page span {
+    font-size: x-large;
+    margin-left: 10px;
+}
+
+.account-page img {
+    border: 2px solid #ffffff;
+    border-radius: 100%;
+}
+
+/* Style for TopBar */
+.nav-bar img {
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+}
+
+/*END STYLE FOR TOPBAR */
+
+/* THIS IS THE STYLE FOR GENERAL BLADE'S MAIN CONTENT */
+div.UdDesignMain {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+div.salesTab,
+div.profitsTab,
+div.expensesTab,
+div.targetTabs {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    margin: 3px auto;
+    height: 100px;
+}
+div.printingChart,
+div.merchChart {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 3px auto;
+    height: 177px;
+    color: #fff;
+}
+/* END OF THE STYLE FOR GENERAL BLADE'S MAIN CONTENT */
+
+/* THIS IS THE STYLE FOR SALES BLADE'S MAIN CONTENT */
+div.UdDesignSales {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 5px 20px;
+    margin: 20px auto;
+}
+
+div.paymentMethod,
+div.salesChart {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    margin: 2px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 190px;
+}
+div.salesByCat {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 200px;
+    margin: 2px auto;
+}
+
+div.topSell {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    margin: 2px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 200px;
+}
+/* END OF THE STYLE FOR SALES BLADE'S MAIN CONTENT */
+
+/*  STYLE FOR EXPENSES BLADE'S MAIN CONTENT */
+
+div.UdDesignExpenses {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 5px 20px;
+    margin: 20px auto;
+}
+div.totalexpenses {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 200px;
+    width: 40%;
+    margin-right: 15px;
+}
+div.expensesChart {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 200px;
+}
+
+div.expenseByCat {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 200px;
+    margin: 3px auto;
+}
+/* END OF THE STYLE FOR EXPENSES BLADE'S MAIN CONTENT */
+
+/* STYLES FOR USER EDIT ACCOUNT */
+.glass-background {
+    width: 180px; /* Slightly larger than the image */
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(
+        255,
+        255,
+        255,
+        0.2
+    ); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Glass blur effect */
+    border-radius: 15px; /* Slightly rounded corners for the glass container */
+    padding: 10px; /* Optional padding for space around the image */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+}
+img.profile-image {
+    width: 160px; /* Set width to make the image square */
+    height: 160px; /* Set height to make the image square */
+    border-radius: 15px; /* Slightly rounded corners */
+    object-fit: cover; /* Ensures the image fills the area without stretching */
+}
+
+/* STYLES FOR USER SHOW ACOUNT */
+img.showAccount {
+    width: 130px; /* Set width to make the image square */
+    height: 130px; /* Set height to make the image square */
+    border-radius: 15px; /* Slightly rounded corners */
+    object-fit: cover; /* Ensures the image fills the area without stretching */
+}
+
+div.allInfo {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input.editUser {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input.editUser:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+}
+input.editUser::placeholder {
+    color: #fff;
+    opacity: 0.5; /* Adjust opacity for better visibility */
+}
+
+input.createUser {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input.createUser:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+}
+
+div#roleDisplay2 {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    width: 40%;
+    outline: none;
+    transition: all 0.3s ease;
+    padding: 6px;
+}
+div#roleDisplay {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    width: 50%;
+    outline: none;
+    transition: all 0.3s ease;
+    padding: 6px;
+}
+select#roleSelect {
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+input.createUser::placeholder {
+    color: #fff;
+    opacity: 0.5; /* Adjust opacity for better visibility */
+}
+option {
+    color: #000; /* Options within the dropdown should have readable text */
+    background: rgba(255, 255, 255, 0.2); /* Ensure contrast for visibility */
+}
+
+input.editMyaccount {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input.editMyaccount:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+}
+input.editMyaccount::placeholder {
+    color: #fff;
+    opacity: 0.5; /* Adjust opacity for better visibility */
+}
+
+input.changePass {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+}
+input.changePass:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+}
+
+button.savenewPass {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+button.savenewPass:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+button.refreshButton {
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+button.refreshButton:hover {
+    background-color: #000;
+}
+
+button i.refreshIcon {
+    color: #000;
+}
+button i.refreshIcon:hover {
+    color: #fff;
+}
+
+.account-body {
+    /* The image used */
+    background-image: url("https://img.freepik.com/premium-photo/furniture-office-background-dark_87720-269186.jpg");
+    backdrop-filter: blur(25px);
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
+.businessesCard {
+    background-color: #fff; /* Sets a white background for the container */
+    padding: 20px; /* Optional: Adds padding */
+    border-radius: 10px; /* Optional: Rounds the corners */
+}
+div.businessName {
+    font-weight: bold;
+}
+img.logos {
+    width: 70px;
+    height: 70px;
+}
+
+img.businesses {
+    width: 200px;
+    height: 125px;
+    border-radius: 10px;
+}
+
+p.businessSections {
+    font-weight: bold;
+}
+input.editBusiness {
+    color: #000;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+textarea.businessIndexDesc {
+    height: 100px;
+    width: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border: none;
+}
+
+textarea.businessIndexDesc::-webkit-scrollbar {
+    display: none;
+}
+button.updateBusiness {
+    background: none;
+    border: none;
+    font-size: 20px;
+}
+
+a.backtoIndex {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+/*  */
+
+a.addBusinessbutton {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+.businessesCard {
+    background-color: #fff; /* Sets a white background for the container */
+    padding: 20px; /* Optional: Adds padding */
+    border-radius: 10px; /* Optional: Rounds the corners */
+}
+div.businessName {
+    font-weight: bold;
+}
+img.logos {
+    width: 70px;
+    height: 70px;
+}
+img.businesses {
+    width: 200px;
+    height: 125px;
+    border-radius: 10px;
+}
+p.businessSections {
+    font-weight: bold;
+}
+div.businessIndexDesc {
+    height: 90px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+div.businessIndexDesc::-webkit-scrollbar {
+    display: none;
+}
+button.businessDelete {
+    color: #000;
+    font-size: 20px;
+    text-decoration: none;
+    border: none;
+    background: none;
+}
+
+/* Custom input style */
+.custom-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white; /* Just a white line at the bottom */
+    color: white; /* Make input text white */
+    width: 100%;
+}
+
+/* Remove focus outline for cleaner look */
+.custom-input:focus {
+    outline: none;
+    border-color: white;
+}
+
+/* Ensure the button has good contrast */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+div.createBusiness {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+button.createBusiness {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+button.createBusiness:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
