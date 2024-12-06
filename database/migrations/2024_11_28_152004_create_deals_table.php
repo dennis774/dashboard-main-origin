@@ -20,7 +20,6 @@ class CreateDealsTable extends Migration
             $table->decimal('gcash', 10, 2)->nullable();
             $table->decimal('cash_gcash', 10, 2)->nullable();
             $table->date('date_closed')->nullable();
-            $table->json('items');  // For storing item details as JSON
             $table->decimal('grand_price', 10, 2);
             $table->enum('status', ['Open', 'Processing', 'Closed', 'On-Hold', 'Cancelled']);
             $table->timestamps();

@@ -16,18 +16,21 @@ use App\Models\Uddesign\UddesignMerchType;
 use App\Models\Uddesign\UddesignPrintType;
 use App\Models\KuwagoOne\KuwagoOneCategory;
 use App\Models\KuwagoTwo\KuwagoTwoCategory;
+use App\Models\Uddesign\UddesignExpenseType;
 use App\Models\Uddesign\UddesignMerchDetail;
 use App\Models\Uddesign\UddesignPrintDetail;
+use App\Models\Uddesign\UddesignExpenseDetail;
 use App\Models\Uddesign\UddesignMerchCategory;
 use App\Models\Uddesign\UddesignPrintCategory;
 use App\Models\KuwagoOne\KuwagoOneOrderDetails;
 use App\Models\KuwagoTwo\KuwagoTwoOrderDetails;
+use App\Models\Uddesign\UddesignExpenseCategory;
 
 class DataController extends Controller
 {
     // UNIVERSAL REFRESH BUTTON HANDLER
     public function refreshData(Request $request, $type)
-    {        
+    {
         switch ($type) {
             case 'uddesign':
                 $this->Uddesign_Refresh_Data($request);
@@ -53,7 +56,9 @@ class DataController extends Controller
     {
         $apiToken = $request->session()->get('uddesign_api_token');
         if (!$apiToken) {
-            return redirect()->back()->with('failed', 'API token not found in session.');
+            return redirect()
+                ->back()
+                ->with('failed', 'API token not found in session.');
         }
 
         $this->fetchAndInsertData($apiToken, env('UDDESIGN_API_URL', ''), '/api/data', UddesignReport::class, function ($report) {
@@ -101,6 +106,22 @@ class DataController extends Controller
                 'name' => $print['name'],
             ];
         });
+
+
+        $this->fetchAndInsertData($apiToken, env('UDDESIGN_API_URL', ''), '/api/expense-category', UddesignExpenseCategory::class, function ($category) {
+            return [
+                'expense_category_id' => $category['id'],
+                'name' => $category['name'],
+            ];
+        });
+
+        $this->fetchAndInsertData($apiToken, env('UDDESIGN_API_URL', ''), '/api/expense-type', UddesignExpenseType::class, function ($print) {
+            return [
+                'expense_type_id' => $print['id'],
+                'expense_category_id' => $print['expense_category_id'],
+                'name' => $print['name'],
+            ];
+        });
     }
 
     // KUWAGO ONE DATA REFRESH FUNCTION
@@ -108,7 +129,9 @@ class DataController extends Controller
     {
         $apiToken = $request->session()->get('kuwago_one_api_token');
         if (!$apiToken) {
-            return redirect()->back()->with('failed', 'API token not found in session.');
+            return redirect()
+                ->back()
+                ->with('failed', 'API token not found in session.');
         }
 
         $this->fetchAndInsertData($apiToken, env('KUWAGO_ONE_API_URL', ''), '/api/reports', KuwagoOneReport::class, function ($report) {
@@ -141,7 +164,9 @@ class DataController extends Controller
     {
         $apiToken = $request->session()->get('kuwago_two_api_token');
         if (!$apiToken) {
-            return redirect()->back()->with('failed', 'API token not found in session.');
+            return redirect()
+                ->back()
+                ->with('failed', 'API token not found in session.');
         }
 
         $this->fetchAndInsertData($apiToken, env('KUWAGO_TWO_API_URL', ''), '/api/reports', KuwagoTwoReport::class, function ($report) {
@@ -176,7 +201,9 @@ class DataController extends Controller
     {
         $apiToken = $request->session()->get($tokenKey);
         if (!$apiToken) {
-            return redirect()->back()->with('failed', 'API token not found in session.');
+            return redirect()
+                ->back()
+                ->with('failed', 'API token not found in session.');
         }
 
         $this->fetchAndInsertDataInBatches($apiToken, $baseUrl, '/api/order-details', $model, function ($orderDetail) {
@@ -187,15 +214,18 @@ class DataController extends Controller
             ];
         });
 
-        return redirect()->back()->with('success', 'Order Details refreshed successfully!');
+        return redirect()
+            ->back()
+            ->with('success', 'Order Details refreshed successfully!');
     }
-
 
     public function refreshUddesignDetails(Request $request, $tokenKey, $baseUrl)
     {
         $apiToken = $request->session()->get($tokenKey);
         if (!$apiToken) {
-            return redirect()->back()->with('failed', 'API token not found in session.');
+            return redirect()
+                ->back()
+                ->with('failed', 'API token not found in session.');
         }
 
         $this->fetchAndInsertDataInBatches($apiToken, $baseUrl, '/api/merch-details', UddesignMerchDetail::class, function ($detail) {
@@ -214,9 +244,18 @@ class DataController extends Controller
             ];
         });
 
-        return redirect()->back()->with('success', 'Details refreshed successfully!');
-    }
+        $this->fetchAndInsertDataInBatches($apiToken, $baseUrl, '/api/expense-details', UddesignExpenseDetail::class, function ($detail) {
+            return [
+                'expense_type_id' => $detail['expense_type_id'],
+                'price' => $detail['price'],
+                'date' => Carbon::parse($detail['date'])->format('Y-m-d H:i:s'),
+            ];
+        });
 
+        return redirect()
+            ->back()
+            ->with('success', 'Details refreshed successfully!');
+    }
 
     // UNIVERSAL FETCH DATA FUNCTION
     private function fetchAndInsertData($apiToken, $baseUrl, $endpoint, $model, $dataMappingCallback)
@@ -224,7 +263,9 @@ class DataController extends Controller
         $response = Http::withToken($apiToken)->get($baseUrl . $endpoint);
 
         if ($response->failed()) {
-            return redirect()->back()->with('failed', 'Failed to fetch data from the API.');
+            return redirect()
+                ->back()
+                ->with('failed', 'Failed to fetch data from the API.');
         }
 
         $data = $response->json();
@@ -248,7 +289,9 @@ class DataController extends Controller
         $response = Http::withToken($apiToken)->get($baseUrl . $endpoint);
 
         if ($response->failed()) {
-            return redirect()->back()->with('failed', 'Failed to fetch data from the API.');
+            return redirect()
+                ->back()
+                ->with('failed', 'Failed to fetch data from the API.');
         }
 
         $data = $response->json();
@@ -271,7 +314,4 @@ class DataController extends Controller
             $model::insert($dataArray);
         }
     }
-
-
-    
 }
