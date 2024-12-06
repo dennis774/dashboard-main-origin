@@ -1,3 +1,30 @@
+<!-- DASHBOARD PANEL -->
+<div class="d-flex rounded-4 dashboard-panel">
+    <div class="row d-flex flex-grow-1 m-0 column-gap-3 h-100 rounded-4 justify-content-center align-items-center text-white " style="padding-inline: 2%; padding-block: 2.5%;">
+
+        <!-- LEFT COLUMN -->
+        <div class="col-auto d-flex flex-column row-gap-3 p-0 h-100" style="width: 74%;">
+
+
+        </div>
+        <!-- END LEFT COLUMN -->
+
+        <!-- LINE -->
+        <div class="vr p-0 text-white opacity-75 align-self-center" style="width: 1px; min-height: 80%;"></div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col d-flex flex-column row-gap-3 p-0 h-100">
+            <!-- EXPENSES TREND CARD-->
+
+        </div>
+        <!-- END RIGHT COLUMN -->
+    </div>
+</div>
+
+
+
+
+<?php /*
 <div class="container content-container">
     <div class="row mb-5">
         <div class="col-lg-1"></div>
@@ -12,7 +39,7 @@
         <div class="col-lg-9 kuwago1Promos">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 mt-2 mb-2">
+                    <div class="col-lg-7 mt-2 mb-2">
                         @if (session('success'))
                         <div class="alert alert-success">{{ session('success') }}</div>
                         @endif
@@ -33,9 +60,9 @@
                                         <div class="card w-100" style="background-color: #c68e17; color: white;">
                                             @if ($promo->promo_image)
                                             <img src="{{ asset('storage/' . $promo->promo_image) }}" class="card-img-top img-fluid promoImage" alt="Promo Image" />
-                                        @else
+                                            @else
                                             <img src="https://via.placeholder.com/600x300" class="card-img-top img-fluid promoImage" alt="Placeholder Image" />
-                                        @endif                                        
+                                            @endif
                                             <div class="card-body">
                                                 <h4 class="card-title d-flex justify-content-center scrollable-title">{{ $promo->title }}</h4>
                                                 <p class="card-text d-flex justify-content-center">
@@ -91,26 +118,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <!-- Title Above the List -->
-                        <div class="row">
-                            <div class="col-lg-5 text-white text">
-                                <h2>Promo List</h2>
-                            </div>
-                            <div class="col-lg-4">
-                                <form action="{{ route('general.kuwago-one.promos') }}" method="GET">
-                                    <select name="sort" class="form-control createDeals" onchange="this.form.submit()">
-                                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest to Oldest</option>
-                                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest to Newest</option>
-                                    </select>
-                                </form>
-                            </div>
-                            <div class="col-lg-3 d-flex justify-content-end">
-                                <a href="{{ route('promos.create') }}">
-                                    <i class="fa-solid fa-plus text-white text"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <h3 class="mb-3" style="color: white;">Promo List</h3>
 
                         <!-- Promo List with Bullets, Transparent Background, White Text, No Borders, and Scrollable Area -->
                         <ul class="list-group" style="background-color: transparent; max-height: 400px; overflow-y: auto; list-style-type: disc; padding-left: 20px;">
@@ -119,8 +129,7 @@
                                 class="list-group-item list-group-item-action promo-list-item"
                                 data-bs-target="#promoCarousel"
                                 data-bs-slide-to="{{ $key }}"
-                                style="cursor: pointer; background-color: transparent; color: white; border: none;"
-                            >
+                                style="cursor: pointer; background-color: transparent; color: white; border: none;">
                                 •&nbsp{{ $promo->title }}
                             </li>
                             @endforeach
@@ -133,3 +142,4 @@
         <div class="col-lg-1"></div>
     </div>
 </div>
+*/ ?>

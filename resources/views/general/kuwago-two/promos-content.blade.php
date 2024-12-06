@@ -109,24 +109,8 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        <div class="row">
-                            <div class="col-lg-5 text-white text">
-                                <h2>Promo List</h2>
-                            </div>
-                            <div class="col-lg-4">
-                                <form action="{{ route('general.kuwago-two.promos') }}" method="GET">
-                                    <select name="sort" class="form-control createDeals" onchange="this.form.submit()">
-                                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest to Oldest</option>
-                                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest to Newest</option>
-                                    </select>
-                                </form>
-                            </div>
-                            <div class="col-lg-3 d-flex justify-content-end">
-                                <a href="{{ route('promos.create') }}">
-                                    <i class="fa-solid fa-plus text-white text"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <!-- Title Above the List -->
+                        <h3 class="mb-3" style="color: white;">Promo List</h3>
 
                         <!-- Promo List with Bullets, Transparent Background, White Text, No Borders, and Scrollable Area -->
                         <ul class="list-group"

@@ -9,17 +9,17 @@
             </div>
         </div>
 
+        
         <div class="col-lg-9 pt-2 pb-2 ps-0 pe-0 feebackSection">
             <div class="container text-white text">
                 <div class="row">
                     <div class="col-lg-3 starChart">
                         <h5>Rating Distribution</h5>
-                        <p class="text-center">Average Rating: <span
-                                id="averageRating">{{ number_format($averageRating, 1) }}</span></p> <canvas
-                            id="ratingChart" height="350"></canvas>
+                        <p class="text-center">Average Rating: {{ number_format($averageRating, 1) }}</p>
+                        <canvas id="ratingChart" height="350"></canvas>
                         <div class="col-lg-12 mt-2">
                             <!-- Filter Date Button -->
-                            <div class="row">
+                             <div class="row">
                                 <div class="col-lg-3">
                                     <button class="btn filterFeedback d-flex justify-content-center align-items-center"
                                         data-bs-toggle="modal" data-bs-target="#dateFilterModal"
@@ -34,13 +34,13 @@
                                 </div>
                                 <div class="col-lg-1"></div>
                             </div>
-
                         </div>
 
                     </div>
 
                     <!-- Comments Section -->
-                    <div class="col-lg-3 CommentsSection" style="height: 450px; overflow-y: auto;" id="commentsList">
+                    <div class="col-lg-3 CommentsSection" style="height: 400px; overflow-y: auto;"
+                        id="commentsList">
                         <h4 class="mb-3">Comments</h4>
                         <div class="content-container">
                             @foreach ($feedback as $item)
@@ -72,8 +72,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-12 d-flex justify-content-start" style="font-style: italic;">
-                                            {{ $item->comments }}
+                                        <div class="col-lg-12" style="font-style: italic;">{{ $item->comments }}
                                         </div>
                                     </div>
 
@@ -90,7 +89,7 @@
 
 
                     <!-- Suggestions Section -->
-                    <div class="col-lg-3 SuggestionsSection" style="height: 450px; overflow-y: auto;"
+                    <div class="col-lg-3 SuggestionsSection" style="height: 400px; overflow-y: auto;"
                         id="suggestionsList">
                         <h4 class="mb-3">Suggestions</h4>
                         <div class="content-container">
@@ -124,8 +123,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-12 d-flex justify-content-start" style="font-style: italic;">
-                                            {{ $item->comments }}
+                                        <div class="col-lg-12" style="font-style: italic;">{{ $item->comments }}
                                         </div>
                                     </div>
 
@@ -141,8 +139,7 @@
                     </div>
 
                     <!-- Complaints Section -->
-                    <div class="col-lg-3 ComplaintsSection" style="height: 450px; overflow-y: auto;"
-                        id="complaintsList">
+                    <div class="col-lg-3 ComplaintsSection" style="height: 400px;" id="complaintsList">
                         <div class="row">
                             <div class="col-lg-6">
                                 <h4 class="mb-3">Complaints</h4>
@@ -185,8 +182,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-12 d-flex justify-content-start" style="font-style: italic;">
-                                            {{ $item->comments }}
+                                        <div class="col-lg-12" style="font-style: italic;">{{ $item->comments }}
                                         </div>
                                     </div>
 
@@ -222,7 +218,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="end_date" class="form-label">End Date</label>
-                                <input type="date" class="form-control" id="end_date" name="end_date" required>
+                                <input type="date" class="form-control" id="end_date" name="end_date"
+                                    required>
                             </div>
                             <button type="submit" class="btn btn-primary">Apply Filter</button>
                         </form>
@@ -234,6 +231,8 @@
         <div class="col-lg-1"></div>
     </div>
 </div>
+
+
 <script>
     var ratingCounts = @json($ratingCounts);
 
@@ -316,8 +315,6 @@
         e.preventDefault();
 
         const formData = new FormData(this);
-        const startDate = formData.get('start_date');
-        const endDate = formData.get('end_date');
 
         fetch("{{ route('uddesignfeedback.filterByDate') }}", {
                 method: 'POST',
@@ -328,43 +325,28 @@
             })
             .then(response => response.json())
             .then(data => {
-                const averageRatingElement = document.getElementById('averageRating');
-                averageRatingElement.textContent = data.averageRating ? data.averageRating.toFixed(1) :
-                    'N/A';
-
                 // Update chart data
                 const chart = Chart.getChart('ratingChart'); // Assuming chart instance exists
-                chart.data.datasets[0].data = data.ratingCounts || [0, 0, 0, 0, 0];
+                chart.data.datasets[0].data = [
+                    data.ratingCounts[1],
+                    data.ratingCounts[2],
+                    data.ratingCounts[3],
+                    data.ratingCounts[4],
+                    data.ratingCounts[5]
+                ];
                 chart.update();
 
                 // Update feedback sections
-                updateSection('commentsList', data.comments || []);
-                updateSection('suggestionsList', data.suggestions || []);
-                updateSection('complaintsList', data.complaints || []);
-
-                // Update date range display
-                const dateRangeDisplay = document.getElementById('dateRangeDisplay');
-                dateRangeDisplay.textContent = data.comments.length || data.suggestions.length || data
-                    .complaints.length ?
-                    `Filtered: ${formatDate(startDate)} to ${formatDate(endDate)}` :
-                    'No feedback found for the selected date range.';
+                updateSection('commentsList', data.comments);
+                updateSection('suggestionsList', data.suggestions);
+                updateSection('complaintsList', data.complaints);
 
                 // Close the modal
-                const modalElement = document.getElementById('dateFilterModal');
-                const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('dateFilterModal'));
                 modal.hide();
             })
             .catch(error => console.error('Error:', error));
     });
-
-    function formatDate(dateString) {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    }
 
 
     function updateSection(sectionId, items) {
@@ -381,7 +363,7 @@
             container.innerHTML += `
             <div class="row align-items-center">
                 <div class="col-lg-6"><b>${item.name} —</b></div>
-                <div class="col-lg-6">${item.product_name}</div>
+                <div class="col-lg-6">${item.dish}</div>
             </div>
             <div class="row">
                 <div class="col-lg-12">${getStars(item.rating)}</div>
@@ -409,3 +391,119 @@
         return stars;
     }
 </script>
+
+
+
+<script>
+    document.getElementById('dateFilterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const startDate = formData.get('start_date');
+        const endDate = formData.get('end_date');
+
+        fetch("{{ route('feedback.filterByDate') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the average rating display
+                const averageRatingElement = document.getElementById('averageRating');
+                averageRatingElement.textContent = data.averageRating.toFixed(
+                    1); // Display with one decimal place
+
+                // Update chart data
+                const chart = Chart.getChart('ratingChart'); // Assuming chart instance exists
+                chart.data.datasets[0].data = [
+                    data.ratingCounts[1],
+                    data.ratingCounts[2],
+                    data.ratingCounts[3],
+                    data.ratingCounts[4],
+                    data.ratingCounts[5]
+                ];
+                chart.update();
+
+                // Update feedback sections
+                updateSection('commentsList', data.comments);
+                updateSection('suggestionsList', data.suggestions);
+                updateSection('complaintsList', data.complaints);
+
+                // Update date range display
+                const dateRangeDisplay = document.getElementById('dateRangeDisplay');
+                dateRangeDisplay.textContent =
+                    `Filtered: ${formatDate(startDate)} to ${formatDate(endDate)}`;
+
+                // Hide the modal using Bootstrap 5
+                const modalElement = document.getElementById('dateFilterModal');
+                const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                modal.hide();
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    // Helper function to format the date as a readable string
+    function formatDate(dateString) {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    function updateSection(sectionId, items) {
+        const section = document.getElementById(sectionId);
+        const container = section.querySelector('.content-container');
+        container.innerHTML = ''; // Clear previous content
+
+        if (items.length === 0) {
+            container.innerHTML = '<p class="text-center">No feedback found for the selected date range.</p>';
+            return;
+        }
+
+        items.forEach(item => {
+            container.innerHTML += `
+        <div class="row align-items-center">
+            <div class="col-lg-6"><b>${item.name} —</b></div>
+            <div class="col-lg-6">${item.dish}</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">${getStars(item.rating)}</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" style="font-style: italic;">${item.comments}</div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-lg-12 d-flex justify-content-end" style="font-size: 12px;">
+                ${new Date(item.feedback_date).toLocaleDateString()}
+            </div>
+        </div>
+        <hr>`;
+        });
+    }
+
+    function getStars(rating) {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+            stars += i <= rating ?
+                '<span style="color: gold; font-size:18px;">★</span>' :
+                '<span style="color: lightgray; font-size:18px;">☆</span>';
+        }
+        return stars;
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,57 +1,86 @@
 {{-- START --}}
-<div class="container text-center content-container">
-    <div class="row mb-5">
-        {{-- START OF SIDE BAR --}}
-        <div class="col-lg-1"></div>
-        <div class="col-lg-1">
-            <div class="container">
-                <div class="row">
-                    @include('general.kuwago-one.sidebar')
-                </div>
-            </div>
-        </div>
-        {{-- END OF SIDE BAR --}} {{-- START OF CONTENTS --}}
-        <div class="col-lg-9 p-3 kuwago1Sales">
-            <div class="row">
-                <div class="col-lg-2 donutChart p-2 mx-3">
-                    <p>Total Sales</p>
-                    <p style="font-weight: bold;">₱{{number_format($totalSales,2)}}</p>
-                    <div class="chart-container d-flex justify-content-center">
+
+<!-- DASHBOARD PANEL -->
+<div class="d-flex rounded-4 dashboard-panel">
+    <div class="row d-flex flex-grow-1 m-0 h-100 rounded-4 justify-content-center align-items-center text-white " style="padding-inline: 2%; padding-block: 2%;">
+        <!-- UPPER ROW/COLUMN -->
+        <div class="col-12 d-flex flex-row column-gap-3 p-0" style="height: 49%; margin-bottom: 0%;">
+            <!-- TOTAL SALES -->
+            <div class="col-2" style="width: 20%">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="col-12 d-flex mt-1 align-items-end justify-content-center" style="height: 15%;">
+                        <span class="db-card-title">Total Sales</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-start justify-content-center" style="height: 15%;">
+                        <span class="dashboard-total-text" style="font-size: 1.4rem;">{{number_format($totalSales,2)}}</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 70%;">
                         <canvas id="myChart1"></canvas>
                     </div>
                 </div>
-                <div class="col-lg-6 salesChartKuwago1">
-                    <canvas id="myChart2"></canvas>
-                </div>
-                <div class="col-lg-4 kuwagoLeastSelling mx-3">
-                    <h6>Least Selling Products Here</h6>
-                    <ol>
-                        @foreach($bottomDishes as $dish)
-                        <li>{{ $dish->dish }}: {{ $dish->total_pcs }} pcs</li>
-                        @endforeach
-                    </ol>
+            </div>
+            <!-- SALES TREND -->
+            <div class="col">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                        <span class="ms-3 db-card-title">Sales Trends</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
+                        <canvas id="myChart2"></canvas>
+                    </div>
                 </div>
             </div>
-            <div class="container mt-2">
-                <div class="row">
-                    <!-- <div class="col-lg-7 salesByCat">
-                    <h6>Sales By Category Here</h6>
-                    <canvas id="categoryChart"></canvas>
-                </div> -->
-                    <div class="col-lg-7 chartsKuwago1">
-                        <h6>Sales By Category Here</h6>
+            <!-- LEAST SELLING -->
+            <div class="col-3 p-0" style="width: 26%">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                        <span class="ms-3 db-card-title">Least-Selling Products</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
+                        <ol>
+                            @foreach($bottomDishes as $dish)
+                            <li>{{ $dish->dish }}: {{ $dish->total_pcs }} pcs</li>
+                            @endforeach
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END UPPER ROW/COLUMN -->
+
+        <!-- BOTTOM ROW/COLUMN -->
+        <div class="col-12 d-flex flex-row column-gap-3 p-0" style="height: 45%; margin-top: 1%;">
+            <div class="col-7" style="width: 57%">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                        <span class="ms-3 db-card-title">Sales by Category</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
                         <canvas id="categoryChart"></canvas>
                     </div>
-                    <div class="col-lg-5 topSelling">
-                        <h6>Top Selling Products</h6>
+                </div>
+            </div>
+            <div class="col p-0">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                        <span class="ms-3 db-card-title">Top-Selling Products</span>
+                    </div>
+                    <div class="col-12 d-flex flex-column align-items-center justify-content-center" style="height: 85%;">
                         <canvas id="topDishesChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-1"></div>
     </div>
+    <!-- END BOTTOM ROW/COLUMN -->
 </div>
+</div>
+
+
+
+
+
+
 
 <!-- Donut Chart for  cash or gcash-->
 <script>

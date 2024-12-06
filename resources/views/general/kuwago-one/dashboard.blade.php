@@ -1,4 +1,4 @@
-@extends('general.kuwago-one.index') 
+@extends('general.kuwago-one.index')
 
 @section('content')
 

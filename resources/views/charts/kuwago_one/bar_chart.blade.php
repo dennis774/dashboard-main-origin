@@ -7,22 +7,18 @@
             datasets: [{
                 label: 'Sales',
                 data: @json($chartdata->pluck('sales')),
-                backgroundColor: 'green',
-                borderColor: 'green',
+                backgroundColor: 'rgb(32, 93, 64)',
                 borderWidth: 1,
                 fill: 'origin'
             }, {
                 label: 'Profit',
                 data: @json($chartdata->pluck('profit')),
-                backgroundColor: 'yellow',
-                borderColor: 'yellow',
-                borderWidth: 1,
+                backgroundColor: 'rgb(223, 159, 20)',
                 fill: 'origin'
             }, {
                 label: 'Expenses',
                 data: @json($chartdata->pluck('expenses')),
-                backgroundColor: 'white',
-                borderColor: 'white',
+                backgroundColor: 'rgb(217, 217, 217)',
                 borderWidth: 1,
                 fill: 'origin'
             }]
@@ -32,25 +28,32 @@
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'white' // Set Y-axis text color to white
+                        color: 'white'
                     }
                 },
                 x: {
                     ticks: {
-                        color: 'white' // Set X-axis text color to white
+                        color: 'white'
                     }
                 }
             },
             plugins: {
                 legend: {
                     labels: {
-                        color: 'white' // Set legend text color to white
+                        font: {
+                            size: 10,          
+                            family: 'Helvetica Text Now, sans-serif',    
+                            weight: 'semibold'     
+                            },  
+                        color: 'white',
+                        boxWidth: 13,
+                        bodHeight: 17
                     }
                 },
                 tooltip: {
-                    bodyColor: 'white', // Tooltip text color
-                    titleColor: 'white', // Tooltip title color
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                    bodyColor: 'white',
+                    titleColor: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)'
                 }
             }
         }

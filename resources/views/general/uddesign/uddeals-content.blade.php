@@ -84,24 +84,15 @@
                     </div> 
                     <div class="col-lg-3 dealsList">
                         <div class="row">
-                            <div class="col-lg-5">
+                            <div class="col-lg-6">
                                 <h2>Deals List</h2>
                             </div>
-                            <div class="col-lg-4">
-                                <form action="{{ route('general.uddesign.uddeals') }}" method="GET">
-                                    <select name="sort" class="form-control createDeals" onchange="this.form.submit()">
-                                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest to Oldest</option>
-                                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest to Newest</option>
-                                    </select>
-                                </form>
-                            </div>
-                            <div class="col-lg-3 d-flex justify-content-end">
-                                <a href="{{ route('deals.create') }}">
+                            <div class="col-lg-6 d-flex justify-content-end">
+                                <a href="{{route('deals.create')}}">
                                     <i class="fa-solid fa-plus text-white text"></i>
                                 </a>
                             </div>
                         </div>
-                        
                         <div class="scrollable-deals">
                             <ol>
                                 @foreach ($deals as $deal)

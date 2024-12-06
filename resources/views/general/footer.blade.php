@@ -1,171 +1,213 @@
-<div class="container">
-    <div class="row">
-        <div class="col-lg-3">.</div>
-        <div class="col-lg-6 footer">
-            <div class="row">
-                <div class="col-lg-4 d-flex justify-content-center">
-                    <button onclick="generatePDF()" class="btn btn-outline-light">Generate PDF</button>
-                </div>
-                <div class="col-lg-5 d-flex justify-content-center align-items-center">
-                    <div class="dropdown select-wrapper">
-                        <select id="dateFilter" onchange="handleFilterChange()" class="dropdownforModal">
-                            <option value="" selected disabled>Select filter</option>
-                            <option value="today" {{ request('interval') == 'today' ? 'selected' : '' }}>Today</option>
-                            <option value="yesterday" {{ request('interval') == 'yesterday' ? 'selected' : '' }}>Yesterday</option>
-                            <option value="last3days" {{ request('interval') == 'last3days' ? 'selected' : '' }}>Last 3 Days</option>
-                            <option value="last5days" {{ request('interval') == 'last5days' ? 'selected' : '' }}>Last 5 Days</option>
-                            <option value="lastweek" {{ request('interval') == 'lastweek' ? 'selected' : '' }}>Last Week</option>
-                            <option value="thisweek" {{ request('interval', 'thisweek') == 'thisweek' ? 'selected' : '' }}>This Week</option>
-                            <option value="thismonth" {{ request('interval') == 'thismonth' ? 'selected' : '' }}>This Month</option>
-                            <option value="lastmonth" {{ request('interval') == 'lastmonth' ? 'selected' : '' }}>Last Month</option>
-                            <option value="thisyear" {{ request('interval') == 'thisyear' ? 'selected' : '' }}>This Year</option>
-                            <option value="lastyear" {{ request('interval') == 'lastyear' ? 'selected' : '' }}>Last Year</option>
-                            <option value="overall" {{ request('interval') == 'overall' ? 'selected' : '' }}>Overall</option>
-                            <option value="custom" {{ request('interval') == 'custom' ? 'selected' : '' }}>Custom</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+<nav class="navbar mt-1">
+    <div class="container justify-content-center">
+        <!-- BOTTOM BAR -->
+        <div class="row d-flex justify-content-between bottom-nav-row">
+            <div class="col-auto d-flex flex-grow-1 align-items-center justify-content-start">
+                <button
+                    class="align-items-center border-0 py-2 bg-white text-black fw-bold"
+                    style="font-family: Poppins; font-size: 1.15rem; width: 140px; border-radius: 20px;"
+                    onclick="generatePDF()">
+                    Gen. PDF
+                </button>
+            </div>
+            <div class="col-7 dropup-center dropup d-flex btn-group justify-content-center align-items-center">
+                <!-- FILTER -->
+                <div class="row d-flex w-100">
+                    <div class="col-12 d-flex w-100 align-items-center justify-content-center">
+                        @if(!str_contains(request()->url(), '/promos'))
+                        <!-- DATE FILTER BUTTON -->
+                        <button class="btn dropdown-toggle w-100 pb-1 date-filter-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="col-0 col-lg-2"></div>
+                            <div class="col-9 col-lg-6" id="date-filter-dropdown">
+                                {{ ucwords(str_replace('_', ' ', request('interval', 'this_week'))) }}
+                            </div>
+                            <div class="col-3 d-flex justify-content-end align-items-end">
+                                <ion-icon name="chevron-down-outline" class="date-dropdown-arrow"></ion-icon>
+                            </div>
+                        </button>
+                        <ul class="z-3 position-absolute rounded-top-2 rounded-bottom-0 dropdown-menu date-dropdown-menu" aria-labelledby="date-filter-dropdown">
+                            <div class="d-flex">
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'all_time' ? 'active' : '' }}" href="?interval=all_time" data-interval="all_time">
+                                        All Time
+                                    </a>
+                                </li>
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'yesterday' ? 'active' : '' }}" href="?interval=yesterday" data-interval="yesterday">
+                                        Yesterday
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="d-flex">
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'today' ? 'active' : '' }}" href="?interval=today" data-interval="today">
+                                        Today
+                                    </a>
+                                </li>
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'this_week' ? 'active' : '' }}" href="?interval=this_week" data-interval="this_week">
+                                        This Week
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="d-flex">
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'last_3_days' ? 'active' : '' }}" href="?interval=last_3_days" data-interval="last_3_days">
+                                        Last 3 Days
+                                    </a>
+                                </li>
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'last_week' ? 'active' : '' }}" href="?interval=last_week" data-interval="last_week">
+                                        Last Week
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="d-flex">
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'last_5_days' ? 'active' : '' }}" href="?interval=last_5_days" data-interval="last_5_days">
+                                        Last 5 Days
+                                    </a>
+                                </li>
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'this_month' ? 'active' : '' }}" href="?interval=this_month" data-interval="this_month">
+                                        This Month
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="d-flex">
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'last_7_days' ? 'active' : '' }}" href="?interval=last_7_days" data-interval="last_7_days">
+                                        Last 7 Days
+                                    </a>
+                                </li>
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'last_month' ? 'active' : '' }}" href="?interval=last_month" data-interval="last_month">
+                                        Last Month
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="d-flex">
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'this_year' ? 'active' : '' }}" href="?interval=this_year" data-interval="this_year">
+                                        This Year
+                                    </a>
+                                </li>
+                                <li class="col-6">
+                                    <a class="py-2 text-white dropdown-item date-item {{ request('interval', 'this_week') == 'last_year' ? 'active' : '' }}" href="?interval=last_year" data-interval="last_year">
+                                        Last Year
+                                    </a>
+                                </li>
+                            </div>
+                            <li>
+                                <button class="btn bg-white rounded-2 fw-bold dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#custom-date-modal"
+                                    style="letter-spacing: 1px; width: 90%; margin: auto;">
+                                    Custom
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- SORT BUTTON -->
+                        @else
+
+                        <button class="btn dropdown-toggle w-100 pb-1 date-filter-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="col-0 col-lg-2"></div>
+                            <div class="col-9 col-lg-6" id="date-filter-dropdown">
+                                {{ ucwords(str_replace('_', ' ', request('interval', 'newest_to_oldest'))) }}
+                            </div>
+                            <div class="col-3 d-flex justify-content-end align-items-end">
+                                <ion-icon name="chevron-down-outline" class="date-dropdown-arrow"></ion-icon>
+                            </div>
+                        </button>
+                        <ul class="z-3 position-absolute rounded-top-2 rounded-bottom-0 dropdown-menu date-dropdown-menu" aria-labelledby="date-filter-dropdown">
+                            <li>
+                                <a class="py-3 text-white dropdown-item date-item {{ request('interval', 'newest_to_oldest') == 'newest_to_oldest' ? 'active' : '' }}" href="?interval=newest_to_oldest" data-interval="newest_to_oldest">
+                                    Newest to Oldest
+                                </a>
+                            </li>
+                            <li>
+                                <a class="py-3 text-white dropdown-item date-item {{ request('interval', 'newest_to_oldest') == 'oldest_to_newest' ? 'active' : '' }}" href="?interval=oldest_to_newest" data-interval="oldest_to_newest">
+                                    Oldest to Newest
+                                </a>
+                            </li>
+                        </ul>
+
+                        @endif
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-start ">
+                        <hr class="m-0 ms-2 text-white opacity-100 date-filter-line" style="width: 85%;">
                     </div>
                 </div>
-                <div class="col-lg-3 d-flex justify-content-center align-items-center">
-                    @if(request()->routeIs(['general.uddesign.dashboard', 'general.uddesign.sales', 'general.uddesign.expenses']))
-                        <form action="{{ route('refresh.data', ['type' => 'uddesign']) }}" method="GET">
-                            <button type="submit" class="btn btn-link px-2 refreshButton" style="color: #007bff;">
-                                <i class="fas fa-sync-alt fa-lg refreshIcon"></i>
-                            </button>
-                        </form>
-                    @endif
+                <!-- END FILTER -->
 
-                    @if(request()->routeIs(['general.kuwago-one.dashboard', 'general.kuwago-one.sales', 'general.kuwago-one.expenses']))
-                        <form action="{{ route('refresh.data', ['type' => 'kuwago_one']) }}" method="GET">
-                            <button type="submit" class="btn btn-link px-2 refreshButton" style="color: #007bff;">
-                                <i class="fas fa-sync-alt fa-lg refreshIcon"></i>
-                            </button>
-                        </form>
-                    @endif
-                    
-                    @if(request()->routeIs(['general.kuwago-two.dashboard', 'general.kuwago-two.sales', 'general.kuwago-two.expenses']))
-                        <form action="{{ route('refresh.data', ['type' => 'kuwago_two']) }}" method="GET">
-                            <button type="submit" class="btn btn-link px-2 refreshButton" style="color: #007bff;">
-                                <i class="fas fa-sync-alt fa-lg refreshIcon"></i>
-                            </button>
-                        </form>
-                    @endif
-                </div>
+
+            </div>
+            <!-- REFRESH BUTTON -->
+            <div class="col-2 d-flex flex-grow-1 justify-content-end align-items-center text-center">
+
+
+                {{-- KUWAGO ONE REFRESH BUTTON --}}
+                @if(request()->routeIs(['general.kuwago-one.dashboard', 'general.kuwago-one.sales', 'general.kuwago-one.expenses']))
+                <form action="{{ route('refresh.data', ['type' => 'kuwago_one']) }}" method="GET">
+                    <button class="align-items-center rounded-5 border-0 bg-white" type="submit">
+                        <img src="{{ asset('assets/images/icons/refresh-icon.png') }}" style="height: 40px; object-fit: cover;" alt="Refresh Icon">
+                    </button>
+                </form>
+                @endif
+
+                {{-- KUWAGO TWO REFRESH BUTTON --}}
+                @if(request()->routeIs(['general.kuwago-two.dashboard', 'general.kuwago-two.sales', 'general.kuwago-two.expenses']))
+                <form action="{{ route('refresh.data', ['type' => 'kuwago_two']) }}" method="GET">
+                    <button class="align-items-center rounded-5 border-0 bg-white" type="submit">
+                        <img src="{{ asset('assets/images/icons/refresh-icon.png') }}" style="height: 40px; object-fit: cover;" alt="Refresh Icon">
+                    </button>
+                </form>
+                @endif
+
+                {{-- UDDESIGN REFRESH BUTTON --}}
+                @if(request()->routeIs(['general.uddesign.dashboard', 'general.uddesign.sales', 'general.uddesign.expenses']))
+                <form action="{{ route('refresh.data', ['type' => 'uddesign']) }}" method="GET">
+                    <button class="align-items-center rounded-5 border-0 bg-white" type="submit">
+                        <img src="{{ asset('assets/images/icons/refresh-icon.png') }}" style="height: 40px; object-fit: cover;" alt="Refresh Icon">
+                    </button>
+                </form>
+                @endif
+
+                <!-- END NAV TOGGLER / NAV ITEMS -->
             </div>
         </div>
-        <div class="col-lg-3">.</div>
+        <!-- END BOTTOMNAVBAR -->
     </div>
+</nav>
 
-    <div class="modal-bg" id="customDateModal">
-        <div class="modal-content">
-            <h5>Select Date Range</h5>
-            <form action="{{$actionRoute}}" method="GET">
-                @csrf
-                <input type="hidden" name="interval" value="custom">
-                <div class="form-group mb-3">
-                    <label for="start_date" class="form-label text-white">Start Date:</label>
-                    <input type="date" id="start_date" name="start_date" class="form-control" value="{{ request('start_date', \Carbon\Carbon::now()->subDays(6)->toDateString()) }}" required />
-                </div>
-                <div class="form-group mb-3">
-                    <label for="end_date" class="form-label text-white">End Date:</label>
-                    <input type="date" id="end_date" name="end_date" class="form-control" value="{{ request('end_date', \Carbon\Carbon::now()->toDateString()) }}" required />
-                </div>
-                <div class="d-flex justify-content-end">
-                    <button type="button" onclick="closeModal()" class="btn btn-secondary me-2">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Generate Report</button>
-                </div>
-            </form>
+<!-- DATE FILTER MODAL -->
+@if(!str_contains(request()->url(), '/promos') && !str_contains(request()->url(), '/feedbacks'))
+<div class="modal fade" id="custom-date-modal" tabindex="-1" aria-labelledby="customDateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white px-2" style="height:335px; width: 65%; font-family: Poppins;">
+            <h5 class="modal-title text-center fw-bold mb-0 mt-4" id="customDateModalLabel" style="font-size: 1.5rem; letter-spacing: 2px;">Select Date Range</h5>
+            <hr class="align-self-center mt-2 mb-2 opacity-100" style="width:40%;">
+            <div class="modal-body" style="font-size: 1.2rem; letter-spacing: 1.5px;">
+                <form action="{{$actionRoute}}" method="GET">
+                    @csrf
+                    <input type="hidden" name="interval" value="custom">
+                    <div class="form-group mb-3">
+                        <label for="start_date" class="form-label text-black fw-semibold modal-date-label">Start Date:</label>
+                        <input type="date" id="start_date" name="start_date" class="form-control rounded-0 modal-date-label" style="border: none; border-bottom: 1px solid black;" value="{{ request('start_date', \Carbon\Carbon::now()->subDays(6)->toDateString()) }}" required />
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="end_date" class="form-label text-black fw-semibold modal-date-label">End Date:</label>
+                        <input type="date" id="end_date" name="end_date" class="form-control rounded-0 modal-date-label" style="border: none; border-bottom: 1px solid black;" value="{{ request('end_date', \Carbon\Carbon::now()->toDateString()) }}" required />
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <button type="button" onclick="closeModal()" class="btn text-body-tertiary fw-bold modal-date-button" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn text-black fw-bold modal-date-button">Confirm</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-    const dateFilter = document.getElementById('dateFilter');
-    const dropdownIcon = document.querySelector('.dropdown-icon');
-
-    dateFilter.addEventListener('focus', () => {
-        dropdownIcon.classList.remove('fa-chevron-down');
-        dropdownIcon.classList.add('fa-chevron-up');
-    });
-
-    dateFilter.addEventListener('blur', () => {
-        dropdownIcon.classList.remove('fa-chevron-up');
-        dropdownIcon.classList.add('fa-chevron-down');
-    });
-</script>
-
-<style>
-.footer {
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(10px); 
-    border-radius: 50px; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    height: 55px;
-    padding: 7px 0px; 
-}
-
-.dropdownforModal {
-    background-color: transparent;
-    color: white;  /* Dropdown button text color */
-    border: none;
-    box-shadow: none;
-    padding: 5px 10px;
-    appearance: none; /* Removes the default select arrow */
-    cursor: pointer;
-    width: 100%;
-}
-
-.dropdownforModal option {
-    background-color: white;
-    color: black;  /* Dropdown options text color */
-    padding: 5px 10px;
-}
-
-.dropdownforModal:hover,
-.dropdownforModal:focus {
-    outline: none;
-}
-
-/* Optional styling for custom arrow */
-.dropdownforModal::after {
-    content: '\25BC'; /* Downward arrow */
-    font-size: 12px;
-    color: white;
-    position: absolute;
-    right: 15px;
-}
-.modal-content {
-    background-color: #fff; 
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.select-wrapper {
-    display: flex;
-    align-items: center; /* Align text and icon vertically */
-    gap: 5px; /* Add space between text and icon */
-    color: white; /* Text and icon color */
-}
-
-.dropdownforModal {
-    background-color: transparent;
-    border: none;
-    color: white;
-    padding: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    appearance: none; /* Removes default select arrow */
-}
-
-.dropdown-icon {
-    font-size: 16px;
-    display: inline-block; /* Ensure icon stays inline with text */
-}
-#dateFilter {
-    border-bottom: 2px solid white; /* White line under the dropdown */
-}
-
-
-</style>
+@endif

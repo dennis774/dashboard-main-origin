@@ -45,13 +45,128 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Forgot Password</title>
+    <title>Reset Password</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+     <!-- GOOGLE FONT (POPPINS) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- CUSTOM FONT CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/helvetica-font.css') }}">
+
+    <!-- BOOTSTRAP -->
     <link href="{{ url('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
     <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
+    
+    <!-- ICON STYLESHEET -->
     <link rel="stylesheet" href="{{ url('fontawesome/css/all.min.css') }}" />
+
     <style>
-        body {
+
+            body {
+                /* background-image: url("https://t4.ftcdn.net/jpg/07/94/30/45/360_F_794304521_O4o0Y5UrvKtDxBNHY9utMowV2VhuhRpk.jpg"); */
+                background: url("/assets/images/login-bg-img.png") no-repeat center center fixed;
+                background-size: cover;
+                margin: 0;
+                padding: 0;
+                overflow: auto;
+                font-family: "Poppins";
+                letter-spacing: 3px;
+                /* min-height: 100vh; Ensures it covers the full viewport height */
+            }
+
+            .reset-pass-header {
+                font-family: "Helvetica Now Text";
+                font-weight: normal;
+                font-size: clamp(1.5rem, 1.8vw, 3.5rem);
+            }
+
+            .reset-pass-form {
+                width: 60vw;
+            }
+
+            .reset-pass-textfield {
+                background-color: transparent;
+                border: none;
+                border-bottom: 0.05rem solid white;
+                border-radius: 0px;
+                font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+                letter-spacing: 3px;
+            }
+
+            .reset-pass-textfield:focus {
+                background-color: transparent;
+                border: none;
+                border-bottom: 0.05rem solid white;
+                border-radius: 0px;
+                box-shadow: none;
+            }
+
+            #show-newpass-toggle, #show-confirmpass-toggle {
+                position: absolute;
+                right: 20px;
+                transform: translate(0, -50%);
+                top: 50%;
+                cursor: pointer;
+                font-size: 20px;
+            }
+
+            .rounded-card {
+                /*max-height: 55%;*/
+                max-width: 65vw;
+                width: 100%;
+                height: 400px;
+                margin-top: 10vh;
+                background-color: transparent;
+                backdrop-filter: blur(20px) brightness(60%);
+                border: 0.001rem solid rgba(255, 255, 255, 0.311);
+                border-radius: 20px;
+            }
+
+            .label-reset-text {
+                font-size: clamp(0.75rem, 1.8vw, 1rem);
+                letter-spacing: 2px;
+            }
+
+            .reset-button::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 12px;
+                background: url("/assets/images/login-bg-img.png") no-repeat center center fixed;
+                background-size: cover;
+                backdrop-filter: blur(20px) brightness(70%);
+                z-index: -1;
+            }
+
+            .reset-button::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: transparent;
+                backdrop-filter: blur(15px) brightness(120%) contrast(90%);
+                border-radius: 12px;
+                z-index: -1;
+            }
+
+            .reset-button {
+                font-family: "Poppins";
+                letter-spacing: 2px;
+                border-radius: 12px;
+                background-color: transparent;
+                backdrop-filter: blur(20px) brightness(80%);
+            }
+
+
+        /* body {
             background-image: url("https://t4.ftcdn.net/jpg/07/94/30/45/360_F_794304521_O4o0Y5UrvKtDxBNHY9utMowV2VhuhRpk.jpg");
             background-repeat: no-repeat;
             background-size: cover;
@@ -105,10 +220,124 @@
             color: #fff;
             font-size: 0.9rem;
             
-        }
+        } */
     </style>
 </head>
 <body>
+
+    <div class="container d-flex flex-column vh-100 align-items-center justify-content-center">
+            <!-- ERROR MESSAGES -->
+            <x-input-error :messages="$errors->get('email')" class="position-relative my-0 bg-danger-subtle border-3 rounded-3 alert alert-danger" role="alert" style="font-size: 12px; letter-spacing: 1px;" />
+            <x-input-error :messages="$errors->get('password')" class="position-relative my-0 bg-danger-subtle border-3 rounded-3 alert alert-danger" role="alert" style="font-size: 12px; letter-spacing: 1px;" />
+            <x-input-error :messages="$errors->get('password_confirmation')" class="position-relative my-0 bg-danger-subtle border-3 rounded-3 alert alert-danger" role="alert" style="font-size: 12px; letter-spacing: 1px;" />
+            <!-- END ERROR MESSAGES -->
+
+            <div class="card rounded-card mt-3 d-flex align-items-center justify-content-center text-white">
+            <!-- LOGIN FORM -->
+            <p class="h2 fw-normal mb-4 mb-md-5 mt-1 text-center reset-pass-header">Create Your <br class="d-md-none"/>New Password</p>
+            <form method="POST" action="{{ route('password.store') }}" class="text-center px-3 px-md-1 reset-pass-form">
+                @csrf
+                <!-- Password Reset Token -->
+                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+
+                <!-- EMAIL -->
+                <div class="row gs-5 px-xl-5 mb-2 mt-1 mt-md-0 align-items-center">
+                    <label for="reset-email" class="col-md-3 col-lg-4 text-start text-md-end text-white-50 flex-wrap flex-lg-nowrap label-reset-text">Email</label>
+                    <div class="col-12 col-md position-relative">
+                        <input type="email" class="form-control reset-pass-textfield text-white" id="reset-email" name="email" value="{{ old('email', $request->email) }}" required autocomplete="username">
+                    </div>
+                    <div class="col-md-2 d-none d-md-block text-center text-lg-start">
+                        <button type="button" class="btn rounded-circle border-1 text-white-50 fs-5 clear-btn-email" onclick="document.getElementById('reset-email').value='';">✕</button>
+                    </div>
+                </div>
+
+                <!-- NEW PASSWORD -->
+                <div class="row gs-5 px-xl-5  mb-2 align-items-center">
+                    <label for="reset-new-password" class="col-md-3 col-lg-4 text-start text-md-end text-white-50 flex-wrap flex-lg-nowrap label-reset-text">New Password</label>
+                    <div class="col-12 col-md position-relative">
+                        <input type="password" class="form-control reset-pass-textfield text-white" id="reset-new-password" name="password" required autocomplete="new-password">
+                        <span>
+                            <ion-icon name="eye-off" id="show-newpass-toggle" aria-hidden="true"></ion-icon>
+                        </span>
+                    </div>
+                    <div class="col-md-2 d-none d-md-block text-center text-lg-start">
+                        <button type="button" class="btn rounded-circle border-1 text-white-50 fs-5 clear-btn-password" onclick="document.getElementById('reset-new-password').value='';">✕</button>
+                    </div>
+                </div>
+
+                <!-- CONFIRM PASSWORD -->
+                <div class="row gs-5 px-xl-5 mb-3 mb-md-5 align-items-center">
+                    <label for="reset-confirm-password" class="col-md-3 col-lg-4 text-start text-md-end text-white-50 flex-wrap flex-lg-nowrap label-reset-text">Confirm Password</label>
+                    <div class="col-12 col-md position-relative">
+                        <input type="password" class="form-control reset-pass-textfield text-white" id="reset-confirm-password" name="password_confirmation" required autocomplete="new-password">
+                        <span>
+                            <ion-icon name="eye-off" id="show-confirmpass-toggle" aria-hidden="true"></ion-icon>
+                        </span>
+                    </div>
+                    <div class="col-md-2 d-none d-md-block text-center text-lg-start">
+                        <button type="button" class="btn rounded-circle border-1 text-white-50 fs-5 clear-btn-password" onclick="document.getElementById('reset-confirm-password').value='';">✕</button>
+                    </div>
+                </div>
+
+                <!-- RESET BUTTON -->
+                <div class="row">
+                <div class="d-none d-xl-flex col-xl-1"></div>
+                    
+                    <!-- PASS REQUIREMENT -->
+                    <div class="col-12 col-md-8 d-flex ps-0 ps-md-4 ps-lg-0 justify-content-center align-items-center">
+                        <p class="text-white-50 text-center text-md-start flex-nowrap" style="font-size: clamp(0.55rem, 1vw, 0.7rem); letter-spacing: 2px;">
+                            Password Requirements:</br>
+                            <span class="text-white">8 characters, mix of uppercase/lowercase, numbers</span>
+                        </p>
+                    </div>
+                    <!-- CONFIRM BUTTON -->
+                    <div class="col-12 col-md col-xl-2 d-flex align-items-center justify-content-center justify-content-md-end">
+                        <button type="submit" class="btn me-md-0 px-4 px-lg-5 text-center text-white reset-button" style="font-size: clamp(0.7rem, 1.8vw, 1rem);">Confirm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+        <!-- Link to Icons -->
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+        <!-- SHOW NEW PASS SCRIPT -->
+        <script>
+            const showIcon = document.getElementById('show-newpass-toggle');
+            const newPass = document.getElementById('reset-new-password');
+                
+            showIcon.onclick = function() {
+                if (newPass.type == "password") {
+                    newPass.type = "text";
+                    showIcon.name = "eye";
+                } else {
+                    newPass.type = "password";
+                    showIcon.name = "eye-off";
+                }
+s
+            }
+        </script>
+
+        <!-- SHOW CONFIRM PASS SCRIPT -->
+        <script>
+            const showIconConfirm = document.getElementById('show-confirmpass-toggle');
+            const confirmPass = document.getElementById('reset-confirm-password');
+                
+            showIconConfirm.onclick = function() {
+                if (confirmPass.type == "password") {
+                    confirmPass.type = "text";
+                    showIconConfirm.name = "eye";
+                } else {
+                    confirmPass.type = "password";
+                    showIconConfirm.name = "eye-off";
+                }
+s
+            }
+        </script>
+
+{{--
     <div class="d-flex align-items-center justify-content-center min-vh-100">
         <div class="container">
             <div class="row">
@@ -170,7 +399,8 @@
                 <div class="col-lg-3"></div>
             </div>
         </div>
-    </div>
+    </div>--}}
+
 </body>
 </html>
 

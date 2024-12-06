@@ -311,48 +311,55 @@
 
 
 <script>
-   document.getElementById('dateFilterForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+    document.getElementById('dateFilterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-    const formData = new FormData(this);
-    const startDate = formData.get('start_date');
-    const endDate = formData.get('end_date');
+        const formData = new FormData(this);
+        const startDate = formData.get('start_date');
+        const endDate = formData.get('end_date');
 
-    fetch("{{ route('feedback.filterByDate') }}", {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        const averageRatingElement = document.getElementById('averageRating');
-        averageRatingElement.textContent = data.averageRating ? data.averageRating.toFixed(1) : 'N/A';
+        fetch("{{ route('feedback.filterByDate') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the average rating display
+                const averageRatingElement = document.getElementById('averageRating');
+                averageRatingElement.textContent = data.averageRating.toFixed(
+                    1); // Display with one decimal place
 
-        // Update chart data if available
-        const chart = Chart.getChart('ratingChart');
-        chart.data.datasets[0].data = data.ratingCounts || [0, 0, 0, 0, 0];
-        chart.update();
+                // Update chart data
+                const chart = Chart.getChart('ratingChart'); // Assuming chart instance exists
+                chart.data.datasets[0].data = [
+                    data.ratingCounts[1],
+                    data.ratingCounts[2],
+                    data.ratingCounts[3],
+                    data.ratingCounts[4],
+                    data.ratingCounts[5]
+                ];
+                chart.update();
 
-        // Update feedback sections
-        updateSection('commentsList', data.comments || []);
-        updateSection('suggestionsList', data.suggestions || []);
-        updateSection('complaintsList', data.complaints || []);
+                // Update feedback sections
+                updateSection('commentsList', data.comments);
+                updateSection('suggestionsList', data.suggestions);
+                updateSection('complaintsList', data.complaints);
 
-        // Update date range display
-        const dateRangeDisplay = document.getElementById('dateRangeDisplay');
-        dateRangeDisplay.textContent = data.comments.length || data.suggestions.length || data.complaints.length
-            ? `Filtered: ${formatDate(startDate)} to ${formatDate(endDate)}`
-            : 'No feedback found for the selected date range.';
+                // Update date range display
+                const dateRangeDisplay = document.getElementById('dateRangeDisplay');
+                dateRangeDisplay.textContent =
+                    `Filtered: ${formatDate(startDate)} to ${formatDate(endDate)}`;
 
-        // Hide the modal
-        const modalElement = document.getElementById('dateFilterModal');
-        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
-        modal.hide();
-    })
-    .catch(error => console.error('Error:', error));
-});
+                // Hide the modal using Bootstrap 5
+                const modalElement = document.getElementById('dateFilterModal');
+                const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                modal.hide();
+            })
+            .catch(error => console.error('Error:', error));
+    });
 
     // Helper function to format the date as a readable string
     function formatDate(dateString) {
