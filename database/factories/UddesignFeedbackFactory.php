@@ -15,7 +15,7 @@ class UddesignFeedbackFactory extends Factory
         return [
             'name' => $this->faker->name,
             'feedback_type' => $this->faker->randomElement(['Comment', 'Suggestion', 'Complaint']),
-            'dish' => $this->faker->randomElement(['Pizza', 'Burger', 'Pasta', 'Salad', 'Sushi']),
+            'product_name' => $this->faker->randomElement(['Pizza', 'Burger', 'Pasta', 'Salad', 'Sushi']),
             'comments' => $this->faker->paragraph,
             'rating' => $this->faker->numberBetween(1, 5),
             'feedback_date' => $this->faker->date,

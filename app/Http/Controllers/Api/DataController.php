@@ -219,6 +219,28 @@ class DataController extends Controller
             ->with('success', 'Order Details refreshed successfully!');
     }
 
+    public function refreshExpenseDetails(Request $request, $tokenKey, $baseUrl, $model)
+    {
+        $apiToken = $request->session()->get($tokenKey);
+        if (!$apiToken) {
+            return redirect()
+                ->back()
+                ->with('failed', 'API token not found in session.');
+        }
+
+        $this->fetchAndInsertDataInBatches($apiToken, $baseUrl, '/api/expense-details', $model, function ($expensDetail) {
+            return [
+                'expense_type_id' => $expensDetail['expense_type_id'],
+                'price' => $expensDetail['price'],
+                'date' => Carbon::parse($expensDetail['date'])->format('Y-m-d H:i:s'),
+            ];
+        });
+
+        return redirect()
+            ->back()
+            ->with('success', 'Order Details refreshed successfully!');
+    }
+
     public function refreshUddesignDetails(Request $request, $tokenKey, $baseUrl)
     {
         $apiToken = $request->session()->get($tokenKey);

@@ -87,9 +87,10 @@
             @include('general.navbar')
             <!-- /.navbar -->
 
-            @include('general.uddesign.feedbacks-content')
+            @include('general.uddesign.feedbacks-content')@include('general.footer')
         </div>
         <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
+        @include('general.footer-script')
     </body>
 </html>
 

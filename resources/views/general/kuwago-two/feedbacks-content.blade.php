@@ -19,7 +19,7 @@
                         <canvas id="ratingChart" height="350"></canvas>
                         <div class="col-lg-12 mt-2">
                             <!-- Filter Date Button -->
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-lg-3">
                                     <button class="btn filterFeedback d-flex justify-content-center align-items-center"
                                         data-bs-toggle="modal" data-bs-target="#dateFilterModal"
@@ -33,7 +33,7 @@
                                         applied</span>
                                 </div>
                                 <div class="col-lg-1"></div>
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>

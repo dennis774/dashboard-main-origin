@@ -84,9 +84,10 @@
             @include('general.navbar')
             <!-- /.navbar -->
 
-            @include('general.kuwago-one.feedbacks-content')
+            @include('general.kuwago-one.feedbacks-content')@include('general.footer')
         </div>
         <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
+        @include('general.footer-script')
     </body>
 </html>
 

@@ -334,22 +334,22 @@ class Kuwago_OneController extends Controller
         ];
     }
 
-    public function showFeedbacks()
-    {
-        $feedback = Feedback::orderBy('feedback_date', 'desc')->get();
-        $averageRating = $feedback->avg('rating');
+    // public function showFeedbacks()
+    // {
+    //     $feedback = Feedback::orderBy('feedback_date', 'desc')->get();
+    //     $averageRating = $feedback->avg('rating');
 
-        // Calculate rating counts
-        $ratingCounts = [
-            1 => $feedback->where('rating', 1)->count(),
-            2 => $feedback->where('rating', 2)->count(),
-            3 => $feedback->where('rating', 3)->count(),
-            4 => $feedback->where('rating', 4)->count(),
-            5 => $feedback->where('rating', 5)->count(),
-        ];
+    //     // Calculate rating counts
+    //     $ratingCounts = [
+    //         1 => $feedback->where('rating', 1)->count(),
+    //         2 => $feedback->where('rating', 2)->count(),
+    //         3 => $feedback->where('rating', 3)->count(),
+    //         4 => $feedback->where('rating', 4)->count(),
+    //         5 => $feedback->where('rating', 5)->count(),
+    //     ];
 
-        return view('general.kuwago-one.feedbacks', compact('feedback', 'averageRating', 'ratingCounts'));
-    }
+    //     return view('general.kuwago-one.feedbacks', compact('feedback', 'averageRating', 'ratingCounts'));
+    // }
 
     public function kuwagoOnepromos(Request $request)
     {
@@ -358,4 +358,37 @@ class Kuwago_OneController extends Controller
 
         return view('general.kuwago-one.promos', compact('promos'));
     }
+    
+    public function showFeedbacks(Request $request)
+    {
+        return $this->generateFeedbackData($request, 'general.kuwago-one.feedbacks');
+    }
+
+    private function generateFeedbackData(Request $request, $view)
+    {
+        $interval = $request->input('interval', 'thisweek');
+        $dates = $this->getDateRange($interval, $request);
+    
+        // Fetch feedback data
+        $feedback = Feedback::whereBetween('feedback_date', [$dates['start'], $dates['end']])->get();
+    
+        $averageRating = $feedback->avg('rating');
+    
+        $ratingCounts = [
+            1 => $feedback->where('rating', 1)->count(),
+            2 => $feedback->where('rating', 2)->count(),
+            3 => $feedback->where('rating', 3)->count(),
+            4 => $feedback->where('rating', 4)->count(),
+            5 => $feedback->where('rating', 5)->count(),
+        ];
+    
+        $comments = $feedback->where('feedback_type', 'Comment')->values();
+        $suggestions = $feedback->where('feedback_type', 'Suggestion')->values();
+        $complaints = $feedback->where('feedback_type', 'Complaint')->values();
+    
+        $actionRoute = route($view);
+    
+        return view($view, compact('actionRoute', 'feedback', 'averageRating', 'ratingCounts', 'comments', 'suggestions', 'complaints'));
+    }
+    
 }
