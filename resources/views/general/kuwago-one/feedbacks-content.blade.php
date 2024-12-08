@@ -18,23 +18,7 @@
                                 id="averageRating">{{ number_format($averageRating, 1) }}</span></p> <canvas
                             id="ratingChart" height="350"></canvas>
                         <div class="col-lg-12 mt-2">
-                            <!-- Filter Date Button -->
-                            <!-- <div class="row">
-                                <div class="col-lg-3">
-                                    <button class="btn filterFeedback d-flex justify-content-center align-items-center"
-                                        data-bs-toggle="modal" data-bs-target="#dateFilterModal"
-                                        style="width: 40px; height: 40px; border-radius: 50%;">
-                                        <i class="fa-solid fa-filter" style="color: #000; font-size: 15px;"></i>
-                                    </button>
-                                </div>
-                                <div class="col-lg-8 d-flex justify-content-center align-items-center"
-                                    style="background: #fff; border-radius:10px;">
-                                    <span id="dateRangeDisplay" style="font-size: 14px; color:#000;">No filter
-                                        applied</span>
-                                </div>
-                                <div class="col-lg-1"></div>
-                            </div> -->
-
+                          
                         </div>
 
                     </div>
