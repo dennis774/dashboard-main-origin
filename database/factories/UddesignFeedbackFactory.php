@@ -18,7 +18,7 @@ class UddesignFeedbackFactory extends Factory
             'product_name' => $this->faker->randomElement(['Pizza', 'Burger', 'Pasta', 'Salad', 'Sushi']),
             'comments' => $this->faker->paragraph,
             'rating' => $this->faker->numberBetween(1, 5),
-            'feedback_date' => $this->faker->date,
+            'feedback_date' => fake()->dateTimeBetween('2024-11-1', '2024-12-30')->format('Y-m-d'),
             'created_at' => now(),
             'updated_at' => now(),
         ];

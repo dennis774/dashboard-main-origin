@@ -334,23 +334,6 @@ class Kuwago_OneController extends Controller
         ];
     }
 
-    // public function showFeedbacks()
-    // {
-    //     $feedback = Feedback::orderBy('feedback_date', 'desc')->get();
-    //     $averageRating = $feedback->avg('rating');
-
-    //     // Calculate rating counts
-    //     $ratingCounts = [
-    //         1 => $feedback->where('rating', 1)->count(),
-    //         2 => $feedback->where('rating', 2)->count(),
-    //         3 => $feedback->where('rating', 3)->count(),
-    //         4 => $feedback->where('rating', 4)->count(),
-    //         5 => $feedback->where('rating', 5)->count(),
-    //     ];
-
-    //     return view('general.kuwago-one.feedbacks', compact('feedback', 'averageRating', 'ratingCounts'));
-    // }
-
     public function kuwagoOnepromos(Request $request)
     {
         $sort = $request->get('sort', 'newest');

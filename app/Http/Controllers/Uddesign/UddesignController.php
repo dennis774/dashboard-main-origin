@@ -261,23 +261,6 @@ class UddesignController extends Controller
         return view('general.uddesign.uddeals', compact('deals'));
     }
 
-    // public function showFeedbacks()
-    // {
-    //     $feedback = UddesignFeedback::orderBy('feedback_date', 'desc')->get();
-    //     $averageRating = $feedback->avg('rating');
-
-    //     // Calculate the number of votes for each rating (1 to 5)
-    //     $ratingCounts = [
-    //         1 => $feedback->where('rating', 1)->count(),
-    //         2 => $feedback->where('rating', 2)->count(),
-    //         3 => $feedback->where('rating', 3)->count(),
-    //         4 => $feedback->where('rating', 4)->count(),
-    //         5 => $feedback->where('rating', 5)->count(),
-    //     ];
-
-    //     return view('general.uddesign.feedbacks', compact('feedback', 'averageRating', 'ratingCounts'));
-    // }
-
     public function showFeedbacks(Request $request)
     {
         return $this->generateFeedbackData($request, 'general.uddesign.feedbacks');

@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         // FakeData::factory()->Count(731)->create();
         // FakeDataThree::factory()->Count(1000)->create();
         // FakeDataTwo::factory()->Count(1000)->create();
-        Feedback::factory()->count(50)->create();
-        UddesignFeedback::factory()->count(50)->create();
+        // Feedback::factory()->count(100)->create();
+        UddesignFeedback::factory()->count(100)->create();
 
     }
 }
