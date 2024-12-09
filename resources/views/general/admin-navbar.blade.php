@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8 top-bar">
-            <div style="container">
+            <div class="container">
                 <div class="row">
                     <div class="col-lg-4">
                         <img src="https://via.placeholder.com/80" class="user-image" />

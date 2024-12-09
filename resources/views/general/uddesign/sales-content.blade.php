@@ -1,3 +1,128 @@
+<!-- DASHBOARD PANEL -->
+<div class="d-flex rounded-4 dashboard-panel">
+    <div class="row d-flex flex-grow-1 m-0 h-100 rounded-4 justify-content-center align-items-center text-white " style="padding-inline: 2%; padding-block: 2%;">
+        <!-- UPPER ROW/COLUMN -->
+        <div class="col-12 d-flex flex-row column-gap-3 p-0" style="height: 48%; margin-bottom: 0%;">
+            <!-- TOTAL SALES & PAYMENT METHOD -->
+            <div class="col" style="width: 46%">
+                <div class="d-flex flex-row rounded-4 h-100 main-dashboard-tile">
+                    <!-- TOTAL SALES -->
+                    <div class="col d-flex flex-column align-items-center h-100" style="width: 55%;">
+                        <div class="col-12 d-flex mt-2 align-items-end justify-content-center" style="height: 15%;">
+                            <span class="uddesign-right-title">Total Sales</span>
+                        </div>
+                        <div class="col-12 d-flex mb-4 align-items-start justify-content-center" style="height: 13%;">
+                            <span class="dashboard-total-text" style="font-size: 1.4rem;">999,999,999.00</span>
+                        </div>
+                        <div class="col-12 d-flex flex-column ps-4 mt-1 align-items-center justify-content-start" style="height: 60%;">
+                            <div class="col-12 d-flex flex-row mb-2 align-items-center uddesign-side-text" style="font-size: clamp(0.75rem, 1.6vw, 0.9rem); letter-spacing: 1.5px;">
+                                <span class="me-1">Print/Photo:</span> 1.00
+                            </div>
+                            <div class="col-12 d-flex mb-2 align-items-center uddesign-side-text" style="font-size: clamp(0.75rem, 1.6vw, 0.9rem); letter-spacing: 1.5px;">
+                                <span class="me-1">UdD Merch:</span> 500.00
+                            </div>
+                            <div class="col-12 d-flex align-items-center uddesign-side-text" style="font-size: clamp(0.75rem, 1.6vw, 0.9rem); letter-spacing: 1.5px;">
+                                <span class="me-1">Custom Deals:</span> 999.00
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vr p-0 text-white opacity-75 align-self-center" style="width: 1px; min-height: 75%;"></div>
+
+                    <!-- PAYMENT METHODS -->
+                    <div class="col-auto d-flex flex-column align-items-center h-100" style="width: 45%;">
+                        <div class="col-12 d-flex mt-2 align-items-end justify-content-center" style="height: 15%;">
+                            <span class="uddesign-right-title">Payment Methods</span>
+                        </div>
+                        <div class="col-12 d-flex align-items-center justify-content-center" style="height: 70%;">
+                            Donut Chart
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- SALES TREND -->
+            <!-- <div class="col">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                        <span class="ms-3 db-card-title">Sales Trends</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
+                        Trend Chart
+                    </div>
+                </div>
+            </div> -->
+            <!-- SALES TREND -->
+            <div class="col-3 p-0" style="width: 52%">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                        <span class="ms-3 fw-bold db-card-title">Sales Trends</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
+                        Trend Chart
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END UPPER ROW/COLUMN -->
+
+        <!-- BOTTOM ROW/COLUMN -->
+        <div class="col-12 d-flex flex-row column-gap-3 p-0" style="height: 46%; margin-top: 1%;">
+            <!-- SALES BY CATEGORY -->
+            <div class="col-7" style="width: 57%">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                        <span class="ms-3 db-card-title">Sales by Category</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
+                        <!-- LEFT CHART -->
+                        <div class="col-auto d-flex flex-grow flex-column align-items-center h-100" style="width: 30%;">
+                            <div class="col-12 d-flex flex-grow-1 align-items-center justify-content-center" style="height: 70%;">
+                                Bar Chart Left
+                            </div>
+                        </div>
+
+                        <!-- RIGHT CHART -->
+                        <div class="col d-flex flex-column align-items-center h-100" style="width: 45%;">
+                            <div class="col-12 d-flex flex-grow-1  align-items-center justify-content-center" style="height: 70%;">
+                                Bar Chart Right
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- TOP SELLING UDD MERCH -->
+            <div class="col p-0">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                        <span class="ms-3 db-card-title">Top-Selling Products</span>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
+                        Horizontal Bar Chart
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END BOTTOM ROW/COLUMN -->
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- ORIGINAL CODE --}}
+<?php
+/*
 {{-- START --}}
 <div class="container text-center content-container">
     <div class="row mb-5">
@@ -19,10 +144,10 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <h6 style="color: #fff;">Total Sales</h6>
-                                    <p style="color: #fff;">₱{{ $totalSales }}</p>
-                                    <p style="color: #fff;">Print/Photo: ₱{{ $totalPrintSales }}</p>
-                                    <p style="color: #fff;">UdD Merch: ₱{{ $totalMerchSales }}</p>
-                                    <p style="color: #fff;">Closed Deals: ₱{{ $totalCustomSales }}</p>
+                                    <p style="color: #fff">₱{{ $totalSales }}</p>
+                                    <p style="color: #fff">Print/Photo: ₱{{ $totalPrintSales }}</p>
+                                    <p style="color: #fff">UdD Merch: ₱{{ $totalMerchSales }}</p>
+                                    <p style="color: #fff">Closed Deals: ₱{{ $totalCustomSales }}</p>
                                 </div>
                                 <div class="col-lg-6">
                                     <canvas id="donutChart"></canvas>
@@ -32,25 +157,110 @@
                     </div>
                     <div class="col-lg-6">
                         <canvas id="myChart2" width="400" height="200"></canvas>
+                    </div>
 
-                    </div>
+                    <script>
+                        // Doughnut Chart: Cash vs Gcash
+                        const totalCash = @json($totalCash);
+                        const totalGcash = @json($totalGcash);
+                    
+                        const xValues = ["Cash", "Gcash"];
+                        const yValues = [totalCash, totalGcash];
+                        const barColors = ["#b91d47", "#00aba9"];
+                    
+                        new Chart("donutChart", {
+                            type: "doughnut",
+                            data: {
+                                labels: xValues,
+                                datasets: [{
+                                    backgroundColor: barColors,
+                                    data: yValues
+                                }]
+                            },
+                            options: {
+                                plugins: {
+                                    legend: {
+                                        labels: {
+                                            color: 'white' // Legend text color
+                                        }
+                                    },
+                                    tooltip: {
+                                        titleColor: 'white', // Tooltip title text
+                                        bodyColor: 'white', // Tooltip body text
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Cash vs Gcash",
+                                    fontColor: "white" // Title text color
+                                }
+                            }
+                        });
+                    </script>
+                    
+                    <script>
+                        // Line Chart: Print/Photo, UdD Merch, Custom Deals
+                        var ctx = document.getElementById('myChart2').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: @json($chartdata->pluck('date')),
+                                datasets: [{
+                                    label: 'Print/Photo',
+                                    data: @json($chartdata->pluck('print_sales')),
+                                    borderColor: 'blue',
+                                    borderWidth: 1,
+                                    fill: 'origin'
+                                }, {
+                                    label: 'UdD Merch',
+                                    data: @json($chartdata->pluck('merch_sales')),
+                                    borderColor: 'green',
+                                    borderWidth: 1,
+                                    fill: 'origin'
+                                }, {
+                                    label: 'Custom Deals',
+                                    data: @json($chartdata->pluck('custom_sales')),
+                                    borderColor: 'yellow',
+                                    borderWidth: 1,
+                                    fill: 'origin'
+                                }]
+                            },
+                            options: {
+                                plugins: {
+                                    legend: {
+                                        labels: {
+                                            color: 'white' // Legend text color
+                                        }
+                                    },
+                                    tooltip: {
+                                        titleColor: 'white', // Tooltip title text
+                                        bodyColor: 'white' // Tooltip body text
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        ticks: {
+                                            color: 'white' // X-axis labels color
+                                        },
+                                        grid: {
+                                            color: 'rgba(255, 255, 255, 0.2)' // Optional: light white grid lines
+                                        }
+                                    },
+                                    y: {
+                                        ticks: {
+                                            color: 'white' // Y-axis labels color
+                                        },
+                                        grid: {
+                                            color: 'rgba(255, 255, 255, 0.2)' // Optional: light white grid lines
+                                        },
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                    
                 </div>
-                <div class="container mt-2">
-                <div class="row">
-                    <div class="col-lg-4 chartsKuwago1">
-                        <h6>Sales By Category Here</h6>
-                        <canvas id="printCategoryChart"></canvas>
-                    </div>
-                    <div class="col-lg-5 chartsKuwago1">
-                        <h6>Sales By Category Here</h6>
-                        <canvas id="categoryChart"></canvas>
-                    </div>
-                    <div class="col-lg-3 topSelling">
-                        <h6>Top Selling Products</h6>
-                        <canvas id="topDishesChart"></canvas>
-                    </div>
-                </div>
-            </div>
             </div>
         </div>
         <div class="col-lg-1"></div>

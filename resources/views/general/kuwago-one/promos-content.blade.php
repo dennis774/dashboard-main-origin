@@ -1,3 +1,428 @@
+<!-- DASHBOARD PANEL -->
+<div class="d-flex rounded-4 dashboard-panel">
+    <div class="row d-flex flex-grow-1 m-0 column-gap-3 h-100 rounded-4 justify-content-center align-items-center text-white " style="padding-inline: 2%; padding-block: 2.5%;">
+
+        <!-- LEFT COLUMN -->
+        <div class="col-auto d-flex flex-column row-gap-3 p-0 h-100" style="width: 74%;">
+
+            <div class="col-12 d-flex justify-content-center align-items-center h-100 w-100">
+                <div class="col">
+                    <!-- PREV BUTTON -->
+                    <button class="btn d-flex justify-content-center align-items-center carousel-controls" id="prev-button" type="button" style="padding: 0;">
+                        <ion-icon name="chevron-back-outline" class="text-white fs-4"></ion-icon>
+                    </button>
+
+                </div>
+
+                <div class="col-auto d-flex justify-content-center align-items-center h-100" id="carousel-container" style="width: 90%;">
+                    <!-- PROMO CARD -->
+                    <div class="col-12 d-flex flex-column py-3 px-2 position-absolute justify-content-start align-items-center carouselItem carouselItem-1" style="width:25%; height:78%; background-color: #efdcc2;">
+                        <!-- PROMO NAME -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black uddeals-panel-text">Buy 1 Take 1</span>
+                        </div>
+
+                        <!-- PROMO DURATION -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black promo-date-text">Jan/06/2024 - Jan/20/2024</span>
+                        </div>
+
+                        <!-- PROMO CHART -->
+                        <div class="row d-flex w-100 justify-content-center align-items-center" style="height: 30%;">
+                            <span class="text-black">HALF DONUT</span>
+                        </div>
+
+                        <!-- PROMO CHART DETAILS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="fw-bold promo-date-text" style="font-size: 0.85rem;">Sales Impact</span>
+                            <span class="promo-date-text">Sales Before: 3,500</span>
+                            <span class="lh-1 promo-date-text">Sales After: 5,000</span>
+                        </div>
+
+                        <!-- PROMO DESCRIPTION -->
+                        <div class="row d-flex w-100 mt-3 mb-3 justify-content-center align-items-center">
+                            <span class="promo-date-text" style="text-align:justify; text-justify:inter-word;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                        </div>
+
+                        <!-- PROMO PRODUCTS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-start fw-bold promo-date-text" style="font-size: 0.7rem;">Eligible Products</span>
+                        </div>
+                        <div class="row d-flex w-100 justify-content-center overflow-y-scroll weather-column">
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+
+                        </div>
+                    </div>
+                    <!-- END PROMO CARD -->
+
+                    <!-- PROMO CARD -->
+                    <div class="col-12 d-flex flex-column py-3 px-2 position-absolute justify-content-start align-items-center carouselItem carouselItem-4" style="width:25%; height:78%; background-color: #efdcc2;">
+                        <!-- PROMO NAME -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black uddeals-panel-text">Buy 2 Take 1</span>
+                        </div>
+
+                        <!-- PROMO DURATION -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black promo-date-text">Jan/06/2024 - Jan/20/2024</span>
+                        </div>
+
+                        <!-- PROMO CHART -->
+                        <div class="row d-flex w-100 justify-content-center align-items-center" style="height: 30%;">
+                            <span class="text-black">HALF DONUT</span>
+                        </div>
+
+                        <!-- PROMO CHART DETAILS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="fw-bold promo-date-text" style="font-size: 0.85rem;">Sales Impact</span>
+                            <span class="promo-date-text">Sales Before: 3,500</span>
+                            <span class="lh-1 promo-date-text">Sales After: 5,000</span>
+                        </div>
+
+                        <!-- PROMO DESCRIPTION -->
+                        <div class="row d-flex w-100 mt-3 mb-3 justify-content-center align-items-center">
+                            <span class="promo-date-text" style="text-align:justify; text-justify:inter-word;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                        </div>
+
+                        <!-- PROMO PRODUCTS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-start fw-bold promo-date-text" style="font-size: 0.7rem;">Eligible Products</span>
+                        </div>
+                        <div class="row d-flex w-100 justify-content-center overflow-y-scroll weather-column">
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+
+                        </div>
+                    </div>
+                    <!-- END PROMO CARD -->
+
+                    <!-- PROMO CARD -->
+                    <div class="col-12 d-flex flex-column py-3 px-2 position-absolute justify-content-start align-items-center carouselItem carouselItem-4" style="width:25%; height:78%; background-color: #efdcc2;">
+                        <!-- PROMO NAME -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black uddeals-panel-text">Buy 3 Take 1</span>
+                        </div>
+
+                        <!-- PROMO DURATION -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black promo-date-text">Jan/06/2024 - Jan/20/2024</span>
+                        </div>
+
+                        <!-- PROMO CHART -->
+                        <div class="row d-flex w-100 justify-content-center align-items-center" style="height: 30%;">
+                            <span class="text-black">HALF DONUT</span>
+                        </div>
+
+                        <!-- PROMO CHART DETAILS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="fw-bold promo-date-text" style="font-size: 0.85rem;">Sales Impact</span>
+                            <span class="promo-date-text">Sales Before: 3,500</span>
+                            <span class="lh-1 promo-date-text">Sales After: 5,000</span>
+                        </div>
+
+                        <!-- PROMO DESCRIPTION -->
+                        <div class="row d-flex w-100 mt-3 mb-3 justify-content-center align-items-center">
+                            <span class="promo-date-text" style="text-align:justify; text-justify:inter-word;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                        </div>
+
+                        <!-- PROMO PRODUCTS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-start fw-bold promo-date-text" style="font-size: 0.7rem;">Eligible Products</span>
+                        </div>
+                        <div class="row d-flex w-100 justify-content-center overflow-y-scroll weather-column">
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+
+                        </div>
+                    </div>
+                    <!-- END PROMO CARD -->
+
+                    <!-- PROMO CARD -->
+                    <div class="col-12 d-flex flex-column py-3 px-2 position-absolute justify-content-start align-items-center carouselItem carouselItem-4" style="width:25%; height:78%; background-color: #efdcc2;">
+                        <!-- PROMO NAME -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black uddeals-panel-text">Buy 4 Take 1</span>
+                        </div>
+
+                        <!-- PROMO DURATION -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black promo-date-text">Jan/06/2024 - Jan/20/2024</span>
+                        </div>
+
+                        <!-- PROMO CHART -->
+                        <div class="row d-flex w-100 justify-content-center align-items-center" style="height: 30%;">
+                            <span class="text-black">HALF DONUT</span>
+                        </div>
+
+                        <!-- PROMO CHART DETAILS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="fw-bold promo-date-text" style="font-size: 0.85rem;">Sales Impact</span>
+                            <span class="promo-date-text">Sales Before: 3,500</span>
+                            <span class="lh-1 promo-date-text">Sales After: 5,000</span>
+                        </div>
+
+                        <!-- PROMO DESCRIPTION -->
+                        <div class="row d-flex w-100 mt-3 mb-3 justify-content-center align-items-center">
+                            <span class="promo-date-text" style="text-align:justify; text-justify:inter-word;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                        </div>
+
+                        <!-- PROMO PRODUCTS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-start fw-bold promo-date-text" style="font-size: 0.7rem;">Eligible Products</span>
+                        </div>
+                        <div class="row d-flex w-100 justify-content-center overflow-y-scroll weather-column">
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+
+                        </div>
+                    </div>
+                    <!-- END PROMO CARD -->
+
+                    <!-- PROMO CARD -->
+                    <div class="col-12 d-flex flex-column py-3 px-2 position-absolute justify-content-start align-items-center carouselItem carouselItem-4" style="width:25%; height:78%; background-color: #efdcc2;">
+                        <!-- PROMO NAME -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black uddeals-panel-text">Buy 5 Take 1</span>
+                        </div>
+
+                        <!-- PROMO DURATION -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black promo-date-text">Jan/06/2024 - Jan/20/2024</span>
+                        </div>
+
+                        <!-- PROMO CHART -->
+                        <div class="row d-flex w-100 justify-content-center align-items-center" style="height: 30%;">
+                            <span class="text-black">HALF DONUT</span>
+                        </div>
+
+                        <!-- PROMO CHART DETAILS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="fw-bold promo-date-text" style="font-size: 0.85rem;">Sales Impact</span>
+                            <span class="promo-date-text">Sales Before: 3,500</span>
+                            <span class="lh-1 promo-date-text">Sales After: 5,000</span>
+                        </div>
+
+                        <!-- PROMO DESCRIPTION -->
+                        <div class="row d-flex w-100 mt-3 mb-3 justify-content-center align-items-center">
+                            <span class="promo-date-text" style="text-align:justify; text-justify:inter-word;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                        </div>
+
+                        <!-- PROMO PRODUCTS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-start fw-bold promo-date-text" style="font-size: 0.7rem;">Eligible Products</span>
+                        </div>
+                        <div class="row d-flex w-100 justify-content-center overflow-y-scroll weather-column">
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+
+                        </div>
+                    </div>
+                    <!-- END PROMO CARD -->
+
+                    <!-- PROMO CARD -->
+                    <div class="col-12 d-flex flex-column py-3 px-2 position-absolute justify-content-start align-items-center carouselItem carouselItem-4" style="width:25%; height:78%; background-color: #efdcc2;">
+                        <!-- PROMO NAME -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black uddeals-panel-text">Buy 6 Take 1</span>
+                        </div>
+
+                        <!-- PROMO DURATION -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-black promo-date-text">Jan/06/2024 - Jan/20/2024</span>
+                        </div>
+
+                        <!-- PROMO CHART -->
+                        <div class="row d-flex w-100 justify-content-center align-items-center" style="height: 30%;">
+                            <span class="text-black">HALF DONUT</span>
+                        </div>
+
+                        <!-- PROMO CHART DETAILS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="fw-bold promo-date-text" style="font-size: 0.85rem;">Sales Impact</span>
+                            <span class="promo-date-text">Sales Before: 3,500</span>
+                            <span class="lh-1 promo-date-text">Sales After: 5,000</span>
+                        </div>
+
+                        <!-- PROMO DESCRIPTION -->
+                        <div class="row d-flex w-100 mt-3 mb-3 justify-content-center align-items-center">
+                            <span class="promo-date-text" style="text-align:justify; text-justify:inter-word;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                        </div>
+
+                        <!-- PROMO PRODUCTS -->
+                        <div class="row d-flex w-100 justify-content-center">
+                            <span class="text-start fw-bold promo-date-text" style="font-size: 0.7rem;">Eligible Products</span>
+                        </div>
+                        <div class="row d-flex w-100 justify-content-center overflow-y-scroll weather-column">
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+                            <span class="text-start promo-date-text">All Frapuccino</span>
+                            <span class="text-start promo-date-text">All Iced Cofee</span>
+
+                        </div>
+                    </div>
+                    <!-- END PROMO CARD -->
+
+
+                </div>
+
+                <div class="col d-flex align-items-center justify-content-end">
+                    <!-- NEXT BUTTON -->
+                    <button class="btn d-flex justify-content-center align-items-center" id="next-button" type="button" style="padding: 0;">
+                        <ion-icon name="chevron-forward-outline" class="text-white fs-4"></ion-icon>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <!-- END LEFT COLUMN -->
+
+        <!-- LINE -->
+        <div class="vr p-0 text-white opacity-75 align-self-center" style="width: 1px; min-height: 80%;"></div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col d-flex flex-column row-gap-3 p-0 h-100">
+            <!-- PROMOS LIST CARD-->
+            <div class="col-12 d-flex ps-1 justify-content-start">
+                <span class="uddesign-side-text" style="font-size: 1rem;">Promos: {{ request('sort') == 'oldest' ? 'Oldest to Newest' : 'Newest to Oldest'}}</span>
+            </div>
+            <div class="row d-flex ps-2 pe-3 align-items-center h-100">
+                <span class="uddesign-side-text" style="font-size: 1.1rem;">Promos: All Time</span>
+            </div>
+
+        </div>
+        <!-- END RIGHT COLUMN -->
+    </div>
+</div>
+
+<script>
+    const carouselContainer = document.getElementById('carousel-container');
+    const previousButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    const carouselItems = document.querySelectorAll('.carouselItem');
+
+    class Carousel {
+
+        constructor(container, items) {
+            this.carouselContainer = container;
+            this.carouselArray = [...items];
+        }
+
+        updateCarousel() {
+            this.carouselArray.forEach(el => {
+                const classes = [...el.classList]; // Get all current classes
+                classes.forEach(cls => {
+                    if (cls.startsWith('carouselItem-')) {
+                        el.classList.remove(cls); // Remove any class that starts with 'carouselItem-'
+                    }
+                });
+            });
+            const visibleItems = Math.min(this.carouselArray.length, 6);
+            // 3 CARD DISPLAY
+            if (visibleItems == 3) {
+                this.carouselArray.slice(0, visibleItems).forEach((el, i) => {
+                    if (i == 2) {
+                        el.classList.add(`carouselItem-${i + 3}`);
+                    } else {
+                        el.classList.add(`carouselItem-${i + 1}`);
+                    }
+                });
+            } else {
+
+                this.carouselArray.slice(0, visibleItems).forEach((el, i) => {
+                    el.classList.add(`carouselItem-${i + 1}`);
+                });
+            }
+
+        }
+        setCurrentState(direction) {
+            if (direction === 'previous') {
+                this.carouselArray.unshift(this.carouselArray.pop());
+            } else {
+                this.carouselArray.push(this.carouselArray.shift());
+            }
+            this.updateCarousel();
+        }
+
+        useControls(previousBtn, nextBtn) {
+            previousBtn.addEventListener('click', () => {
+                this.setCurrentState('previous');
+            });
+
+            nextBtn.addEventListener('click', () => {
+                this.setCurrentState('next');
+            });
+        }
+
+    }
+
+    const promoCarousel = new Carousel(carouselContainer, carouselItems);
+    promoCarousel.useControls(previousButton, nextButton);
+    promoCarousel.updateCarousel();
+</script>
+
+
+
+
+<?php /*
 <div class="container content-container">
     <div class="row mb-5">
         <div class="col-lg-1"></div>
@@ -12,7 +437,7 @@
         <div class="col-lg-9 kuwago1Promos">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 mt-2 mb-2">
+                    <div class="col-lg-7 mt-2 mb-2">
                         @if (session('success'))
                         <div class="alert alert-success">{{ session('success') }}</div>
                         @endif
@@ -33,9 +458,9 @@
                                         <div class="card w-100" style="background-color: #c68e17; color: white;">
                                             @if ($promo->promo_image)
                                             <img src="{{ asset('storage/' . $promo->promo_image) }}" class="card-img-top img-fluid promoImage" alt="Promo Image" />
-                                        @else
+                                            @else
                                             <img src="https://via.placeholder.com/600x300" class="card-img-top img-fluid promoImage" alt="Placeholder Image" />
-                                        @endif                                        
+                                            @endif
                                             <div class="card-body">
                                                 <h4 class="card-title d-flex justify-content-center scrollable-title">{{ $promo->title }}</h4>
                                                 <p class="card-text d-flex justify-content-center">
@@ -91,26 +516,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <!-- Title Above the List -->
-                        <div class="row">
-                            <div class="col-lg-5 text-white text">
-                                <h2>Promo List</h2>
-                            </div>
-                            <div class="col-lg-4">
-                                <form action="{{ route('general.kuwago-one.promos') }}" method="GET">
-                                    <select name="sort" class="form-control createDeals" onchange="this.form.submit()">
-                                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest to Oldest</option>
-                                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest to Newest</option>
-                                    </select>
-                                </form>
-                            </div>
-                            <div class="col-lg-3 d-flex justify-content-end">
-                                <a href="{{ route('promos.create') }}">
-                                    <i class="fa-solid fa-plus text-white text"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <h3 class="mb-3" style="color: white;">Promo List</h3>
 
                         <!-- Promo List with Bullets, Transparent Background, White Text, No Borders, and Scrollable Area -->
                         <ul class="list-group" style="background-color: transparent; max-height: 400px; overflow-y: auto; list-style-type: disc; padding-left: 20px;">
@@ -119,8 +527,7 @@
                                 class="list-group-item list-group-item-action promo-list-item"
                                 data-bs-target="#promoCarousel"
                                 data-bs-slide-to="{{ $key }}"
-                                style="cursor: pointer; background-color: transparent; color: white; border: none;"
-                            >
+                                style="cursor: pointer; background-color: transparent; color: white; border: none;">
                                 •&nbsp{{ $promo->title }}
                             </li>
                             @endforeach
@@ -133,3 +540,4 @@
         <div class="col-lg-1"></div>
     </div>
 </div>
+*/ ?>

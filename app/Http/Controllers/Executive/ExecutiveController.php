@@ -22,6 +22,28 @@ class ExecutiveController extends Controller
             'interval' => $interval
         ]);
     }
+    /**
+     * Display a listing of the resource.
+     */
+    public function executive(Request $request)
+    {
+
+        $interval = $request->input('interval', 'thisweek');
+        $data = $this->generateChartData($request, Deal::class);
+
+        $actionRoute = route('general.executive.dashboard');
+
+        return view('general.executive.dashboard', [
+            'actionRoute' => $actionRoute,
+            'data' => $data,
+            'interval' => $interval
+        ]);
+    }
+
+    public function weather()
+    {
+        return view('general.executive.weather');
+    }
 
     private function getDateRange($interval, $request)
     {

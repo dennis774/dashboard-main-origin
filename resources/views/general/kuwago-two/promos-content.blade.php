@@ -1,10 +1,43 @@
+<!-- DASHBOARD PANEL -->
+<div class="d-flex rounded-4 dashboard-panel">
+    <div class="row d-flex flex-grow-1 m-0 column-gap-3 h-100 rounded-4 justify-content-center align-items-center text-white " style="padding-inline: 2%; padding-block: 2.5%;">
+
+        <!-- LEFT COLUMN -->
+        <div class="col-auto d-flex flex-column row-gap-3 p-0 h-100" style="width: 74%;">
+
+
+        </div>
+        <!-- END LEFT COLUMN -->
+
+        <!-- LINE -->
+        <div class="vr p-0 text-white opacity-75 align-self-center" style="width: 1px; min-height: 80%;"></div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col d-flex flex-column row-gap-3 p-0 h-100">
+            <!-- PROMOS LIST CARD-->
+            <div class="col-12 d-flex ps-2 justify-content-start">
+                <span class="uddesign-side-text" style="font-size: 1.1rem;">Promos: All Time</span>
+            </div>
+            <div class="row d-flex ps-2 pe-3 align-items-center h-100">
+                <span class="uddesign-side-text" style="font-size: 1.1rem;">Promos: All Time</span>
+            </div>
+
+        </div>
+        <!-- END RIGHT COLUMN -->
+    </div>
+</div>
+
+
+
+
+<?php /*
 <div class="container content-container">
     <div class="row mb-5">
         <div class="col-lg-1"></div>
         <div class="col-lg-1">
             <div class="container">
                 <div class="row">
-                    @include('general.kuwago-two.sidebar')
+                    @include('general.kuwago-one.sidebar')
                 </div>
             </div>
         </div>
@@ -14,7 +47,7 @@
                 <div class="row">
                     <div class="col-lg-7 mt-2 mb-2">
                         @if (session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
+                        <div class="alert alert-success">{{ session('success') }}</div>
                         @endif
 
                         <!-- Carousel Container with Peeking Effect -->
@@ -29,79 +62,62 @@
 
                                 <div class="carousel-inner">
                                     @foreach ($promos as $key => $promo)
-                                        <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                                            <div class="card w-100" style="background-color: #c68e17; color: white;">
-                                                @if ($promo->promo_image)
-                                                    <img src="{{ asset('storage/' . $promo->promo_image) }}"
-                                                        class="card-img-top img-fluid promoImage" alt="Promo Image" />
-                                                @else
-                                                    <img src="https://via.placeholder.com/600x300"
-                                                        class="card-img-top img-fluid promoImage"
-                                                        alt="Placeholder Image" />
-                                                @endif
+                                    <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                        <div class="card w-100" style="background-color: #c68e17; color: white;">
+                                            @if ($promo->promo_image)
+                                            <img src="{{ asset('storage/' . $promo->promo_image) }}" class="card-img-top img-fluid promoImage" alt="Promo Image" />
+                                            @else
+                                            <img src="https://via.placeholder.com/600x300" class="card-img-top img-fluid promoImage" alt="Placeholder Image" />
+                                            @endif
+                                            <div class="card-body">
+                                                <h4 class="card-title d-flex justify-content-center scrollable-title">{{ $promo->title }}</h4>
+                                                <p class="card-text d-flex justify-content-center">
+                                                    <small>
+                                                        {{ \Carbon\Carbon::parse($promo->start_date)->format('M. j, Y') }} - {{ \Carbon\Carbon::parse($promo->end_date)->format('M. j, Y') }}
+                                                    </small>
+                                                </p>
+                                                <p class="card-text d-flex justify-content-center align-items-center" style="margin-bottom: 5px;">
+                                                    Sales Before:&nbsp{{ $promo->sales_before }}
+                                                </p>
+                                                <p class="card-text d-flex justify-content-center align-items-center" style="margin-bottom: 5px;">
+                                                    Sales After:&nbsp{{ $promo->sales_after }}
+                                                </p>
 
-                                                <div class="card-body">
-                                                    <h4
-                                                        class="card-title d-flex justify-content-center scrollable-title">
-                                                        {{ $promo->title }}</h4>
-                                                    <p class="card-text d-flex justify-content-center">
-                                                        <small>
-                                                            {{ \Carbon\Carbon::parse($promo->start_date)->format('M. j, Y') }}
-                                                            -
-                                                            {{ \Carbon\Carbon::parse($promo->end_date)->format('M. j, Y') }}
-                                                        </small>
-                                                    </p>
-                                                    <p class="card-text d-flex justify-content-center align-items-center"
-                                                        style="margin-bottom: 5px;">
-                                                        Sales Before:&nbsp{{ $promo->sales_before }}
-                                                    </p>
-                                                    <p class="card-text d-flex justify-content-center align-items-center"
-                                                        style="margin-bottom: 5px;">
-                                                        Sales After:&nbsp{{ $promo->sales_after }}
-                                                    </p>
-
-                                                    <div class="scrollable-description mt-2">
-                                                        <p class="card-text" style="font-size: 12px;">
-                                                            {{ $promo->description }}</p>
-                                                    </div>
-
-                                                    <div class="scrollable-dish">
-                                                        <p class="card-text mt-3"><strong>Dishes Available:
-                                                            </strong>{{ $promo->dishes_available }}</p>
-                                                    </div>
+                                                <div class="scrollable-description mt-2">
+                                                    <p class="card-text" style="font-size: 12px;">{{ $promo->description }}</p>
                                                 </div>
-                                                <div class="card-footer">
-                                                    <div class="row">
-                                                        <div class="col-lg-6 d-flex justify-content-start">
-                                                            <a href="{{ route('promos.edit', $promo->id) }}"
-                                                                class="btn" style="color: #fff;">
-                                                                <i class="fa-regular fa-pen-to-square"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="col-lg-6 d-flex justify-content-end">
-                                                            <form action="{{ route('promos.destroy', $promo->id) }}"
-                                                                method="POST" style="display: inline;">
-                                                                @csrf @method('DELETE')
-                                                                <button type="submit" class="btn"
-                                                                    style="color: #fff;">
-                                                                    <i class="fa-regular fa-trash-can"></i>
-                                                                </button>
-                                                            </form>
-                                                        </div>
+
+                                                <div class="scrollable-dish">
+                                                    <p class="card-text mt-3"><strong>Dishes Available: </strong>{{ $promo->dishes_available }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row">
+                                                    <div class="col-lg-6 d-flex justify-content-start">
+                                                        <a href="{{ route('promos.edit', $promo->id) }}" class="btn" style="color: #fff;">
+                                                            <i class="fa-regular fa-pen-to-square"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-lg-6 d-flex justify-content-end">
+                                                        <form action="{{ route('promos.destroy', $promo->id) }}" method="POST" style="display: inline;">
+                                                            @csrf @method('DELETE')
+                                                            <button type="submit" class="btn" style="color: #fff;">
+                                                                <i class="fa-regular fa-trash-can"></i>
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                     @endforeach
                                 </div>
 
-                                <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel"
-                                    data-bs-slide="prev">
+                                <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
                                 </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel"
-                                    data-bs-slide="next">
+                                <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Next</span>
                                 </button>
@@ -109,34 +125,19 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        <div class="row">
-                            <div class="col-lg-5 text-white text">
-                                <h2>Promo List</h2>
-                            </div>
-                            <div class="col-lg-4">
-                                <form action="{{ route('general.kuwago-two.promos') }}" method="GET">
-                                    <select name="sort" class="form-control createDeals" onchange="this.form.submit()">
-                                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest to Oldest</option>
-                                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest to Newest</option>
-                                    </select>
-                                </form>
-                            </div>
-                            <div class="col-lg-3 d-flex justify-content-end">
-                                <a href="{{ route('promos.create') }}">
-                                    <i class="fa-solid fa-plus text-white text"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <!-- Title Above the List -->
+                        <h3 class="mb-3" style="color: white;">Promo List</h3>
 
                         <!-- Promo List with Bullets, Transparent Background, White Text, No Borders, and Scrollable Area -->
-                        <ul class="list-group"
-                            style="background-color: transparent; max-height: 400px; overflow-y: auto; list-style-type: disc; padding-left: 20px;">
+                        <ul class="list-group" style="background-color: transparent; max-height: 400px; overflow-y: auto; list-style-type: disc; padding-left: 20px;">
                             @foreach ($promos as $key => $promo)
-                                <li class="list-group-item list-group-item-action promo-list-item"
-                                    data-bs-target="#promoCarousel" data-bs-slide-to="{{ $key }}"
-                                    style="cursor: pointer; background-color: transparent; color: white; border: none;">
-                                    •&nbsp{{ $promo->title }}
-                                </li>
+                            <li
+                                class="list-group-item list-group-item-action promo-list-item"
+                                data-bs-target="#promoCarousel"
+                                data-bs-slide-to="{{ $key }}"
+                                style="cursor: pointer; background-color: transparent; color: white; border: none;">
+                                •&nbsp{{ $promo->title }}
+                            </li>
                             @endforeach
                         </ul>
                     </div>
@@ -147,3 +148,4 @@
         <div class="col-lg-1"></div>
     </div>
 </div>
+*/ ?>

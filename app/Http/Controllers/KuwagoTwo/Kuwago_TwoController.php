@@ -149,7 +149,7 @@ class Kuwago_TwoController extends Controller
     // Main method to fetch and aggregate chart data based on the provided fields and interval
     private function generateChartData(Request $request, $view, array $fields, $extraSelect = '')
     {
-        $interval = $request->input('interval', 'thisweek');
+        $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
         $dates = $this->getDateRange($interval, $request);
         $selectFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $fields));
 
@@ -345,9 +345,11 @@ class Kuwago_TwoController extends Controller
         ];
     }
 
-    public function kuwagoTwopromos()
+    public function kuwagoTwopromos(Request $request)
     {
-        $promos = Promo::all();
+        $sort = $request->get('sort', 'newest');
+        $promos = Promo::orderBy('created_at', $sort === 'newest' ? 'desc' : 'asc')->get();
+
         return view('general.kuwago-two.promos', compact('promos'));
     }
 
@@ -358,14 +360,14 @@ class Kuwago_TwoController extends Controller
 
     private function generateFeedbackData(Request $request, $view)
     {
-        $interval = $request->input('interval', 'thisweek');
+        $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
         $dates = $this->getDateRange($interval, $request);
-    
+
         // Fetch feedback data
         $feedback = Feedback::whereBetween('feedback_date', [$dates['start'], $dates['end']])->get();
-    
+
         $averageRating = $feedback->avg('rating');
-    
+
         $ratingCounts = [
             1 => $feedback->where('rating', 1)->count(),
             2 => $feedback->where('rating', 2)->count(),
@@ -373,13 +375,15 @@ class Kuwago_TwoController extends Controller
             4 => $feedback->where('rating', 4)->count(),
             5 => $feedback->where('rating', 5)->count(),
         ];
-    
+
+        $votes = array_sum($ratingCounts);
+
         $comments = $feedback->where('feedback_type', 'Comment')->values();
         $suggestions = $feedback->where('feedback_type', 'Suggestion')->values();
         $complaints = $feedback->where('feedback_type', 'Complaint')->values();
-    
+
         $actionRoute = route($view);
-    
-        return view($view, compact('actionRoute', 'feedback', 'averageRating', 'ratingCounts', 'comments', 'suggestions', 'complaints'));
+
+        return view($view, compact('actionRoute', 'feedback', 'averageRating', 'ratingCounts', 'votes', 'comments', 'suggestions', 'complaints'));
     }
 }

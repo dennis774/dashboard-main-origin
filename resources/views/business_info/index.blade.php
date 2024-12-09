@@ -74,7 +74,7 @@
     <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
     <link rel="stylesheet" href="{{url('fontawesome/css/all.min.css')}}" />
 </head>
-<body>
+<body class="businesses-body">
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="container">
