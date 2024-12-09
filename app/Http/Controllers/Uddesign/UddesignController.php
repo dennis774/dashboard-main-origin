@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Uddesign\UddesignMerchDetail;
 use App\Models\Uddesign\UddesignPrintDetail;
+use App\Models\Uddesign\UddesignExpenseDetail;
 
 class UddesignController extends Controller
 {
@@ -94,7 +95,10 @@ class UddesignController extends Controller
         $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
 
         $chartdata = $data['chartdata'];
-
+        $chartExpenseData = $data['chartExpenseData'];
+        $expenseData = $data['expenseData'];
+        $totalExpenseAmount = $data['totalExpenseAmount'];
+        // dd($expenseData);
         $totalExpenses = $chartdata->sum('total_expenses');
         $totalPrintExpenses = $chartdata->sum('print_expenses');
         $totalMerchExpenses = $chartdata->sum('merch_expenses');
@@ -102,7 +106,7 @@ class UddesignController extends Controller
 
         $actionRoute = route('general.uddesign.expenses');
 
-        return view('general.uddesign.expenses', compact('actionRoute', 'chartdata', 'totalExpenses', 'totalPrintExpenses', 'totalMerchExpenses', 'totalCustomExpenses'));
+        return view('general.uddesign.expenses', compact('actionRoute', 'chartdata', 'totalExpenses', 'totalPrintExpenses', 'totalMerchExpenses', 'totalCustomExpenses', 'chartExpenseData', 'expenseData', 'totalExpenseAmount'));
     }
 
     // This method changes the format of the date for display purposes, ensuring the date is presented correctly based on the interval.
@@ -240,13 +244,35 @@ class UddesignController extends Controller
         // Get the top 5 most sold merches
         $topMerches = $merchData->sortByDesc('total_pcs')->take(5);
 
+
+        $chartExpenseData = UddesignExpenseDetail::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('uddesign_expense_types', 'uddesign_expense_details.expense_type_id', '=', 'uddesign_expense_types.expense_type_id')
+            ->join('uddesign_expense_categories', 'uddesign_expense_types.expense_category_id', '=', 'uddesign_expense_categories.expense_category_id')
+            ->selectRaw('uddesign_expense_categories.name as expenseCategory, SUM(uddesign_expense_details.price) as total_amount')
+            ->groupBy('uddesign_expense_categories.name')
+            ->get();
+
+        $expenseData = UddesignExpenseDetail::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('uddesign_expense_types', 'uddesign_expense_details.expense_type_id', '=', 'uddesign_expense_types.expense_type_id')
+            ->selectRaw('uddesign_expense_types.name as expenseType, uddesign_expense_details.price')
+            ->groupBy('uddesign_expense_types.name', 'uddesign_expense_details.price')
+            ->get();
+    
+        // Calculate total of the amount
+        $totalExpenseAmount = $expenseData->sum('price');
+
+
         return [
             'chartdata' => $chartdata,
             'printCategoryData' => $printCategoryData,
             'chartCategoryData' => $chartCategoryData,
             'topMerches' => $topMerches,
+            'chartExpenseData' => $chartExpenseData,
+            'expenseData' => $expenseData,
+            'totalExpenseAmount' => $totalExpenseAmount,
         ];
     }
+
 
     private function getGroupByField($interval)
     {

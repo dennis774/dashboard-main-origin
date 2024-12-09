@@ -8,10 +8,13 @@ class DealController extends Controller
 {
     // Display all deals
     public function index()
-    {
-        $deals = Deal::orderBy('created_at', 'desc')->get();
-        return view('general.uddesign.uddeals', compact('deals'));
-    }
+{
+    $deals = Deal::with('dealItems')->orderBy('created_at', 'desc')->get();
+    return view('general.uddesign.uddeals', compact('deals'));
+}
+
+
+    
 
     // Show the form for creating a new deal
     public function create()

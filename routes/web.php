@@ -90,7 +90,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:owner'])->group(function(){
-    Route::get('executive', [ExecutiveController::class, 'index'])->name('general.executive.index');
+    Route::get('executive', [ExecutiveController::class, 'general_index'])->name('general.executive.index');
     Route::resource('account', AccountController::class);
     Route::resource('promos', PromoController::class);
     Route::resource('targetSales', TargetSalesController::class);

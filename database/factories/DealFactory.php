@@ -25,6 +25,7 @@ class DealFactory extends Factory
             'date_closed' => $this->faker->optional()->date(),
             'grand_price' => $this->faker->randomFloat(2, 1000, 10000),
             'status' => $this->faker->randomElement(['Open', 'Processing', 'Closed', 'On-Hold', 'Cancelled']),
+            'created_at' => fake()->dateTimeBetween('2023-01-01', '2024-12-30')->format('Y-m-d')
         ];
     }
 }

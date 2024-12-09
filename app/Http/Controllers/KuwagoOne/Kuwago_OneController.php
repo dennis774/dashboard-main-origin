@@ -10,6 +10,7 @@ use App\Models\KuwagoOneReport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\KuwagoOne\KuwagoOneOrderDetails;
+use App\Models\KuwagoOne\KuwagoOneExpenseDetail;
 
 class Kuwago_OneController extends Controller
 {
@@ -230,6 +231,16 @@ class Kuwago_OneController extends Controller
         // Get the bottom 5 least sold dishes
         $bottomDishes = $dishData->sortBy('total_pcs')->take(5);
 
+        $chartExpenseData = KuwagoOneExpenseDetail::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('kuwago_one_expense_types', 'kuwago_one_expense_details.expense_type_id', '=', 'kuwago_one_expense_types.expense_type_id')
+            ->join('kuwago_one_expense_categories', 'kuwago_one_expense_types.expense_category_id', '=', 'kuwago_one_expense_categories.expense_category_id')
+            ->selectRaw('kuwago_one_expense_categories.name as expenseCategory, SUM(kuwago_one_expense_details.price) as total_amount')
+            ->groupBy('kuwago_one_expense_categories.name')
+            ->get();
+
+            // Calculate total of the amount
+        $totalExpenseAmount = $chartExpenseData->sum('total_amount');
+
         $actionRoute = route($view);
         $thisWeek = $this->getCurrentWeekData();
         $lastWeek = $this->getLastWeekData();
@@ -238,7 +249,7 @@ class Kuwago_OneController extends Controller
         $thisYear = $this->getCurrentYearData();
         $lastYear = $this->getLastYearData();
 
-        return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
+        return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes', 'chartExpenseData','totalExpenseAmount'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
     }
 
     // Gets the current week's data for sales, expenses, orders, and profit

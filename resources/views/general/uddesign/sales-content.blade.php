@@ -158,7 +158,7 @@
     });
 </script>
 
-<!-- Bar Chart for Category -->
+<!-- Bar Chart for Print Category -->
 <script>
     const printCategoryCtx = document.getElementById('printCategoryChart').getContext('2d');
     const printCategoryChart = new Chart(printCategoryCtx, {
@@ -210,7 +210,7 @@
 </script>
 
 
-<!-- Bar Chart for Category -->
+<!-- Bar Chart for Merch Category -->
 <script>
     const categoryCtx = document.getElementById('categoryChart').getContext('2d');
     const categoryChart = new Chart(categoryCtx, {
