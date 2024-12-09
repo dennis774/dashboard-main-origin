@@ -1,239 +1,359 @@
-<div class="container content-container">
-    <div class="row mb-5">
-        <div class="col-lg-1"></div>
-        <div class="col-lg-1">
-            <div class="container">
-                <div class="row">
-                    @include('general.kuwago-one.sidebar')
-                </div>
-            </div>
-        </div>
+<!-- DASHBOARD PANEL -->
+<div class="d-flex rounded-4 dashboard-panel">
+    <div class="row d-flex flex-grow-1 m-0 h-100 rounded-4 justify-content-center align-items-center text-white " style="padding-inline: 3%; padding-block: 2.5%;">
 
-        <div class="col-lg-9 pt-2 pb-2 ps-0 pe-0 feebackSection">
-            <div class="container text-white text">
-                <div class="row">
-                    <div class="col-lg-3 starChart">
-                        <h5>Rating Distribution</h5>
-                        <p class="text-center">Average Rating: <span
-                                id="averageRating">{{ number_format($averageRating, 1) }}</span></p> <canvas
-                            id="ratingChart" height="350"></canvas>
-                        <div class="col-lg-12 mt-2">
-                            <!-- Filter Date Button -->
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <button class="btn filterFeedback d-flex justify-content-center align-items-center"
-                                        data-bs-toggle="modal" data-bs-target="#dateFilterModal"
-                                        style="width: 40px; height: 40px; border-radius: 50%;">
-                                        <i class="fa-solid fa-filter" style="color: #000; font-size: 15px;"></i>
-                                    </button>
-                                </div>
-                                <div class="col-lg-8 d-flex justify-content-center align-items-center"
-                                    style="background: #fff; border-radius:10px;">
-                                    <span id="dateRangeDisplay" style="font-size: 14px; color:#000;">No filter
-                                        applied</span>
-                                </div>
-                                <div class="col-lg-1"></div>
-                            </div>
-
-                        </div>
-
+        <!-- OVERALL RATING COLUMN -->
+        <div class="col-auto d-flex ps-1 pe-3 py-3 h-100" style="width: 23%;">
+            <div class="col pe-2">
+                <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
+                    <div class="row d-flex pt-3 w-100 align-items-center justify-content-center" style="height: 10%;">
+                        <span class="promo-title">Overall Rating:</span>
                     </div>
-
-                    <!-- Comments Section -->
-                    <div class="col-lg-3 CommentsSection" style="height: 450px; overflow-y: auto;" id="commentsList">
-                        <h4 class="mb-3">Comments</h4>
-                        <div class="content-container">
-                            @foreach ($feedback as $item)
-                                @if ($item->feedback_type == 'Comment')
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-6">
-                                            <b>{{ $item->name }}&nbsp; —</b>
-                                        </div>
-                                        <div class="col-lg-6 d-flex justify-content-start"
-                                            style="display: flex; align-items: center;">
-                                            {{ $item->dish }}
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $item->rating)
-                                                    <span
-                                                        style="color: gold; border-radius:10px; font-size:18px;">★</span>
-                                                    <!-- Yellow filled star -->
-                                                @else
-                                                    <span
-                                                        style="color: lightgray; border-radius:10px; font-size:18px;">☆</span>
-                                                    <!-- Gray empty star -->
-                                                @endif
-                                            @endfor
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-12 d-flex justify-content-start" style="font-style: italic;">
-                                            {{ $item->comments }}
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-1">
-                                        <div class="col-lg-12 d-flex justify-content-end" style="font-size: 12px;">
-                                            {{ $item->feedback_date->format('d M Y') }}</div>
-                                    </div>
-
-                                    <hr> <!-- Optional: Add a horizontal line to separate feedback entries -->
-                                @endif
-                            @endforeach
-                        </div>
+                    <!-- STAR CHART -->
+                    <div class="d-flex align-items-center justify-content-center">
+                        <span class="z-3 mt-4 position-absolute feedback-rating-text-2">{{ number_format($averageRating, 1) }}</span>
+                        <span class="star-2" style="font-size:15rem;">★</span>
                     </div>
-
-
-                    <!-- Suggestions Section -->
-                    <div class="col-lg-3 SuggestionsSection" style="height: 450px; overflow-y: auto;"
-                        id="suggestionsList">
-                        <h4 class="mb-3">Suggestions</h4>
-                        <div class="content-container">
-                            @foreach ($feedback as $item)
-                                @if ($item->feedback_type == 'Suggestion')
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-6">
-                                            <b>{{ $item->name }}&nbsp; —</b>
-                                        </div>
-                                        <div class="col-lg-6 d-flex justify-content-start"
-                                            style="display: flex; align-items: center;">
-                                            {{ $item->dish }}
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $item->rating)
-                                                    <span
-                                                        style="color: gold; border-radius:10px; font-size:18px;">★</span>
-                                                    <!-- Yellow filled star -->
-                                                @else
-                                                    <span
-                                                        style="color: lightgray; border-radius:10px; font-size:18px;">☆</span>
-                                                    <!-- Gray empty star -->
-                                                @endif
-                                            @endfor
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-12 d-flex justify-content-start" style="font-style: italic;">
-                                            {{ $item->comments }}
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-1">
-                                        <div class="col-lg-12 d-flex justify-content-end" style="font-size: 12px;">
-                                            {{ $item->feedback_date->format('d M Y') }}</div>
-                                    </div>
-
-                                    <hr> <!-- Optional: Add a horizontal line to separate feedback entries -->
-                                @endif
-                            @endforeach
-                        </div>
+                    <div class="row d-flex w-100 pt-2 align-items-center justify-content-center" style="height: 10%;">
+                        <span style="font-family:Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing: 1px;">Based on {{ $votes }} reviews</span>
                     </div>
-
-                    <!-- Complaints Section -->
-                    <div class="col-lg-3 ComplaintsSection" style="height: 450px; overflow-y: auto;"
-                        id="complaintsList">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <h4 class="mb-3">Complaints</h4>
-                            </div>
-                            <div class="col-lg-6 d-flex justify-content-end">
-                                <a href="{{ url('feedback/import') }}"><i
-                                        class="fa-solid fa-arrows-rotate text-white text"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="content-container">
-                            @foreach ($feedback as $item)
-                                @if ($item->feedback_type == 'Complaint')
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-6">
-                                            <b>{{ $item->name }}&nbsp; —</b>
-                                        </div>
-                                        <div class="col-lg-6 d-flex justify-content-start"
-                                            style="display: flex; align-items: center;">
-                                            {{ $item->dish }}
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $item->rating)
-                                                    <span
-                                                        style="color: gold; border-radius:10px; font-size:18px;">★</span>
-                                                    <!-- Yellow filled star -->
-                                                @else
-                                                    <span
-                                                        style="color: lightgray; border-radius:10px; font-size:18px;">☆</span>
-                                                    <!-- Gray empty star -->
-                                                @endif
-                                            @endfor
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-12 d-flex justify-content-start" style="font-style: italic;">
-                                            {{ $item->comments }}
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-1">
-                                        <div class="col-lg-12 d-flex justify-content-end" style="font-size: 12px;">
-                                            {{ $item->feedback_date->format('d M Y') }}</div>
-                                    </div>
-
-                                    <hr> <!-- Optional: Add a horizontal line to separate feedback entries -->
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="dateFilterModal" tabindex="-1" aria-labelledby="dateFilterModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="dateFilterModalLabel">Filter Feedback by Date</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="dateFilterForm">
-                            <div class="mb-3">
-                                <label for="start_date" class="form-label">Start Date</label>
-                                <input type="date" class="form-control" id="start_date" name="start_date"
-                                    required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="end_date" class="form-label">End Date</label>
-                                <input type="date" class="form-control" id="end_date" name="end_date" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Apply Filter</button>
-                        </form>
+                    <!-- BAR CHART -->
+                    <div class="row d-flex align-items-center justify-content-center" style="height: 80%;">
+                    </span></p> <canvas id="ratingChart" height="350"></canvas>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- END OVERALL RATING COLUMN -->
 
-        <div class="col-lg-1"></div>
+        <!-- COMMENTS COLUMN -->
+        <div class="col-auto d-flex p-0 ps-1 h-100" style="width: 24.5%;">
+            <div class="col pt-2 pb-3">
+                <div class="d-flex flex-column rounded-4 h-100">
+                    <div class="row d-flex w-100 text-start justify-content-center" style="height: 10%;">
+                        <span class="promo-title">Comments:</span>
+                    </div>
+                    <!-- COMMENT TITLE AND CONTENT -->
+                    <div class="row d-flex pt-3 pe-4 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+
+
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+
+
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+
+
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END COMMENTS COLUMN -->
+
+        <!-- LINE -->
+        <div class="vr p-0 text-white opacity-75 position-absolute align-self-center" style="width: 0.75px; min-height: 75%; left: 47.5%; margin-top: 35px; z-index:-1;"></div>
+
+        <!-- SUGGESTIONS COLUMN -->
+        <div class="col-auto d-flex p-0 ps-3 h-100" style="width: 26%;">
+            <div class="col ps-1 pt-2 pb-3">
+                <div class="d-flex flex-column rounded-4 h-100">
+                    <div class="row d-flex w-100 text-start justify-content-center" style="height: 10%;">
+                        <span class="promo-title">Suggestions:</span>
+                    </div>
+                    <!-- SUGGESTION TITLE AND CONTENT -->
+                    <div class="row d-flex pe-4 pt-3 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+
+
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END SUGGESTIONS COLUMN -->
+
+        <!-- LINE -->
+        <div class="vr p-0 text-white opacity-75 position-absolute align-self-center" style="width: 0.75px; min-height: 75%; right: 28%; margin-top: 40px; z-index:-1;"></div>
+
+
+        <!-- COMPLAINTS COLUMN -->
+        <div class="col-auto d-flex p-0 ps-3 h-100" style="width: 25.5%;">
+            <div class="col ps-1 pt-2 pb-3">
+                <div class="d-flex flex-column rounded-4 h-100">
+                    <div class="row d-flex w-100 text-start justify-content-center" style="height: 10%;">
+                        <span class="promo-title">Complaints:</span>
+                    </div>
+                    <!-- COMPLAINTS TITLE AND CONTENT -->
+                    <div class="row d-flex pe-4 pt-3 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:0.8px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:0.8px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:0.8px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+
+                        <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
+                            <span class="fw-bold text-start" style="font-family: Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing:1px;">
+                                Anonymous - Student
+                            </span>
+                            <span class="d-block text-wrap ps-3 text-white" style="text-align:justify; font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:0.8px;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="text-white fst-italic fw-medium text-end" style="font-family: Helvetica Now Text; font-size: clamp(0.5rem, 1.6vw, 0.65rem); letter-spacing:1px;">
+                                Jan/12/2024
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END COMPLAINTS COLUMN -->
+
+        <!-- LINE -->
+        <div class="vr p-0 text-white opacity-75 position-absolute align-self-center" style="width: 0.75px; min-height: 75%; right:4%; margin-top: 35px; z-index:-1;"></div>
+
+
+
     </div>
 </div>
+
+
+<!-- SCRIPT FOR CHANGING FEEDBACK RATING AND STAR CHART FILL KUWAGO ONE-->
+<script>
+    const feedbackRating_2 = {{ $averageRating ? number_format($averageRating, 1) : 'null'}};
+    const starRating_2 = document.querySelector('.feedback-rating-text-2');
+    const starChart_2 = document.querySelector('.star-2');
+
+    const ratingPercentage_2 = 100 - ((feedbackRating_2 / 5) * 100);
+
+    starChart_2.style.setProperty('--inset-value', `inset(0 ${ratingPercentage_2}% 0 0)`);
+    starRating_2.textContent = feedbackRating_2.toFixed(1).toString();
+</script>
+
+
+<!-- SCRIPT FOR FEEDBACKS DATE FILTER -->
+<script>
+    document.getElementById('feedbacks-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        console.log("Feedback!!");
+
+        const formData = new FormData(this);
+        const startDate = formData.get('start_date');
+        const endDate = formData.get('end_date');
+        const dateRangeDisplay = document.getElementById('date-filter-dropdown');
+        dateRangeDisplay.textContent = `${formatDate(startDate)} to ${formatDate(endDate)}`;
+
+        fetch("{{ route('feedback.filterByDate') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const averageRatingElement = document.getElementById('averageRating');
+                averageRatingElement.textContent = data.averageRating ? data.averageRating.toFixed(1) :
+                    'N/A';
+
+                // Update chart data if available
+                const chart = Chart.getChart('ratingChart');
+                if (chart) {
+                    chart.data.datasets[0].data = data.ratingCounts || [0, 0, 0, 0, 0];
+                    chart.update();
+                }
+
+                // Update feedback sections
+                updateSection('commentsList', data.comments || []);
+                updateSection('suggestionsList', data.suggestions || []);
+                updateSection('complaintsList', data.complaints || []);
+
+                // // Update date range display
+                // const dateRangeDisplay = document.getElementById('date-filter-dropdown');
+                // dateRangeDisplay.textContent = data.comments.length || data.suggestions.length || data
+                //     .complaints.length ?
+                //     `Filtered: ${formatDate(startDate)} to ${formatDate(endDate)}` :
+                //     'No feedback found for the selected date range.';
+
+                // Hide the modal
+                const modalElement = document.getElementById('feedbacks-date-modal');
+                const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                modal.hide();
+            })
+            .catch(error => console.error('Error:', error));
+            console.log("FEEDBACK DONE!");
+
+    });
+
+
+    // Helper function to format the date as a readable string
+    function formatDate(dateString) {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    function updateSection(sectionId, items) {
+        const section = document.getElementById(sectionId);
+        const container = section.querySelector('.content-container');
+        container.innerHTML = ''; // Clear previous content
+
+        if (items.length === 0) {
+            container.innerHTML = '<p class="text-center">No feedback found for the selected date range.</p>';
+            return;
+        }
+
+        items.forEach(item => {
+            container.innerHTML += `
+        <div class="row align-items-center">
+            <div class="col-lg-6"><b>${item.name} —</b></div>
+            <div class="col-lg-6">${item.dish}</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">${getStars(item.rating)}</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" style="font-style: italic;">${item.comments}</div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-lg-12 d-flex justify-content-end" style="font-size: 12px;">
+                ${new Date(item.feedback_date).toLocaleDateString()}
+            </div>
+        </div>
+        <hr>`;
+        });
+    }
+
+    function getStars(rating) {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+            stars += i <= rating ?
+                '<span style="color: gold; font-size:18px;">★</span>' :
+                '<span style="color: lightgray; font-size:18px;">☆</span>';
+        }
+        return stars;
+    }
+</script>
+
+
 <script>
     var ratingCounts = @json($ratingCounts);
 
@@ -311,101 +431,3 @@
     });
 </script>
 
-<script>
-    document.getElementById('dateFilterForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const formData = new FormData(this);
-        const startDate = formData.get('start_date');
-        const endDate = formData.get('end_date');
-
-        fetch("{{ route('feedback.filterByDate') }}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                const averageRatingElement = document.getElementById('averageRating');
-                averageRatingElement.textContent = data.averageRating ? data.averageRating.toFixed(1) :
-                    'N/A';
-
-                // Update chart data if available
-                const chart = Chart.getChart('ratingChart');
-                chart.data.datasets[0].data = data.ratingCounts || [0, 0, 0, 0, 0];
-                chart.update();
-
-                // Update feedback sections
-                updateSection('commentsList', data.comments || []);
-                updateSection('suggestionsList', data.suggestions || []);
-                updateSection('complaintsList', data.complaints || []);
-
-                // Update date range display
-                const dateRangeDisplay = document.getElementById('dateRangeDisplay');
-                dateRangeDisplay.textContent = data.comments.length || data.suggestions.length || data
-                    .complaints.length ?
-                    `Filtered: ${formatDate(startDate)} to ${formatDate(endDate)}` :
-                    'No feedback found for the selected date range.';
-
-                // Hide the modal
-                const modalElement = document.getElementById('dateFilterModal');
-                const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
-                modal.hide();
-            })
-            .catch(error => console.error('Error:', error));
-    });
-
-
-    // Helper function to format the date as a readable string
-    function formatDate(dateString) {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    }
-
-    function updateSection(sectionId, items) {
-        const section = document.getElementById(sectionId);
-        const container = section.querySelector('.content-container');
-        container.innerHTML = ''; // Clear previous content
-
-        if (items.length === 0) {
-            container.innerHTML = '<p class="text-center">No feedback found for the selected date range.</p>';
-            return;
-        }
-
-        items.forEach(item => {
-            container.innerHTML += `
-        <div class="row align-items-center">
-            <div class="col-lg-6"><b>${item.name} —</b></div>
-            <div class="col-lg-6">${item.dish}</div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">${getStars(item.rating)}</div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12" style="font-style: italic;">${item.comments}</div>
-        </div>
-        <div class="row mt-1">
-            <div class="col-lg-12 d-flex justify-content-end" style="font-size: 12px;">
-                ${new Date(item.feedback_date).toLocaleDateString()}
-            </div>
-        </div>
-        <hr>`;
-        });
-    }
-
-    function getStars(rating) {
-        let stars = '';
-        for (let i = 1; i <= 5; i++) {
-            stars += i <= rating ?
-                '<span style="color: gold; font-size:18px;">★</span>' :
-                '<span style="color: lightgray; font-size:18px;">☆</span>';
-        }
-        return stars;
-    }
-</script>

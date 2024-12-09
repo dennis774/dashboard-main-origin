@@ -29,7 +29,7 @@
         </a>
     </li>
     <li class="nav-item nav-item-icon">
-        <a href="{{route('general.kuwago-two.feedbacks')}}"
+        <a href="{{ route('general.kuwago-two.feedbacks') }}"
             class="{{ request()->routeIs('general.kuwago-two.feedbacks') ? 'active' : '' }}"
             data-tooltip="Feedbacks">
             <img src="{{ asset('assets/images/icons/feedbacks-img-icon.png') }}" style="height: 22px;" alt="Feedbacks Dashboard Tab">

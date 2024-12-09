@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,10 +10,10 @@ class DealItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'deal_id', 
-        'description', 
-        'quantity', 
-        'unit_price', 
+        'deal_id',
+        'description',
+        'quantity',
+        'unit_price',
         'total_price'
     ];
 

@@ -10,9 +10,14 @@ class ExecutiveController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function executive()
     {
-        return view('general.executive.index',);
+        return view('general.executive.dashboard',);
+    }
+
+    public function weather()
+    {
+        return view('general.executive.weather');
     }
 
     /**

@@ -22,14 +22,14 @@
         </a>
     </li>
     <li class="nav-item nav-item-icon">
-        <a href="{{url('/kuwago-one/promos')}}"
+        <a href="{{ route('general.kuwago-one.promos') }}"
             class="{{ request()->routeIs('general.kuwago-one.promos') ? 'active' : '' }}"
             data-tooltip="Promos">
             <img src="{{ asset('assets/images/icons/promos-img-icon.png') }}" style="height: 23px;" alt="Promos Dashboard Tab">
         </a>
     </li>
     <li class="nav-item nav-item-icon">
-        <a href="{{url('/kuwago-one/feedbacks')}}"
+        <a href="{{ route('general.kuwago-one.feedbacks') }}"
             class="{{ request()->routeIs('general.kuwago-one.feedbacks') ? 'active' : '' }}"
             data-tooltip="Feedbacks">
             <img src="{{ asset('assets/images/icons/feedbacks-img-icon.png') }}" style="height: 22px;" alt="Feedbacks Dashboard Tab">

@@ -2,7 +2,9 @@
 @if(isset($actionRoute))
 <script>
     const dateItems = document.querySelectorAll('.date-item');
+    const sortItems = document.querySelectorAll('.sort-item');
     let dateInterval;
+    let sortValue;
 
     //ADD CLICK EVENT TO EACH DATE OPTIONS IN DATE FILTER
 
@@ -16,6 +18,18 @@
             window.location.href = `{{$actionRoute}}?interval=${dateInterval}`;
         });
     });
+
+    
+
+
+    // function handleFilterChange() {
+    //     const filter = document.getElementById("dateFilter").getAttribute('data-interval');
+    //     if (filter === "custom") {
+    //         document.getElementById("customDateModal").style.display = "flex";
+    //     } else {
+    //         window.location.href = `{{$actionRoute}}?interval=${filter}`;
+    //     }
+    // }
 </script>
 @endif
 
@@ -23,20 +37,8 @@
 <!-- SCRIPT FOR GENERATE PDF -->
 <script>
     function generatePDF() {
-        alert("PDF Generated!"); // Placeholder
+        alert("PDF Generated!");
     }
-</script>
-
-<!-- SCRIPT FOR CHANGING FEEDBACK RATING AND STAR CHART FILL -->
-<script>
-    const feedbackRating = 1.7;
-    const starRating = document.querySelector('.feedback-rating-text');
-    const starChart = document.querySelector('.star');
-
-    const ratingPercentage = 100 - ((feedbackRating / 5) * 100);
-
-    starChart.style.setProperty('--inset-value', `inset(0 ${ratingPercentage}% 0 0)`);
-    starRating.textContent = feedbackRating.toFixed(1).toString();
 </script>
 
 
@@ -160,6 +162,40 @@
                 })
 
                 break;
+
+                case currentPath.includes("/executive"):
+
+                    dashboardsBody.style.background = "url('/assets/images/maindb-bg-img.png') no-repeat center center fixed";
+                    dropdownBusinessBtn.style.setProperty('--nav-dropdown-bg-image', "url('/assets/images/maindb-bg-img.png')");
+                    dropdownBusinessBtn.style.setProperty('--dropdown-filter', "blur(20px) brightness(120%) contrast(90%)");
+                    navDropdownMenu.style.setProperty('--nav-dropdown-menu', "rgba(48,49,40, 0.9)");
+                    dateFilterMenu.style.setProperty('--date-dropdown-menu', "rgba(48,49,40, 0.9)");
+
+                    // GENERAL DB CARDS
+                    dashboardCards.forEach(function(card) {
+                        card.style.setProperty('--db-card-bg-image', "url('/assets/images/maindb-bg-img.png')");
+                        card.style.setProperty('--db-card-filter', "blur(20px) brightness(120%) contrast(85%)");
+                    })
+
+                    // ALL DB CARDS
+                    dashboardTiles.forEach(function(tile) {
+                        tile.style.setProperty('--main-tile-img', "url('/assets/images/uddesign-bg-img.png')");
+                        tile.style.setProperty('--main-tile-filter', "blur(30px) brightness(110%)");
+                    })
+
+                    // NAV BUSINESSES DROPDOWN ITEMS
+                    navDropdownMenuItem.forEach(function(menuItem) {
+                        menuItem.style.setProperty('--nav-dropdown-hover', "rgb(114, 131, 142)");
+                        menuItem.style.setProperty('--nav-dropdown-active', "rgb(177,178,168)");
+                    })
+
+                    // DATE FILTER DROPDOWN ITEMS
+                    dateFilterItem.forEach(function(dateItem) {
+                        dateItem.style.setProperty('--date-dropdown-hover', "rgb(114, 131, 142");
+                        dateItem.style.setProperty('--date-dropdown-active', "rgb(177,178,168)");
+                    })
+
+                    break;
         }
     });
 </script>

@@ -18,10 +18,14 @@
                         Business
                     </div>
                     <div class="col-3 d-flex justify-content-end">
-                        <ion-icon name="chevron-down-outline" class="dropdown-arrow"></ion-icon>
+                        <ion-icon name="chevron-down-outline" class="align-self-middle"></ion-icon>
                     </div>
                 </button>
                 <ul class="z-3 position-absolute rounded-bottom-2 rounded-top-0 dropdown-menu dropdown-business-menu" aria-labelledby="nav-business-dropdown">
+                    @if (Auth::check() && Auth::user()->role == 'owner')
+                        <li><a class="py-2 text-white dropdown-item business-item {{ Str::contains(request()->path(), 'executive') ? 'active' : '' }}" href="{{ url('/executive') }}" data-name="Executive">Executive</a></li>
+                    @endif
+
                     @if (Auth::check() && Auth::user()->role != 'uddesign')
                     <li><a class="py-2 text-white dropdown-item business-item {{ Str::contains(request()->path(), 'kuwago-one') ? 'active' : '' }}" href="{{ url('/kuwago-one') }}" data-name="Kuwago Cafe 1">Kuwago Cafe 1</a></li>
                     <li><a class="py-2 text-white dropdown-item business-item {{ Str::contains(request()->path(), 'kuwago-two') ? 'active' : '' }}" href="{{ url('/kuwago-two') }}" data-name="Kuwago Cafe 2">Kuwago Cafe 2</a></li>
@@ -29,10 +33,6 @@
 
                     @if (Auth::check() && Auth::user()->role != 'kuwago')
                     <li><a class="py-2 text-white dropdown-item business-item {{ Str::contains(request()->path(), 'uddesign') ? 'active' : '' }}" href="{{ url('/uddesign') }}" data-name="UdDesign">UdDesign</a></li>
-                    @endif
-
-                    @if (Auth::check() && Auth::user()->role == 'owner')
-                        <li><a class="py-2 text-white dropdown-item business-item {{ Str::contains(request()->path(), 'executive') ? 'active' : '' }}" href="{{ route('general.executive.index') }}" data-name="Executive">Executive</a></li>
                     @endif
                 </ul>
                 <!-- END BUSINESSES DROPDOWN -->

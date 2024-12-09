@@ -22,14 +22,14 @@
         </a>
     </li>
     <li class="nav-item nav-item-icon">
-        <a href="{{url('/uddesign/promos')}}"
-            class="{{ request()->routeIs('general.uddesign.promos') ? 'active' : '' }}"
+        <a href="{{route('general.uddesign.uddeals')}}"
+            class="{{ request()->routeIs('general.uddesign.uddeals') ? 'active' : '' }}"
             data-tooltip="Promos">
-            <img src="{{ asset('assets/images/icons/promos-img-icon.png') }}" style="height: 23px;" alt="Promos Dashboard Tab">
+            <img src="{{ asset('assets/images/icons/deals-img-icon.png') }}" style="height: 23px;" alt="Deals Dashboard Tab">
         </a>
     </li>
     <li class="nav-item nav-item-icon">
-        <a href="{{url('/uddesign/feedbacks')}}"
+        <a href="{{route('general.uddesign.feedbacks')}}"
             class="{{ request()->routeIs('general.uddesign.feedbacks') ? 'active' : '' }}"
             data-tooltip="Feedbacks">
             <img src="{{ asset('assets/images/icons/feedbacks-img-icon.png') }}" style="height: 22px;" alt="Feedbacks Dashboard Tab">

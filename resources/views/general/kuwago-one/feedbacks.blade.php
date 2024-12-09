@@ -8,8 +8,6 @@
 
 @section('scripts')
 
-@include('charts.kuwago_one.bar_chart')
-
 @endsection
 
 

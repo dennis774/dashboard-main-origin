@@ -38,8 +38,8 @@ Route::get('page2', function () {
 
 
 Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
-Route::get('/feedback/import', [FeedbackController::class, 'importFeedbackOne']);
-Route::get('/feedback/import', [FeedbackController::class, 'importFeedbackTwo']);
+Route::get('/feedback/import-one', [FeedbackController::class, 'importFeedbackOne']);
+Route::get('/feedback/import-two', [FeedbackController::class, 'importFeedbackTwo']);
 Route::post('/feedback/filter-by-date', [FeedbackController::class, 'filterByDate'])->name('feedback.filterByDate');
 
 
@@ -69,7 +69,6 @@ Route::middleware(['auth', 'kuwagoRole:owner,general,kuwago'])->group(function (
     Route::get('kuwago-two/sales', [Kuwago_TwoController::class, 'chart_sales_kuwago_two'])->name('general.kuwago-two.sales');
     Route::get('kuwago-two/promos', [Kuwago_TwoController::class, 'kuwagoTwopromos'])->name('general.kuwago-two.promos');
     Route::get('kuwago-two/feedbacks', [Kuwago_TwoController::class, 'showFeedbacks'])->name('general.kuwago-two.feedbacks');
-
 });
 
 Route::middleware(['auth', 'uddesignRole:owner,general,uddesign'])->group(function () {
@@ -78,7 +77,6 @@ Route::middleware(['auth', 'uddesignRole:owner,general,uddesign'])->group(functi
     Route::get('uddesign/sales', [UddesignController::class, 'chart_sales_uddesign'])->name('general.uddesign.sales');
     Route::get('uddesign/uddeals', [UddesignController::class, 'uddeals'])->name('general.uddesign.uddeals');
     Route::get('uddesign/feedbacks', [UddesignController::class, 'showFeedbacks'])->name('general.uddesign.feedbacks');
-
 });
 
 Route::middleware('auth')->group(function () {
@@ -89,16 +87,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('business', BusinessInfoController::class);
 });
 
-Route::middleware(['auth', 'role:owner'])->group(function(){
-    Route::get('executive', [ExecutiveController::class, 'index'])->name('general.executive.index');
+Route::middleware(['auth', 'role:owner'])->group(function () {
+    Route::get('executive', [ExecutiveController::class, 'executive'])->name('general.executive.dashboard');
+    Route::get('executive/weather', [ExecutiveController::class, 'weather'])->name('general.executive.weather');
     Route::resource('account', AccountController::class);
     Route::resource('promos', PromoController::class);
     Route::resource('targetSales', TargetSalesController::class);
-    Route::resource('budgetAllocations',BudgetAllocationController::class);
-
-
+    Route::resource('budgetAllocations', BudgetAllocationController::class);
 });
 Route::resource('deals', DealController::class);
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

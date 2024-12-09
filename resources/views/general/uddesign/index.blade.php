@@ -44,7 +44,7 @@
 
     </div>
 
-    @include('general.footer')
+    {{-- @include('general.footer') --}}
 
 
     <!-- BOOTSTRAP SCRIPT -->

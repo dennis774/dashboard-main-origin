@@ -488,6 +488,51 @@ button.businessDelete {
     background: none;
 }
 
+/* EXECUTIVE STYLES */
+
+.executive-body {
+    background: url("/assets/images/maindb-bg-img.png") no-repeat center center
+        fixed;
+    background-size: cover;
+    max-height: 100vh;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Now Text";
+    filter: brightness(100%);
+    position: relative;
+}
+
+.exec-dashboard-panel {
+    height: 530px;
+    width: 100%;
+    margin-inline: 7%;
+    background-color: transparent;
+    backdrop-filter: blur(30px) brightness(55%);
+    border: 1px solid rgba(255, 255, 255, 0.311);
+}
+
+.weather-card {
+    background: url(/assets/images/weather-bg-img.png) no-repeat center center;
+    background-size: cover;
+    border: 1px solid white;
+}
+
+.weather-column {
+    scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+}
+
+.weather-column::-webkit-scrollbar {
+    width: 10px;
+}
+
+.weather-column-row {
+    margin-right: -10px;
+}
+
+/* END EXECUTIVE STYLES */
+
 /* UDDESIGN STYLES */
 
 .uddesign-total-text {
@@ -512,6 +557,28 @@ button.businessDelete {
     font-weight: normal;
     letter-spacing: 0.1px;
     vertical-align: middle;
+}
+
+.uddeals-fields-text {
+    font-family: Poppins;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.uddeals-panel-text {
+    font-family: Poppins;
+    font-weight: bold;
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+    color: black;
+}
+
+.uddeals-panel-content {
+    font-family: Poppins;
+    font-weight: normal;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    color: black;
 }
 
 /* END UDDESIGN STYLES */
@@ -992,14 +1059,81 @@ div.expensesbyCat {
 }
 
 ::-webkit-scrollbar-track {
-    margin-top: 35px;
+    margin-top: 1px;
+}
+
+.promo-date-text {
+    font-family: "Poppins";
+    font-size: 0.65rem;
+    color: #422f0a;
+    letter-spacing: 1px;
+}
+
+.carouselItem {
+    opacity: 0;
+    border-radius: 20px;
+    /* transition: all 0.3s ease-in-out; */
+    z-index: 0;
+}
+
+.carouselItem-4 {
+    left: 3%;
+    opacity: 0.4;
+    transform: translateX(-50%);
+    transform: scale(0.8);
+    transition: all 0.3s ease-in;
+}
+
+.carouselItem-5,
+.carouselItem-2 {
+    opacity: 0.8;
+    z-index: 1;
+}
+
+.carouselItem-5 {
+    left: 12%;
+    transform: translateX(-50%);
+    transform: scale(0.9);
+    transition: all 0.5s ease-in-out;
+}
+
+.carouselItem-1 {
+    opacity: 1;
+    left: 37%;
+    transform: translateX(-50%);
+    transition: all 0.3s ease-in-out;
+    z-index: 2;
+}
+
+.carouselItem-2 {
+    left: 38%;
+    transform: translateX(-50%);
+    transform: scale(0.9);
+    transition: all 0.3s ease-in-out;
+}
+
+.carouselItem-3 {
+    left: 47%;
+    opacity: 0.4;
+    transform: translateX(-50%);
+    transform: scale(0.8);
+    transition: all 0.3s ease-in-out;
+}
+
+.carouselItem-6 {
+    left: 12%;
+    transform: translateX(-50%);
+    transform: scale(0.9);
+    z-index: 0;
 }
 
 /* END PROMOS DASHBOARD CSS */
 
 /* FEEDBACKS DASHBOARD CSS */
 
-.star {
+.star,
+.star-1,
+.star-2 {
     color: white;
     position: relative;
     text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
@@ -1007,7 +1141,9 @@ div.expensesbyCat {
     pointer-events: none;
 }
 
-.star::before {
+.star::before,
+.star-1::before,
+.star-2::before {
     content: "★";
     position: absolute;
     top: 0;
@@ -1017,7 +1153,8 @@ div.expensesbyCat {
     transition: clip-path 1.2s ease-out;
 }
 
-.feedback-rating-text {
+.feedback-rating-text .feedback-rating-text-1,
+.feedback-rating-text-2 {
     font-family: "Helvetica Now Text";
     font-size: 2.2rem;
     letter-spacing: 1px;
