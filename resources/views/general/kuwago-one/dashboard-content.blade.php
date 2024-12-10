@@ -100,11 +100,8 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 w-100 px-3 pb-3 column-gap-3 align-items-center">
                             <div class="col-7 align-self-middle text-start dashboard-total-text">
-                                <span>999,999,999.00</span>
                             </div>
                             <div class="col bg-success">
-                                Chart
-                                <a href="facebook.com">link</a>
                             </div>
                         </div>
                     </div>

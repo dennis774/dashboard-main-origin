@@ -149,7 +149,7 @@ class Kuwago_OneController extends Controller
     // Main method to fetch and aggregate chart data based on the provided fields and interval
     private function generateChartData(Request $request, $view, array $fields, $extraSelect = '')
     {
-        $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
+        $interval = $request->input('interval', 'thisweek');
         $dates = $this->getDateRange($interval, $request);
         $selectFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $fields));
 
@@ -166,19 +166,20 @@ class Kuwago_OneController extends Controller
                 return $item;
             });
 
-        // Ensure aggregation of overall data into one period
+        // Ensure aggregation of overall data by year
         if ($interval === 'overall') {
-            $chartdata = $chartdata->reduce(function ($carry, $item) use ($reportFields) {
-                if (is_null($carry)) {
-                    return $item;
-                }
-                foreach ($reportFields as $field) {
-                    $carry->$field += $item->$field;
-                }
-                return $carry;
-            }, null);
-
-            $chartdata = collect([$chartdata]);
+            $chartdata = $chartdata->groupBy('period')->map(function ($yearGroup) use ($reportFields) {
+                $aggregatedData = $yearGroup->reduce(function ($carry, $item) use ($reportFields) {
+                    if (is_null($carry)) {
+                        return $item;
+                    }
+                    foreach ($reportFields as $field) {
+                        $carry->$field += $item->$field;
+                    }
+                    return $carry;
+                });
+                return $aggregatedData;
+            })->values();
         } else {
             // Generate all dates within the interval
             $allDates = $this->generateDateRange($dates['start'], $dates['end'], $interval);

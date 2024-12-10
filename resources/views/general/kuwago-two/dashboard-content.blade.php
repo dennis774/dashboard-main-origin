@@ -100,11 +100,8 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 w-100 px-3 pb-3 column-gap-3 align-items-center">
                             <div class="col-7 align-self-middle text-start dashboard-total-text">
-                                <span>999,999,999.00</span>
                             </div>
                             <div class="col bg-success">
-                                Chart
-                                <a href="facebook.com">link</a>
                             </div>
                         </div>
                     </div>
@@ -121,9 +118,9 @@
                 <div class="col h-100 p-0">
                     <div class="card rounded-4 h-100 w-100 dashboard-card">
                         <!-- DB CARD CONTENT -->
-                        <div class="row d-flex flex-grow-1 align-items-center" style="max-width: 240px;">
-                            <div class="col-12 align-self-middle">
-                                Chart
+                        <div class="row d-flex flex-grow-1 h-100 align-items-center">
+                            <div class="col-12 py-1 h-100 align-self-middle">
+                                <canvas id="myChart" class="h-100 w-100"></canvas>
                             </div>
                         </div>
                     </div>
