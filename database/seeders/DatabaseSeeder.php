@@ -33,11 +33,11 @@ class DatabaseSeeder extends Seeder
         // Feedback::factory()->count(100)->create();
         // UddesignFeedback::factory()->count(100)->create();
 
-        Deal::factory(500)
-            ->has(DealItem::factory()->count(rand(3, 5)), 'items')
-            ->create();
+        // Deal::factory(500)
+        //     ->has(DealItem::factory()->count(rand(3, 5)), 'items')
+        //     ->create();
 
-        // Promo::factory(10)->create();
+        Promo::factory(100)->create();
 
     }
 }

@@ -130,7 +130,7 @@
             <!-- COMPARE TITLE -->
             <div class="row m-0 align-items-center">
                 <div class="col-12 d-flex h-100 p-0 justify-content-start">
-                    <P class="text-align-left ms-2 compare-text">Compare with</P>
+                    <p class="text-align-left ms-2 compare-text">Compare with</p>
                 </div>
             </div>
 
@@ -349,7 +349,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">week</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{$thisWeekProfit}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -357,7 +357,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">week</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{$thisWeekSales}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -365,7 +365,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">week</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{$thisWeekExpenses}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -373,7 +373,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">week</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{$thisWeekOrders}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -493,7 +493,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">month</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{$thisMonthProfit}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -501,7 +501,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">month</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{$thisMonthSales}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -509,7 +509,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">month</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{$thisMonthExpenses}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -517,7 +517,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">month</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{$thisMonthOrders}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -601,7 +601,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">year</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{$thisYearProfit}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -609,7 +609,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">year</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{$thisYearSales}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -617,7 +617,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">year</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{$thisYearExpenses}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -625,7 +625,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">year</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{$thisYearOrders}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -953,7 +953,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">Last Week</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{$lastWeekProfit}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -961,7 +961,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">Last Week</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{$lastWeekSales}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -969,7 +969,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">Last Week</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{$lastWeekExpenses}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -977,7 +977,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">Last Week</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{$lastWeekOrders}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1097,7 +1097,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">Last Month</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{$lastMonthProfit}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -1105,7 +1105,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">Last Month</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{$lastMonthSales}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -1113,7 +1113,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">Last Month</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{$lastMonthExpenses}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -1121,7 +1121,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">Last Month</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{$lastMonthOrders}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1169,7 +1169,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">Last Year</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{$lastYearProfit}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -1177,7 +1177,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">Last Year</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{$lastYearSales}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -1185,7 +1185,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">Last Year</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{$lastYearExpenses}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -1193,10 +1193,11 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">Last Year</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{$lastYearOrders}}</span>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>

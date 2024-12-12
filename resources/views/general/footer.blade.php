@@ -15,7 +15,7 @@
                 <div class="row d-flex w-100">
                     <div class="col-12 d-flex w-100 align-items-center justify-content-center">
 
-                        @if(!str_contains(request()->url(), '/promos'))
+                        @if(!str_contains(request()->url(), '/promos') && !str_contains(request()->url(), '/uddeals'))
 
                         <!-- DATE FILTER BUTTON -->
                         <button class="btn dropdown-toggle w-100 pb-1 date-filter-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">

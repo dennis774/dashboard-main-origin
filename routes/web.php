@@ -88,7 +88,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:owner'])->group(function () {
-    Route::get('executive', [ExecutiveController::class, 'executive'])->name('general.executive.dashboard');
+    Route::get('executive', [ExecutiveController::class, 'combinedDashboard'])->name('general.executive.dashboard');
     Route::get('executive/weather', [ExecutiveController::class, 'weather'])->name('general.executive.weather');
     Route::resource('account', AccountController::class);
     Route::resource('promos', PromoController::class);
