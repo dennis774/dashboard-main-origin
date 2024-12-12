@@ -11,8 +11,8 @@
                     </div>
                     <!-- STAR CHART -->
                     <div class="d-flex align-items-center justify-content-center">
-                        <span class="z-3 mt-4 position-absolute feedback-rating-text-1">{{ number_format($averageRating, 1) }}</span>
-                        <span class="star-1" style="font-size:15rem;">★</span>
+                        <span class="z-3 mt-4 position-absolute feedback-rating-text-2">{{ number_format($averageRating, 1) }}</span>
+                        <span class="star-2" style="font-size:15rem;">★</span>
                     </div>
                     <div class="row d-flex w-100 pt-2 align-items-center justify-content-center" style="height: 10%;">
                         <span style="font-family:Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing: 1px;">Based on {{ $votes }} reviews</span>
@@ -34,12 +34,13 @@
                         <span class="promo-title">Comments:</span>
                     </div>
                     <!-- COMMENT TITLE AND CONTENT -->
-                    <div class="row d-flex pe-4 flex-grow-1 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
                         @if ($feedback->filter(fn($item) => in_array($item->feedback_type, ['Comment']))->isEmpty())
+                        <div class="row d-flex pe-4 flex-grow-1 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
                             <div class="d-flex flex-grow-1 h-100 align-items-center justify-content-center px-2 pb-1 w-100"> 
                                <span class="fst-italic fw-light">No comments found.</span> 
                             </div>
                         @else
+                        <div class="row d-flex pe-4 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
                             @foreach ($feedback as $item)
                                 @if ($item->feedback_type == 'Comment')
                                 <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
@@ -74,12 +75,14 @@
                         <span class="promo-title">Suggestions:</span>
                     </div>
                     <!-- SUGGESTION TITLE AND CONTENT -->
-                    <div class="row d-flex pe-4 flex-grow-1 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
+                    
                         @if ($feedback->filter(fn($item) => in_array($item->feedback_type, ['Suggestion']))->isEmpty())
+                        <div class="row d-flex flex-grow-1 pe-4 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
                             <div class="d-flex flex-grow-1 h-100 align-items-center justify-content-center px-2 pb-1 w-100"> 
                                <span class="fst-italic fw-light">No suggestions found.</span> 
                             </div>
                         @else
+                        <div class="row d-flex pe-4 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
                             @foreach ($feedback as $item)
                                 @if ($item->feedback_type == 'Suggestion')
                                 <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
@@ -115,12 +118,13 @@
                         <span class="promo-title">Complaints:</span>
                     </div>
                     <!-- COMPLAINTS TITLE AND CONTENT -->
-                    <div class="row d-flex pe-4 w-100 flex-grow-1 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
                         @if ($feedback->filter(fn($item) => in_array($item->feedback_type, ['Complaint']))->isEmpty())
+                        <div class="row d-flex pe-4 w-100 flex-grow-1 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
                             <div class="d-flex flex-grow-1 h-100 align-items-center justify-content-center px-2 pb-1 w-100"> 
                                <span class="fst-italic fw-light">No complaints found.</span> 
                             </div>
                         @else
+                        <div class="row d-flex pe-4 w-100 align-self-center align-items-start justify-content-center overflow-y-scroll feedback-column">
                             @foreach ($feedback as $item)
                                 @if ($item->feedback_type == 'Complaint')
                                 <div class="col-12 d-flex flex-column px-2 pb-1 w-100">
@@ -155,14 +159,14 @@
 
 <!-- SCRIPT FOR CHANGING FEEDBACK RATING AND STAR CHART FILL KUWAGO ONE-->
 <script>
-    const feedbackRating_1 = {{ $averageRating ? number_format($averageRating, 1) : 'null'}};
-    const starRating_1 = document.querySelector('.feedback-rating-text-1');
-    const starChart_1 = document.querySelector('.star-1');
+    const feedbackRating_2 = {{ $averageRating ? number_format($averageRating, 1) : 'null'}};
+    const starRating_2 = document.querySelector('.feedback-rating-text-2');
+    const starChart_2 = document.querySelector('.star-2');
 
-    const ratingPercentage_1 = 100 - ((feedbackRating_1 / 5) * 100);
+    const ratingPercentage_2 = 100 - ((feedbackRating_2 / 5) * 100);
 
-    starChart_1.style.setProperty('--inset-value', `inset(0 ${ratingPercentage_1}% 0 0)`);
-    starRating_1.textContent = feedbackRating_1.toFixed(1).toString();
+    starChart_2.style.setProperty('--inset-value', `inset(0 ${ratingPercentage_2}% 0 0)`);
+    starRating_2.textContent = feedbackRating_2.toFixed(1).toString();
 </script>
 
 

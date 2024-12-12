@@ -7,6 +7,7 @@
 
             <div class="row ps-2" style="height:30%;">
                 {{-- LEFT COLUMN --}}
+                @foreach ($deals as $deal)
                 <div class="col-auto d-flex flex-column pe-0 align-items-start justify-content-around" style="width:55%;">
                     {{-- DEAL NAME --}}
                     <div class="col-12 d-flex">
@@ -15,17 +16,17 @@
 
                     {{-- CLIENT NAME --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Client Name:</span>
+                        <span class="uddeals-fields-text">Client Name: {{ $deal->client_name }}</span>
                     </div>
 
                     {{-- CONTACT NUMBER --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Contact Number:</span>
+                        <span class="uddeals-fields-text">Contact Number:{{ $deal->contact_number }}</span>
                     </div>
 
                     {{-- EMAIL --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Email:</span>
+                        <span class="uddeals-fields-text">Email: {{ $deal->email }}</span>
                     </div>
                 </div>
 
@@ -34,22 +35,22 @@
 
                     {{-- DATE APPROVED --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Date Approved: </span>
+                        <span class="uddeals-fields-text">Date Approved: {{ $deal->date_approved }}</span>
                     </div>
 
                     {{-- PRODUCTION DUE --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Production Due: </span>
+                        <span class="uddeals-fields-text">Production Due: {{ $deal->production_due_date }}</span>
                     </div>
 
                     {{-- PAYMENT METHOD --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Payment Method:</span>
+                        <span class="uddeals-fields-text">Payment Method: {{ $deal->payment_method }}</span>
                     </div>
 
                     {{-- DATE CLOSED --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Date Closed:</span>
+                        <span class="uddeals-fields-text">Date Closed: {{ $deal->date_closed }}</span>
                     </div>
                 </div>
             </div>
@@ -118,6 +119,7 @@
                             </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
             </div>
 

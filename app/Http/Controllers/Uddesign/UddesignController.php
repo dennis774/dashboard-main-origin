@@ -128,46 +128,30 @@ class UddesignController extends Controller
     }
 
     //This method filters the data by providing the start and end dates based on the selected interval.
-    private function getDateRange($interval, $request)
+    private function getDateRange($interval, $request, $modelClass, $dateField)
     {
         switch ($interval) {
             case 'today':
                 return ['start' => Carbon::now()->startOfDay(), 'end' => Carbon::now()->endOfDay()];
             case 'yesterday':
                 return [
-                    'start' => Carbon::now()
-                        ->subDays(1)
-                        ->startOfDay(),
-                    'end' => Carbon::now()
-                        ->subDays(1)
-                        ->endOfDay(),
+                    'start' => Carbon::now()->subDays(1)->startOfDay(),
+                    'end' => Carbon::now()->subDays(1)->endOfDay(),
                 ];
             case 'last3days':
                 return [
-                    'start' => Carbon::now()
-                        ->subDays(3)
-                        ->startOfDay(),
-                    'end' => Carbon::now()
-                        ->subDays(1)
-                        ->endOfDay(),
+                    'start' => Carbon::now()->subDays(3)->startOfDay(),
+                    'end' => Carbon::now()->subDays(1)->endOfDay(),
                 ];
             case 'last5days':
                 return [
-                    'start' => Carbon::now()
-                        ->subDays(5)
-                        ->startOfDay(),
-                    'end' => Carbon::now()
-                        ->subDays(1)
-                        ->endOfDay(),
+                    'start' => Carbon::now()->subDays(5)->startOfDay(),
+                    'end' => Carbon::now()->subDays(1)->endOfDay(),
                 ];
             case 'lastweek':
                 return [
-                    'start' => Carbon::now()
-                        ->subWeek()
-                        ->startOfWeek(),
-                    'end' => Carbon::now()
-                        ->subWeek()
-                        ->endOfWeek(),
+                    'start' => Carbon::now()->subWeek()->startOfWeek(),
+                    'end' => Carbon::now()->subWeek()->endOfWeek(),
                 ];
             case 'thisweek':
                 return ['start' => Carbon::now()->startOfWeek(), 'end' => Carbon::now()->endOfWeek()];
@@ -175,26 +159,18 @@ class UddesignController extends Controller
                 return ['start' => Carbon::now()->startOfMonth(), 'end' => Carbon::now()->endOfMonth()];
             case 'lastmonth':
                 return [
-                    'start' => Carbon::now()
-                        ->subMonth()
-                        ->startOfMonth(),
-                    'end' => Carbon::now()
-                        ->subMonth()
-                        ->endOfMonth(),
+                    'start' => Carbon::now()->subMonth()->startOfMonth(),
+                    'end' => Carbon::now()->subMonth()->endOfMonth(),
                 ];
             case 'thisyear':
                 return ['start' => Carbon::now()->startOfYear(), 'end' => Carbon::now()->endOfYear()];
             case 'lastyear':
                 return [
-                    'start' => Carbon::now()
-                        ->subYear()
-                        ->startOfYear(),
-                    'end' => Carbon::now()
-                        ->subYear()
-                        ->endOfYear(),
+                    'start' => Carbon::now()->subYear()->startOfYear(),
+                    'end' => Carbon::now()->subYear()->endOfYear(),
                 ];
             case 'overall':
-                return ['start' => Carbon::parse(UddesignReport::min('date')), 'end' => Carbon::parse(UddesignReport::max('date'))];
+                return ['start' => Carbon::parse($modelClass::min($dateField)), 'end' => Carbon::parse($modelClass::max($dateField))];
             case 'custom':
                 return ['start' => Carbon::parse($request->input('start_date')), 'end' => Carbon::parse($request->input('end_date'))];
             default:
@@ -205,7 +181,7 @@ class UddesignController extends Controller
     private function generateChartData(Request $request, array $fields, $groupByField, $model)
     {
         $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
-        $dates = $this->getDateRange($interval, $request);
+        $dates = $this->getDateRange($interval, $request, UddesignReport::class, 'date');
 
         $selectFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $fields));
         $chartDataQuery = $model
@@ -295,7 +271,7 @@ class UddesignController extends Controller
     private function generateFeedbackData(Request $request, $view)
     {
         $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
-        $dates = $this->getDateRange($interval, $request);
+        $dates = $this->getDateRange($interval, $request, UddesignFeedback::class, 'feedback_date');
 
         // Fetch feedback data
         $feedback = UddesignFeedback::whereBetween('feedback_date', [$dates['start'], $dates['end']])->get();

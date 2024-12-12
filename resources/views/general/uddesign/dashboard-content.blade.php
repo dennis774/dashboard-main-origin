@@ -20,7 +20,7 @@
                             <!-- DB CARD CONTENT -->
                             <div class="row d-flex flex-grow-1 w-100 px-2 pb-3 align-items-center">
                                 <div class="col align-self-middle text-start dashboard-total-text" style="width: 50%;">
-                                    <span>999,999,999.00</span>
+                                    <span>{{$totalSales}}</span>
                                 </div>
                             </div>
                         </div>
@@ -29,13 +29,13 @@
                         <!-- DB RIGHT SIDE -->
                         <div class="col d-flex flex-column py-3 ms-3 h-100 uddesign-side-text" style="width: 50%;">
                             <div class="col-12 d-flex flex-row align-items-center" style="height: 33%;">
-                                <span class="me-1">Print/Photo:</span> 999,999.00
+                                <span class="me-1">Print/Photo:</span> {{$totalPrintSales}}
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">UdD Merch:</span> 999,999.00
+                                <span class="me-1">UdD Merch:</span> {{$totalMerchSales}}
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">Custom Deals:</span> 999,999.00
+                                <span class="me-1">Custom Deals:</span> {{$totalCustomSales}}
                             </div>
                         </div>
 
@@ -59,7 +59,7 @@
                             <!-- DB CARD CONTENT -->
                             <div class="row d-flex flex-grow-1 w-100 px-2 pb-3 align-items-center">
                                 <div class="col align-self-middle text-start dashboard-total-text" style="width: 50%;">
-                                    <span>999,999,999.00</span>
+                                    <span>{{$totalProfit}}</span>
                                 </div>
                             </div>
                         </div>
@@ -68,13 +68,13 @@
                         <!-- DB RIGHT SIDE -->
                         <div class="col d-flex flex-column py-3 ms-3 h-100 uddesign-side-text" style="width: 50%;">
                             <div class="col-12 d-flex flex-row align-items-center" style="height: 33%;">
-                                <span class="me-1">Print/Photo:</span> 999,999.00
+                                <span class="me-1">Print/Photo:</span> {{$totalPrintProfit}}
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">UdD Merch:</span> 999,999.00
+                                <span class="me-1">UdD Merch:</span> {{$totalMerchProfit}}
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">Custom Deals:</span> 999,999.00
+                                <span class="me-1">Custom Deals:</span> {{$totalCustomProfit}}
                             </div>
                         </div>
 
@@ -98,7 +98,7 @@
                             <!-- DB CARD CONTENT -->
                             <div class="row d-flex flex-grow-1 w-100 px-2 pb-3 align-items-center">
                                 <div class="col align-self-middle text-start dashboard-total-text" style="width: 50%;">
-                                    <span>999,999,999.00</span>
+                                    <span>{{$totalExpenses}}</span>
                                 </div>
                             </div>
                         </div>
@@ -107,13 +107,13 @@
                         <!-- DB RIGHT SIDE -->
                         <div class="col d-flex flex-column py-3 ms-3 h-100 uddesign-side-text" style="width: 50%;">
                             <div class="col-12 d-flex flex-row align-items-center" style="height: 33%;">
-                                <span class="me-1">Print/Photo:</span> 999,999.00
+                                <span class="me-1">Print/Photo:</span> {{$totalPrintExpenses}}
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">UdD Merch:</span> 999,999.00
+                                <span class="me-1">UdD Merch:</span> {{$totalMerchExpenses}}
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">Custom Deals:</span> 999,999.00
+                                <span class="me-1">Custom Deals:</span> {{$totalCustomExpenses}}
                             </div>
                         </div>
 
@@ -165,7 +165,7 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 align-items-center" style="max-width: 240px;">
                             <div class="col-12 align-self-middle">
-                                Chart
+                                <canvas id="PrintingChart" width="400" height="191"></canvas>
                             </div>
                         </div>
                     </div>
@@ -184,7 +184,7 @@
                 <div class="col h-100 p-0">
                     <div class="card rounded-4 h-100 w-100 dashboard-card">
                         <div class="row flex-grow-1 w-100 justify-content-center align-items-center text-white">
-                            Chart
+                        <canvas id="MerchChart" width="400" height="191"></canvas>
                         </div>
                     </div>
                 </div>

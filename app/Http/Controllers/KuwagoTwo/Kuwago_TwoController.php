@@ -51,46 +51,30 @@ class Kuwago_TwoController extends Controller
     }
 
     // Filters the data by providing the start and end dates based on the selected interval
-    private function getDateRange($interval, $request)
+    private function getDateRange($interval, $request, $modelClass, $dateField)
     {
         switch ($interval) {
             case 'today':
                 return ['start' => Carbon::now()->startOfDay(), 'end' => Carbon::now()->endOfDay()];
             case 'yesterday':
                 return [
-                    'start' => Carbon::now()
-                        ->subDays(1)
-                        ->startOfDay(),
-                    'end' => Carbon::now()
-                        ->subDays(1)
-                        ->endOfDay(),
+                    'start' => Carbon::now()->subDays(1)->startOfDay(),
+                    'end' => Carbon::now()->subDays(1)->endOfDay(),
                 ];
             case 'last3days':
                 return [
-                    'start' => Carbon::now()
-                        ->subDays(3)
-                        ->startOfDay(),
-                    'end' => Carbon::now()
-                        ->subDays(1)
-                        ->endOfDay(),
+                    'start' => Carbon::now()->subDays(3)->startOfDay(),
+                    'end' => Carbon::now()->subDays(1)->endOfDay(),
                 ];
             case 'last5days':
                 return [
-                    'start' => Carbon::now()
-                        ->subDays(5)
-                        ->startOfDay(),
-                    'end' => Carbon::now()
-                        ->subDays(1)
-                        ->endOfDay(),
+                    'start' => Carbon::now()->subDays(5)->startOfDay(),
+                    'end' => Carbon::now()->subDays(1)->endOfDay(),
                 ];
             case 'lastweek':
                 return [
-                    'start' => Carbon::now()
-                        ->subWeek()
-                        ->startOfWeek(),
-                    'end' => Carbon::now()
-                        ->subWeek()
-                        ->endOfWeek(),
+                    'start' => Carbon::now()->subWeek()->startOfWeek(),
+                    'end' => Carbon::now()->subWeek()->endOfWeek(),
                 ];
             case 'thisweek':
                 return ['start' => Carbon::now()->startOfWeek(), 'end' => Carbon::now()->endOfWeek()];
@@ -98,26 +82,18 @@ class Kuwago_TwoController extends Controller
                 return ['start' => Carbon::now()->startOfMonth(), 'end' => Carbon::now()->endOfMonth()];
             case 'lastmonth':
                 return [
-                    'start' => Carbon::now()
-                        ->subMonth()
-                        ->startOfMonth(),
-                    'end' => Carbon::now()
-                        ->subMonth()
-                        ->endOfMonth(),
+                    'start' => Carbon::now()->subMonth()->startOfMonth(),
+                    'end' => Carbon::now()->subMonth()->endOfMonth(),
                 ];
             case 'thisyear':
                 return ['start' => Carbon::now()->startOfYear(), 'end' => Carbon::now()->endOfYear()];
             case 'lastyear':
                 return [
-                    'start' => Carbon::now()
-                        ->subYear()
-                        ->startOfYear(),
-                    'end' => Carbon::now()
-                        ->subYear()
-                        ->endOfYear(),
+                    'start' => Carbon::now()->subYear()->startOfYear(),
+                    'end' => Carbon::now()->subYear()->endOfYear(),
                 ];
             case 'overall':
-                return ['start' => Carbon::parse(KuwagoTwoReport::min('date')), 'end' => Carbon::parse(KuwagoTwoReport::max('date'))];
+                return ['start' => Carbon::parse($modelClass::min($dateField)), 'end' => Carbon::parse($modelClass::max($dateField))];
             case 'custom':
                 return ['start' => Carbon::parse($request->input('start_date')), 'end' => Carbon::parse($request->input('end_date'))];
             default:
@@ -149,8 +125,8 @@ class Kuwago_TwoController extends Controller
     // Main method to fetch and aggregate chart data based on the provided fields and interval
     private function generateChartData(Request $request, $view, array $fields, $extraSelect = '')
     {
-        $interval = $request->input('interval', 'thisweek');
-        $dates = $this->getDateRange($interval, $request);
+        $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
+        $dates = $this->getDateRange($interval, $request, KuwagoTwoReport::class, 'date');
         $selectFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $fields));
 
         // Fetch and aggregate chart data for reports (excluding category and total_pcs)
@@ -239,7 +215,7 @@ class Kuwago_TwoController extends Controller
             ->groupBy('kuwago_two_expense_categories.name')
             ->get();
 
-            // Calculate total of the amount
+        // Calculate total of the amount
         $totalExpenseAmount = $chartExpenseData->sum('total_amount');
 
         $actionRoute = route($view);
@@ -252,6 +228,7 @@ class Kuwago_TwoController extends Controller
 
         return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes', 'chartExpenseData', 'totalExpenseAmount'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
     }
+
 
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentWeekData()
@@ -359,10 +336,11 @@ class Kuwago_TwoController extends Controller
         return $this->generateFeedbackData($request, 'general.kuwago-two.feedbacks');
     }
 
+    // For Kuwago-Two
     private function generateFeedbackData(Request $request, $view)
     {
         $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
-        $dates = $this->getDateRange($interval, $request);
+        $dates = $this->getDateRange($interval, $request, Feedback::class, 'feedback_date');  // Pass the model class
 
         // Fetch feedback data
         $feedback = Feedback::whereBetween('feedback_date', [$dates['start'], $dates['end']])->get();
