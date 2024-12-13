@@ -14,13 +14,11 @@ class BudgetAllocationController extends Controller
         return view('roles.general.budget-allocation.index', compact('budgetAllocations'));
     }
 
-
     // Show the form for creating a new budget allocation
     public function create()
     {
         return view('roles.general.budget-allocation.create');
     }
-
 
     // Store a new budget allocation in the database
     public function store(Request $request)
@@ -39,13 +37,11 @@ class BudgetAllocationController extends Controller
         return redirect()->route('targetSales.index')->with('success', 'Budget allocation created successfully!');
     }
 
-
     // Show the form for editing the specified budget allocation
     public function edit(BudgetAllocation $budgetAllocation)
     {
         return view('roles.general.budget-allocation.edit', compact('budgetAllocation'));
     }
-
 
     // Update the specified budget allocation in the database
     public function update(Request $request, BudgetAllocation $budgetAllocation)
@@ -63,7 +59,6 @@ class BudgetAllocationController extends Controller
 
         return redirect()->route('targetSales.index')->with('success', 'Budget allocation updated successfully!');
     }
-
 
     // Delete the specified budget allocation
     public function destroy(BudgetAllocation $budgetAllocation)

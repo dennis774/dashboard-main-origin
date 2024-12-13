@@ -96,6 +96,8 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
     Route::resource('budgetAllocations', BudgetAllocationController::class);
 });
 Route::resource('deals', DealController::class);
+Route::get('/fetch-target-sale', [Kuwago_OneController::class, 'general_kuwago_one_new'])->name('general.kuwago-one.sale');
+Route::post('/target-sales/display/{id}', [TargetSalesController::class, 'setDisplayTargetSale'])->name('target.sales.display');
 
 
 require __DIR__ . '/auth.php';

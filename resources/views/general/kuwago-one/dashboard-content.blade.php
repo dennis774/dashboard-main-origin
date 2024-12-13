@@ -100,6 +100,14 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 w-100 px-3 pb-3 column-gap-3 align-items-center">
                             <div class="col-7 align-self-middle text-start dashboard-total-text">
+                            @if ($targetSale)
+                            <p>{{ $targetSale->start_date }} - {{ $targetSale->end_date }}</p>
+
+                            <p>{{ $targetSale->amount }}</p>
+                            @else
+                                <p>No target sale found for display.</p>
+                            @endif
+                            <canvas id="gaugeChart" width="400" height="200"></canvas>
                             </div>
                             <div class="col bg-success">
                             </div>
@@ -1207,8 +1215,48 @@
         <!-- END RIGHT COLUMN -->
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ctx = document.getElementById('gaugeChart').getContext('2d');
 
+            // Values for the chart
+            var targetSaleAmount = {{ $targetSale->amount }};
+            var totalSales = {{ $totalSales }};
+            var percentage = (targetSaleAmount / totalSales) * 100;
 
+            var gaugeChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [percentage, 100 - percentage],
+                        backgroundColor: ['#FFA500', '#FFFFFF'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    circumference: Math.PI,
+                    rotation: Math.PI,
+                    cutoutPercentage: 70,
+                    tooltips: { enabled: false },
+                    hover: { mode: null },
+                    plugins: {
+                        datalabels: {
+                            display: true,
+                            formatter: function(value, context) {
+                                return context.chart.data.datasets[0].data[0] + '%';
+                            },
+                            color: '#000',
+                            font: {
+                                weight: 'bold',
+                                size: 24
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 
 
 
@@ -1277,7 +1325,7 @@
 <div class="col-lg-12 card-targetSales">
     <div class="col-lg-12 d-flex align-items-center mt-2">
         <i class="fa-solid fa-piggy-bank kuwago1Icons">
-            <span style="font-family: serif; font-size: 18px;">Target Sales</span>
+            <span style="font-family: serif; font-size: 18px;">    </span>
         </i>
     </div>
     <div class="col-lg-12d-flex align-items-center mt-3" style="font-size: 25px; font-weight: bold;">

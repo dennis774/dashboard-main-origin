@@ -123,4 +123,34 @@ class TargetSalesController extends Controller
 
 
 
+    // public function showTargetSales(Request $request)
+    // {
+    //     $targetSales = TargetSales::all();  // Fetch all target sales
+
+    //     return view('general.kuwago-one.dashboard', compact('targetSales'));
+    // }
+
+
+    // public function showTargetSale(Request $request, $displayIdentifier)
+    // {
+    //     // Fetch the target sale by display identifier
+    //     $targetSale = TargetSales::where('display_identifier', $displayIdentifier)->first();
+
+    //     return view('general.kuwago-one.dashboard', compact('targetSale'));
+    // }
+
+
+    public function setDisplayTargetSale($id)
+    {
+        // Reset all other target sales
+        TargetSales::query()->update(['is_displayed' => false]);
+    
+        // Set the specific target sale to be displayed
+        TargetSales::where('id', $id)->update(['is_displayed' => true]);
+    
+        return redirect()->back()->with('status', 'Target sale has been set to display.');
+    }
+    
+
+
 }
