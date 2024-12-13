@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Executive;
 
 use App\Models\Deal;
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\UddesignReport;
 use Illuminate\Support\Carbon;
@@ -12,17 +13,135 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\KuwagoOne\KuwagoOneOrderDetails;
 use App\Models\KuwagoTwo\KuwagoTwoOrderDetails;
+use Illuminate\Support\Facades\Http;
 
 class ExecutiveController extends Controller
 {
+    private function translateWeatherCode($code)
+    {
+        $wmoCodes = [
+            0 => "Clear sky",
+            1 => "Mainly clear",
+            2 => "Partly cloudy",
+            3 => "Overcast",
+            45 => "Fog",
+            48 => "Depositing rime fog",
+            51 => "Drizzle: Light",
+            53 => "Drizzle: Moderate",
+            55 => "Drizzle: Dense",
+            61 => "Rain: Slight",
+            63 => "Rain: Moderate",
+            65 => "Rain: Heavy",
+            71 => "Snowfall: Slight",
+            73 => "Snowfall: Moderate",
+            75 => "Snowfall: Heavy",
+            80 => "Rain showers: Slight",
+            81 => "Rain showers: Moderate",
+            82 => "Rain showers: Violent",
+            95 => "Thunderstorm: Slight or Moderate",
+            96 => "Thunderstorm with slight hail",
+            99 => "Thunderstorm with heavy hail",
+        ];
+    
+        return $wmoCodes[$code] ?? "Unknown weather code";
+    }
+
+    private function simpleTranslateWeatherCode($code)
+    {
+        $wmoCodes = [
+            0 => "Clear",
+            1 => "Clear",
+            2 => "Cloudy",
+            3 => "Overcast",
+            45 => "Fog",
+            48 => "Fog",
+            51 => "Drizzle",
+            53 => "Drizzle",
+            55 => "Drizzle",
+            61 => "Rain",
+            63 => "Rain",
+            65 => "Rain",
+            71 => "Snowfall",
+            73 => "Snowfall",
+            75 => "Snowfall",
+            80 => "Rain showers",
+            81 => "Rain showers",
+            82 => "Rain showers",
+            95 => "Thunderstorm",
+            96 => "Thunderstorm",
+            99 => "Thunderstorm",
+        ];
+    
+        return $wmoCodes[$code] ?? "Unknown weather code";
+    }
+
     public function weather()
     {
-        return view('general.executive.weather');
+        $api_key = env("API_KEY_WEATHER");
+
+        $timezone = 'Asia/Manila';
+        $date = Carbon::now($timezone)->format("l, F d");
+        $time = Carbon::now($timezone)->format("h:i A");
+
+        $url = "https://api.open-meteo.com/v1/forecast?latitude=16.1&longitude=120.5167&current=temperature_2m,is_day,rain,cloud_cover,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,wind_speed_10m_max&timezone=Asia%2FSingapore&forecast_days=14";
+        $response = Http::get($url);
+        $jsonData = [];
+        $forecastDate = [];
+        $weatherDescription = [];
+        $simpleWeatherDescription = [];
+
+        if($response->successful()){
+            $jsonData = $response->json();
+
+            for ($i = 0; $i < count($jsonData["daily"]["time"]); $i++){
+                $carbonDate = Carbon::parse($jsonData["daily"]["time"][$i]);
+                $formattedDate = $carbonDate->format('l, F j');
+                $forecastDate[] = $formattedDate;
+                $weatherDescription[] = $this->translateWeatherCode($jsonData["daily"]["weather_code"][$i]);
+                $simpleWeatherDescription[] = $this->simpleTranslateWeatherCode($jsonData["daily"]["weather_code"][$i]);
+            }
+
+        }else{
+            $jsonData = "Fail";
+        }
+
+        return view('general.executive.weather', compact('jsonData', 'date', 'time', 'forecastDate', 'weatherDescription', 'simpleWeatherDescription'));
     }
 
 
     public function combinedDashboard(Request $request)
     {
+        $prediction_data[0]['Number of Sales Prediction'] = 0;
+        $prediction_data[0]['Total Sales Prediction'] = 0;
+        $prediction_data[0]['Total Expenses Prediction'] = 0;
+        $prediction_data[0]['Total Profit Prediction'] = 0;
+
+        try{
+            $kwago_url = 'http://127.0.0.1:8080/kwago_predict';
+            $weather_url = 'http://127.0.0.1:8080/weather_predict';
+        
+            $kwago_response = Http::get($kwago_url);
+            $weather_response = Http::get($weather_url);
+
+            if($kwago_response->successful() && $weather_response->successful()){
+                $prediction_data = $kwago_response->json();
+                $weather_data = $weather_response->json();
+            }
+        }catch (Exception $th) {}
+
+        $timezone = 'Asia/Manila';
+        $date = Carbon::now($timezone)->format("l, F d");
+        $time = Carbon::now($timezone)->format("h:i A");
+
+        $url = "https://api.open-meteo.com/v1/forecast?latitude=16.1&longitude=120.5167&current=temperature_2m,is_day,rain,cloud_cover,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,wind_speed_10m_max&timezone=Asia%2FSingapore&forecast_days=14";
+        
+        $response = Http::get($url);
+        $jsonData = [];
+
+        if($response->successful()){
+            $jsonData = $response->json();
+        }
+
         // Define the fields for Uddesign and Kuwago Two
         $uddesignFields = [
             'total_sales', 'print_sales', 'merch_sales', 'custom_sales', 
@@ -76,7 +195,7 @@ class ExecutiveController extends Controller
             ]
         ];
 
-        return view('general.executive.dashboard', compact('actionRoute', 'totals', 'dealData', 'chartData'));
+        return view('general.executive.dashboard', compact('actionRoute', 'totals', 'dealData', 'chartData', 'jsonData', 'date', 'time', 'prediction_data'));
     }
 
 

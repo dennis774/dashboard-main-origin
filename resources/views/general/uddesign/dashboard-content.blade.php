@@ -20,7 +20,7 @@
                             <!-- DB CARD CONTENT -->
                             <div class="row d-flex flex-grow-1 w-100 px-2 pb-3 align-items-center">
                                 <div class="col align-self-middle text-start dashboard-total-text" style="width: 50%;">
-                                    <span>{{$totalSales}}</span>
+                                    <span id="totalSales">{{$totalSales}}</span>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <!-- DB CARD CONTENT -->
                             <div class="row d-flex flex-grow-1 w-100 px-2 pb-3 align-items-center">
                                 <div class="col align-self-middle text-start dashboard-total-text" style="width: 50%;">
-                                    <span>{{$totalProfit}}</span>
+                                    <span id="totalProfit">{{$totalProfit}}</span>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                             <!-- DB CARD CONTENT -->
                             <div class="row d-flex flex-grow-1 w-100 px-2 pb-3 align-items-center">
                                 <div class="col align-self-middle text-start dashboard-total-text" style="width: 50%;">
-                                    <span>{{$totalExpenses}}</span>
+                                    <span id="totalExpenses">{{$totalExpenses}}</span>
                                 </div>
                             </div>
                         </div>
@@ -163,9 +163,9 @@
                 <div class="col h-100 p-0">
                     <div class="card rounded-4 h-100 w-100 dashboard-card">
                         <!-- DB CARD CONTENT -->
-                        <div class="row d-flex flex-grow-1 align-items-center" style="max-width: 240px;">
+                        <div class="row d-flex flex-grow-1 align-items-center">
                             <div class="col-12 align-self-middle">
-                                <canvas id="PrintingChart" width="400" height="191"></canvas>
+                                <canvas id="PrintingChart" width="450" height="191"></canvas>
                             </div>
                         </div>
                     </div>
@@ -180,11 +180,11 @@
             </div>
 
             <!-- UDDSEIGN MERCH SALES CARD -->
-            <div class="row d-flex flex-grow-1 w-100 m-0 mb-3 column-gap-3 align-items-center" style="height: 42%;">
+            <div class="row d-flex flex-grow-1 w-100 m-0 mb-3 column-gap-3 align-items-center" style="height:42%;">
                 <div class="col h-100 p-0">
                     <div class="card rounded-4 h-100 w-100 dashboard-card">
                         <div class="row flex-grow-1 w-100 justify-content-center align-items-center text-white">
-                        <canvas id="MerchChart" width="400" height="191"></canvas>
+                        <canvas id="MerchChart" style="width: 100%; height: 191px;"></canvas>
                         </div>
                     </div>
                 </div>

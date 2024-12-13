@@ -16,7 +16,7 @@
                     {{ $totals['totalSales'] }}
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        Predicted: +300,000
+                        Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Sales Prediction'))) }}
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="SalesChart"></canvas>
@@ -32,7 +32,7 @@
                     {{ $totals['totalProfit'] }}
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        Predicted: +300,000
+                        Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Profit Prediction'))) }}
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="ProfitChart"></canvas>
@@ -48,7 +48,7 @@
                     {{ $totals['totalExpenses'] }}
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        Predicted: +300,000
+                        Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Expenses Prediction'))) }}
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="ExpenseChart"></canvas>
@@ -65,7 +65,7 @@
                 <div class="col-auto d-flex flex-column px-4" style="width: 39%;">
                     <div class="col-12 d-flex">
                         <div class="col-7 d-flex justify-content-start fw-bold" style="font-size: 1.1rem; color: #6e82e1;">Kuwago Orders: 400</div>
-                        <div class="col-auto d-flex justify-content-start fw-bold" style="font-size: 1.1rem;">Predicted: +600</div>
+                        <div class="col-auto d-flex justify-content-start fw-bold" style="font-size: 1.1rem;">Predicted: {{ round(array_sum(array_column($prediction_data, 'Number of Sales Prediction'))) }}</div>
                     </div>
                     <div class="col-12 d-flex flex-grow-1 align-items-center justify-content-center">
                     <canvas id="TopDishesChart"></canvas>
@@ -118,17 +118,17 @@
                     {{-- DATE AND TIME --}}
                     <div class="row d-flex mt-3 mb-3">
                         <div class="col d-flex p-0 ps-3 align-items-center justify-content-start">
-                            <span style="font-size: 0.8rem; letter-spacing: 1px;">Tuesday, December 20</span>
+                            <span style="font-size: 0.8rem; letter-spacing: 1px;">{{ $date }}</span>
                         </div>
                         <div class="col-4 d-flex p-0 ps-2">
-                            <span style="font-size: 0.8rem; letter-spacing: 1px;">01:00 PM</span>
+                            <span style="font-size: 0.8rem; letter-spacing: 1px;">{{ $time }}</span>
                         </div>
                     </div>
 
                     {{-- TEMPERATURE --}}
                     <div class="row d-flex justify-content-center">
                         <span class="text-center ps-5" style="font-size: 6.5rem;">
-                            30°
+                            {{ round($jsonData['current']['temperature_2m'])  }}&deg;
                         </span>
                     </div>
 
@@ -136,7 +136,7 @@
                     <div class="row d-flex m-0 mt-3 w-100">
                         <div class="col-auto d-flex justify-content-center w-100">
                             <img src="{{ asset('assets/images/icons/wind-img-icon.png') }}" style="height: 20px;" alt="Wind Icon">
-                            <span class="ms-1" style="font-size: 0.85rem; letter-spacing: 1px;">Northwest, 40.9 km/hr</span>
+                            <span class="ms-1" style="font-size: 0.85rem; letter-spacing: 1px;">Northwest, {{ round($jsonData['current']['wind_speed_10m'], 2) }} km/hr</span>
                         </div>
                     </div>
                     

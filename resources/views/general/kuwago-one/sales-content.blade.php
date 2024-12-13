@@ -92,6 +92,18 @@
 
     const barColors = ["#b91d47", "#00aba9"];
 
+    const bgColor = {
+        id: 'bgColor',
+        beforeDraw: (Chart, steps, options) => {
+            const {ctx, width, height} = Chart;
+            if(options.applyBackground){
+                ctx.fillStyle = options.backgroundColor;
+                ctx.fillRect(0, 0, width, height)
+                ctx.restore();
+            }
+        }
+    }
+
     new Chart("myChart1", {
         type: "doughnut",
         data: {
@@ -109,9 +121,14 @@
                 },
                 title: {
                     display: false // Remove title
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -160,9 +177,14 @@
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
                     backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -211,9 +233,14 @@
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
                     backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },  
+        plugins: [bgColor]
     });
 </script>
 
@@ -263,8 +290,14 @@
                     bodyColor: 'white',
                     titleColor: 'white',
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
-                }
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
+                },
+                
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>

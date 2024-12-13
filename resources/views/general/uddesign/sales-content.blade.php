@@ -12,7 +12,7 @@
                             <span class="uddesign-right-title">Total Sales</span>
                         </div>
                         <div class="col-12 d-flex mb-4 align-items-start justify-content-center" style="height: 13%;">
-                            <span class="dashboard-total-text" style="font-size: 1.4rem;">{{$totalSales}}</span>
+                            <span id="totalSales" class="dashboard-total-text" style="font-size: 1.4rem;">{{$totalSales}}</span>
                         </div>
                         <div class="col-12 d-flex flex-column ps-4 mt-1 align-items-center justify-content-start" style="height: 60%;">
                             <div class="col-12 d-flex flex-row mb-2 align-items-center uddesign-side-text" style="font-size: clamp(0.75rem, 1.6vw, 0.9rem); letter-spacing: 1.5px;">
@@ -75,14 +75,14 @@
                     </div>
                     <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
                         <!-- LEFT CHART -->
-                        <div class="col-auto d-flex flex-grow flex-column align-items-center h-100" style="width: 30%;">
-                            <div class="col-12 d-flex flex-grow-1 align-items-center justify-content-center" style="height: 70%;">
-                                <canvas id="printCategoryChart"></canvas>
+                        <div class="col-auto d-flex flex-grow flex-column align-items-center h-100">
+                            <div class="col-12 d-flex flex-grow-1 align-items-center justify-content-center" style="height: 100%; width: 200px;">
+                                <canvas id="printCategoryChart" height="300px"></canvas>
                             </div>
                         </div>
 
                         <!-- RIGHT CHART -->
-                        <div class="col d-flex flex-column align-items-center h-100" style="width: 45%;">
+                        <div class="col d-flex flex-column align-items-center h-100">
                             <div class="col-12 d-flex flex-grow-1  align-items-center justify-content-center" style="height: 70%;">
                                 <canvas id="categoryChart"></canvas>
                             </div>
@@ -116,6 +116,18 @@
     const yValues = [totalCash, totalGcash];
     const barColors = ["#b91d47", "#00aba9"];
 
+    const bgColor = {
+        id: 'bgColor',
+        beforeDraw: (Chart, steps, options) => {
+            const {ctx, width, height} = Chart;
+            if(options.applyBackground){
+                ctx.fillStyle = options.backgroundColor;
+                ctx.fillRect(0, 0, width, height)
+                ctx.restore();
+            }
+        }
+    }
+
     new Chart("donutChart", {
         type: "doughnut",
         data: {
@@ -135,8 +147,13 @@
                 tooltip: {
                     titleColor: 'white', // Tooltip title text
                     bodyColor: 'white', // Tooltip body text
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(210, 210, 210)',
+                    applyBackground: false
                 }
             },
+            plugins: [bgColor],
             title: {
                 display: true,
                 text: "Cash vs Gcash",
@@ -183,6 +200,10 @@
                 tooltip: {
                     titleColor: 'white', // Tooltip title text
                     bodyColor: 'white' // Tooltip body text
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(177, 177, 177)',
+                    applyBackground: false
                 }
             },
             scales: {
@@ -204,7 +225,8 @@
                     beginAtZero: true
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -253,9 +275,14 @@
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
                     backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(177, 177, 177)',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -305,9 +332,14 @@
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
                     backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(177, 177, 177)',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -357,9 +389,14 @@
                     bodyColor: 'white',
                     titleColor: 'white',
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(177, 177, 177)'   ,
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 

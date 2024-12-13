@@ -19,7 +19,7 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 pb-3 align-items-center" style="max-width: 240px;">
                             <div class="col-12 align-self-middle dashboard-total-text">
-                                <span>{{ number_format($totalSales, 2) }}</span>
+                                <span id="totalSales">{{ number_format($totalSales, 2) }}</span>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 pb-3 align-items-center" style="max-width: 240px;">
                             <div class="col-12 align-self-middle dashboard-total-text">
-                                <span>{{ number_format($totalProfit, 2) }}</span>
+                                <span id="totalProfit">{{ number_format($totalProfit, 2) }}</span>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 pb-3 align-items-center" style="max-width: 240px;">
                             <div class="col-12 align-self-middle dashboard-total-text">
-                                <span>{{ number_format($totalExpenses, 2) }}</span>
+                                <span id="totalExpenses">{{ number_format($totalExpenses, 2) }}</span>
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 pb-3 align-items-center" style="max-width: 240px;">
                             <div class="col-12 align-self-middle dashboard-total-text">
-                                <span>{{ number_format($totalOrders) }}</span>
+                                <span id="totalOrders">{{ number_format($totalOrders) }}</span>
                             </div>
                         </div>
                     </div>
@@ -1221,7 +1221,7 @@
             var ctx = document.getElementById('gaugeChart').getContext('2d');
 
             // Values for the chart
-            var targetSaleAmount = {{ $targetSale->amount }};
+            var targetSaleAmount = {{ $targetSale->amount ?? 0 }};
             var totalSales = {{ $totalSales }};
             var percentage = (targetSaleAmount / totalSales) * 100;
 

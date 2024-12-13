@@ -127,6 +127,18 @@
 
 
 <script>
+    const bgColor = {
+        id: 'bgColor',
+        beforeDraw: (Chart, steps, options) => {
+            const {ctx, width, height} = Chart;
+            if(options.applyBackground){
+                ctx.fillStyle = options.backgroundColor;
+                ctx.fillRect(0, 0, width, height)
+                ctx.restore();
+            }
+        }
+    }
+
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -170,9 +182,14 @@
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
                     backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -221,8 +238,13 @@
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
                     backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
