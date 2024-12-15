@@ -3,9 +3,21 @@
 <head>
     <title>Kuwago One Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #salesChartContainer {
+            width: 300px; /* Adjust the width as needed */
+            height: 150px; /* Adjust the height as needed */
+            margin: auto;
+        }
+
+        #salesChart {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
 </head>
 <body>
-    <h1>Kuwago One Dashboard</title>
+    <h1>Kuwago One Dashboard</h1>
 
     <!-- Display Target Sale Data -->
     @if ($targetSale)
@@ -18,49 +30,71 @@
     @else
         <p>No target sale found for display.</p>
     @endif
-
-    <!-- Create a canvas element for the chart -->
-    <canvas id="gaugeChart" width="400" height="200"></canvas>
+<div>
+    <div class="col-12">
+        <div class="row">
+            <div class="col-6">
+                <div id="salesChartContainer">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+            <div class="col-6">
+                <!-- Other content -->
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var ctx = document.getElementById('gaugeChart').getContext('2d');
+            var ctx = document.getElementById('salesChart').getContext('2d');
 
             // Values for the chart
             var targetSaleAmount = {{ $targetSale->amount }};
             var totalSales = {{ $totalSales }};
-            var percentage = (targetSaleAmount / totalSales) * 100;
 
-            console.log('Target Sale Amount:', targetSaleAmount);
-            console.log('Total Sales:', totalSales);
-            console.log('Percentage:', percentage);
-
-            var gaugeChart = new Chart(ctx, {
-                type: 'doughnut',
+            var salesChart = new Chart(ctx, {
+                type: 'bar',
                 data: {
-                    datasets: [{
-                        data: [percentage, 100 - percentage],
-                        backgroundColor: ['#FFA500', '#FFFFFF'],
-                        borderWidth: 0
-                    }]
+                    labels: ['Sales'],
+                    datasets: [
+                        {
+                            label: 'Total Sales',
+                            data: [totalSales],
+                            backgroundColor: '#FFA500' // Orange color for Total Sales
+                        },
+                        {
+                            label: 'Target Sale',
+                            data: [targetSaleAmount],
+                            backgroundColor: '#FFFFFF', // White color for Target Sale
+                            borderColor: '#000000',
+                            borderWidth: 1
+                        }
+                    ]
                 },
                 options: {
-                    circumference: Math.PI,
-                    rotation: Math.PI,
-                    cutoutPercentage: 70,
-                    tooltips: { enabled: false },
-                    hover: { mode: null },
+                    responsive: true,
+                    indexAxis: 'y', // Display the bar chart vertically
                     plugins: {
-                        datalabels: {
-                            display: true,
-                            formatter: function(value, context) {
-                                return context.chart.data.datasets[0].data[0].toFixed(2) + '%';
-                            },
-                            color: '#000',
-                            font: {
-                                weight: 'bold',
-                                size: 24
+                        legend: {
+                            display: true
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    var label = tooltipItem.dataset.label || '';
+                                    return label + ': ' + tooltipItem.raw.toLocaleString();
+                                }
                             }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true, // Enable stacking on X-axis
+                            beginAtZero: true
+                        },
+                        y: {
+                            stacked: true // Enable stacking on Y-axis
                         }
                     }
                 }

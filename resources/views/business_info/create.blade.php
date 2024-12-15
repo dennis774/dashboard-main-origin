@@ -1,5 +1,4 @@
 
-
     {{-- <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -72,7 +71,7 @@
             <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
             <link rel="stylesheet" href="{{url('fontawesome/css/all.min.css')}}" />
         </head>
-        <body>
+        <body class="businesses-body">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 mt-4 d-flex justify-content-start">
@@ -96,7 +95,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 justify-content-center">
                                             <div class="mb-4">
-                                                <label for="business_name" class="form-label text-white d-flex justify-content-center">Business Name</label>
+                                                <label for="business_name" class="form-label text-white d-flex justify-content-start">Business Name</label>
                                                 <input type="text" class="form-input custom-input" name="business_name" required />
                                             </div>
                                         </div>
@@ -111,7 +110,7 @@
                                         </div>
                                         <div class="col-lg-6 justify-content-end">
                                             <div class="mb-4">
-                                                <label for="year" class="form-label text-white">Year</label>
+                                                <label for="year" class="form-label text-white">Year Established</label>
                                                 <input type="text" class="form-input custom-input" name="year" required />
                                             </div>
                                         </div>

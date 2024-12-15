@@ -64,7 +64,7 @@
                 {{-- ORDERS --}}
                 <div class="col-auto d-flex flex-column px-4" style="width: 39%;">
                     <div class="col-12 d-flex">
-                        <div class="col-7 d-flex justify-content-start fw-bold" style="font-size: 1.1rem; color: #6e82e1;">Kuwago Orders: 400</div>
+                        <div class="col-7 d-flex justify-content-start fw-bold" style="font-size: 1.1rem; color: #6e82e1;">Kuwago Orders: {{ number_format($chartData['Kuwago1']['ordersCount']) }}</div>
                         <div class="col-auto d-flex justify-content-start fw-bold" style="font-size: 1.1rem;">Predicted: {{ round(array_sum(array_column($prediction_data, 'Number of Sales Prediction'))) }}</div>
                     </div>
                     <div class="col-12 d-flex flex-grow-1 align-items-center justify-content-center">
@@ -319,12 +319,21 @@
                 }]
             },
             options: {
+                responsive: true,
+                indexAxis: 'y', // Display the bar chart vertically (y-axis)
                 scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            display: true // Show the ticks on X-axis
+                        }
+                    },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true // Ensure the Y-axis begins at zero
                     }
                 }
             }
         });
     });
 </script>
+

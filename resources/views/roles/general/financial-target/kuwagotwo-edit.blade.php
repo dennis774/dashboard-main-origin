@@ -1,10 +1,9 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Target Sales</title>
+    <title>Edit Target Sales</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {{-- <link href="{{ url('assets/css/style1.css') }}" rel="stylesheet" /> --}}
     <script src="{{ url('assets/js/chart.js') }}"></script>
@@ -13,7 +12,7 @@
     <link rel="stylesheet" href="{{url('fontawesome/css/all.min.css')}}" />
 </head>
 <style>
-    body{
+     body{
     background-image: url('https://t4.ftcdn.net/jpg/07/94/30/45/360_F_794304521_O4o0Y5UrvKtDxBNHY9utMowV2VhuhRpk.jpg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -21,26 +20,23 @@
     backdrop-filter: blur(25px); /* Optional: adds blur effect */
     min-height: 100vh; /* Ensures it covers the full viewport height */
     }
-    h3.createHeader, h3.targetHeader{
+    h3.targetHeader{
         color: #fff;
     }
     i.backTarget{
         color: #fff;
     }
-
-
-    /* Style for the form container */
+        /* Style for the form container */
     form {
+        background: rgba(255, 255, 255, 0.1); /* Transparent background */
         padding: 20px;
         color: #fff; /* White text color */
-    
     }
 
 
     /* Style for labels */
     form label {
         color: #fff; /* White color for labels */
-        font-weight: bold;
     }
 
 
@@ -61,42 +57,42 @@
         outline: none; /* Remove outline */
         border-bottom: 1px solid #fff; /* Keep white underline on focus */
         background: transparent;
-        color: #fff;
+    
     }
 
 
     /* Style for the submit button */
 
+
+    button.editTargetSale{
+        
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    button.editTargetSale:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
     .button-container {
         text-align: center; /* Center-aligns the button */
         margin-top: 15px; /* Optional: Adds space above the button */
     }
-
-    button.createTargetSale{
-        
-                background: rgba(255, 255, 255, 0.2);
-                color: #fff;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                padding: 10px 20px;
-                border-radius: 10px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                width: 100%;
-    }
-
-    button.createTargetSale:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    }
-
-
 </style>
+
 <body>
     <div class="container">
         <div class="row">
             <div class="col-lg-4 mt-4 ">
-                <a href="{{ route('targetSales.index') }}"><i class="fa-solid fa-arrow-left backTarget"></i></a>
+                <a href="{{url('/targetSales')}}"><i class="fa-solid fa-arrow-left backTarget"></i></a>
             </div>
             <div class="col-lg-4 mt-4 d-flex justify-content-center ">
                 <h3 class="targetHeader">Financial Targets</h3>
@@ -105,43 +101,29 @@
             </div>
         </div>
         <div class="row mt-5">
-            <div class="col-lg-12 d-flex justify-content-center">
-                <h3 class="createHeader">Target Sales</h3>
-            </div>
-       
-        </div>
-        <div class="row mt-5">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <form action="{{ route('targetSales.store') }}" method="POST">
+                <form action="{{ route('kuwago-two-target.update', ['kuwago_two_target' => $kuwagoTwoTargetSale->id]) }}" method="POST">
                     @csrf
-                    <div class="form-group mb-3">
-                        <label for="business_type">Business Type</label>
-                        <select name="business_type" id="business_type" class="form-control" required>
-                            <option value="" disabled selected>Select Business</option>
-                            <option value="UdDesign">UdDesign</option>
-                            <option value="Kuwago1">Kuwago1</option>
-                            <option value="Kuwago2">Kuwago2</option>
-                        </select>
-                    </div>
+                    @method('PUT')
                     <div class="form-group mb-3">
                         <label for="amount">Amount</label>
-                        <input type="number" name="amount" id="amount" class="form-control" required>
+                        <input type="number" name="amount" id="amount" class="form-control" value="{{ $kuwagoTwoTargetSale->amount }}" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="start_date">Start Date</label>
-                        <input type="date" name="start_date" id="start_date" class="form-control custom-date" required>
+                        <input type="date" name="start_date" id="start_date" class="form-control" value="{{ $kuwagoTwoTargetSale->start_date->format('Y-m-d') }}" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="end_date">End Date</label>
-                        <input type="date" name="end_date" id="end_date" class="form-control custom-date" required>
-                    </div>                    
+                        <input type="date" name="end_date" id="end_date" class="form-control" value="{{ $kuwagoTwoTargetSale->end_date->format('Y-m-d') }}" required>
+                    </div>
                     <div class="button-container">
-                        <button type="submit" class="btn createTargetSale mt-3">Create Target Sale</button>
+                        <button type="submit" class="btn editTargetSale mt-3">Update</button>
                     </div>
                 </form>
             </div>
-            <div class="col-lg-3"></div>  
+            <div class="col-lg-3"></div>
         </div>
     </div>
 </body>

@@ -125,20 +125,29 @@
                 <div class="col p-0" style="height: 100%;">
                     <div class="card rounded-4 h-100 w-100 dashboard-card">
                         <!-- DB CARD TITLE -->
-                        <div class="row mt-3 justify-content-start w-100">
+                        <!-- <div class="row mt-3 justify-content-start w-100">
                             <div class="col-12 align-items-center justify-content-center">
                                 <div class="card-title d-flex mb-0 align-items-center">
                                     <h5 class="card-title mb-0 ms-2 db-card-title">Target Sales</h5>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 w-100 px-3 pb-3 column-gap-3 align-items-center">
                             <div class="col-7 align-self-middle text-start dashboard-total-text">
-                                <span>999,999,999.00</span>
+                                <p style="font-size: 8px;">Target Sales</p>
+
+                                @if ($financialTargetSales)
+                                <span style="font-size: 8px;">{{ $financialTargetSales->amount}}{{ $financialTargetSales->start_date }} - {{ $financialTargetSales->end_date }}</span>
+                                @else
+                                    <span style="font-size: 8px;">No target sale found for display.</span>
+                                @endif
+                                <span style="font-size: 8px;"><span id="percentage" ></span>%</span>
                             </div>
-                            <div class="col bg-success">
-                                Chart
+                            <div class="col">
+                                <div id="salesChartContainer" style="width: 200px;height: 50px;margin: auto;">
+                                    <canvas id="salesChart"  style="width: 100% !important; height: 100% !important;"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -194,7 +203,69 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('salesChart').getContext('2d');
 
+        // Values for the chart
+        var financialTargetAmount = {{ $financialTargetSales->amount }};
+        var financialTotalSales = {{ $financialTotalSales }};
+
+        // Calculate percentage
+        var percentage = (financialTotalSales / financialTargetAmount) * 100;
+
+        // Display the percentage in the view
+        document.getElementById('percentage').innerText = percentage.toFixed(2);
+
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [''],
+                datasets: [
+                    {
+                        label: 'Total Sales',
+                        data: [financialTotalSales],
+                        backgroundColor: '#FFA500' // Orange color for Total Sales
+                    },
+                    {
+                        label: 'Target Sales',
+                        data: [financialTargetAmount],
+                        backgroundColor: '#FFFFFF', // White color for Financial Target
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y', // Display the bar chart vertically (y-axis)
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'top' // Display the legend at the top
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                var label = tooltipItem.dataset.label || '';
+                                return label + ': ' + tooltipItem.raw.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            display: false // Show the ticks on X-axis
+                        }
+                    },
+                    y: {
+                        beginAtZero: true // Ensure the Y-axis begins at zero
+                    }
+                }
+            }
+        });
+    });
+</script>   
 
 
 

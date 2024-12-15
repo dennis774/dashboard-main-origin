@@ -1574,6 +1574,21 @@ button i.refreshIcon:hover {
     background-size: cover;
     min-height: 100vh;
 }
+
+/* CSS FOR BUSINESSES TAB */
+.businesses-body {
+    /* The image used */
+    background: url("/assets/images/settings-bg-img.png") no-repeat center
+        center fixed;
+    backdrop-filter: blur(25px);
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins";
+    position: relative;
+}
+
 .businessesCard {
     background-color: #fff; /* Sets a white background for the container */
     padding: 20px; /* Optional: Adds padding */
@@ -1581,6 +1596,7 @@ button i.refreshIcon:hover {
 }
 div.businessName {
     font-weight: bold;
+    font-size: 1.2rem;
 }
 img.logos {
     width: 70px;

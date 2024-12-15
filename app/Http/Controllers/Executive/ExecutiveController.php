@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Executive;
 
-use App\Models\Deal;
 use Exception;
+use App\Models\Deal;
 use Illuminate\Http\Request;
 use App\Models\UddesignReport;
 use Illuminate\Support\Carbon;
@@ -11,9 +11,10 @@ use App\Models\KuwagoOneReport;
 use App\Models\KuwagoTwoReport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
+use App\Models\KuwagoOne\KuwagoOneOrder;
 use App\Models\KuwagoOne\KuwagoOneOrderDetails;
 use App\Models\KuwagoTwo\KuwagoTwoOrderDetails;
-use Illuminate\Support\Facades\Http;
 
 class ExecutiveController extends Controller
 {
@@ -185,7 +186,8 @@ class ExecutiveController extends Controller
                 'sales' => $kuwagoOneData['totals']->sales,
                 'expenses' => $kuwagoOneData['totals']->expenses,
                 'profit' => $kuwagoOneData['totals']->total_profit,
-                'topDishes1' => $kuwagoOneData['topDishes1']
+                'topDishes1' => $kuwagoOneData['topDishes1'],
+                'ordersCount' => $kuwagoOneData['ordersCount'],
             ],
             'Kuwago2' => [
                 'sales' => $kuwagoTwoData['totals']->sales,
@@ -322,10 +324,15 @@ class ExecutiveController extends Controller
             ->orderByDesc('total_pcs')
             ->get();
             // dd($dishData2->values(), $dishData1->values());
+
+        $ordersCount = KuwagoOneOrder::whereBetween('date', [$dates['start'], $dates['end']])
+            ->distinct('order_id')->count('order_id');
+        
         return [
             'totals' => $totals,
             'topDishes1' => $dishData1,
-            'topDishes2' => $dishData2
+            'topDishes2' => $dishData2,
+            'ordersCount' => $ordersCount
         ];
     }
 

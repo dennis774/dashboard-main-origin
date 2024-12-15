@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('budget_allocations', function (Blueprint $table) {
+        Schema::create('kuwago_two_budgets', function (Blueprint $table) {
             $table->id();
-            $table->enum('business_type', ['UdDesign', 'Kuwago1', 'Kuwago2']);  // No default value set here
             $table->decimal('amount', 10, 2);
             $table->date('start_date');
             $table->date('end_date');
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('budget_allocations');
+        Schema::dropIfExists('kuwago_two_budgets');
     }
 };

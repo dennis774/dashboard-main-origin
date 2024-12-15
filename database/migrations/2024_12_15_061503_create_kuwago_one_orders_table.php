@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('budget_allocations', function (Blueprint $table) {
+        Schema::create('kuwago_one_orders', function (Blueprint $table) {
             $table->id();
-            $table->enum('business_type', ['UdDesign', 'Kuwago1', 'Kuwago2']);  // No default value set here
-            $table->decimal('amount', 10, 2);
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->boolean('is_displayed')->default(false);
+            $table->integer('order_id'); // Unique integer identifier
+            $table->string('date');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('budget_allocations');
+        Schema::dropIfExists('kuwago_one_orders');
     }
 };

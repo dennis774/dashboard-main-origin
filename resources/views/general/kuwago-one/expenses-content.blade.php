@@ -13,6 +13,9 @@
                     <div class="d-flex flex-column px-3 pb-3 rounded-4 h-100 w-100 main-dashboard-tile">
                         <div class="row d-flex flex-grow-1 w-100">
                             <!-- TOTAL EXPENSES -->
+                            @if ($budgetAllocation)
+                            <span style="font-size: 8px;">{{ $budgetAllocation->start_date }} - {{ $budgetAllocation->end_date }}</span>
+                            <span style="font-size: 8px;"><span id="percentage" ></span>%</span>
                             <div class="col" style="width: 30%;">
                                 <!-- DB CARD TITLE -->
                                 <div class="col-12 d-flex mt-2 align-items-end justify-content-start" style="height: 30%;">
@@ -20,13 +23,15 @@
                                 </div>
                                 <!-- DB CONTENT/CHART -->
                                 <div class="col-12 d-flex align-items-center justify-content-start" style="height: 65%;">
-                                    <span class="fw-bold" style="letter-spacing: 0.005rem;">9,999,999.00</span>
+                                    <span class="fw-bold" style="letter-spacing: 0.005rem;">{{ $budgetExpenses }}</span>
                                 </div>
                             </div>
                             <!-- HALF CIRCLE -->
                             <div class="col" style="width: 38%;">
                                 <div class="d-flex mt-2 h-100 align-items-center justify-content-center">
-                                    <span class="db-card-title">ARC CHART</span>
+                                    <div style="width: 200px;height: 50px;margin: auto;">
+                                        <canvas id="budgetAllocation"  style="width: 100% !important; height: 100% !important;"></canvas>
+                                    </div>
                                 </div>
                             </div>
                             <!-- BUDGET ALLOCATED -->
@@ -37,9 +42,12 @@
                                 </div>
                                 <!-- DB CONTENT/CHART -->
                                 <div class="col-12 d-flex align-items-center justify-content-end" style="height: 65%;">
-                                    <span class="fw-bold" style="letter-spacing: 0.005rem;">9,999,999.00</span>
+                                    <span class="fw-bold" style="letter-spacing: 0.005rem;">{{ $budgetAllocation->amount }}</span>
                                 </div>
                             </div>
+                            @else
+                                <span style="font-size: 8px;">No target sale found for display.</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -249,3 +257,66 @@
 </script>
 
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('budgetAllocation').getContext('2d');
+
+        // Values for the chart
+        var budgetAllocation = {{ $budgetAllocation->amount }};
+        var TotalBudgetExpenses = {{ $budgetExpenses }};
+
+        // Calculate percentage
+        var percentage = (TotalBudgetExpenses / budgetAllocation) * 100;
+
+        // Display the percentage in the view
+        document.getElementById('percentage').innerText = percentage.toFixed(2);
+
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [''],
+                datasets: [
+                    {
+                        label: 'Expenses',
+                        data: [TotalBudgetExpenses],
+                        backgroundColor: '#FFA500' // Orange color for Total Sales
+                    },
+                    {
+                        label: 'Budget',
+                        data: [budgetAllocation],
+                        backgroundColor: '#FFFFFF', // White color for Financial Target
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y', // Display the bar chart vertically (y-axis)
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'top' // Display the legend at the top
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                var label = tooltipItem.dataset.label || '';
+                                return label + ': ' + tooltipItem.raw.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            display: false // Show the ticks on X-axis
+                        }
+                    },
+                    y: {
+                        beginAtZero: true // Ensure the Y-axis begins at zero
+                    }
+                }
+            }
+        });
+    });
+</script>

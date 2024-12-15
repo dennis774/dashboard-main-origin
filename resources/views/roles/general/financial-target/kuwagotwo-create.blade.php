@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Target Sales</title>
+    <title>Kuwago Two Target Sales</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {{-- <link href="{{ url('assets/css/style1.css') }}" rel="stylesheet" /> --}}
     <script src="{{ url('assets/js/chart.js') }}"></script>
@@ -106,24 +106,15 @@
         </div>
         <div class="row mt-5">
             <div class="col-lg-12 d-flex justify-content-center">
-                <h3 class="createHeader">Target Sales</h3>
+                <h3 class="createHeader">Kuwago Two Target Sales</h3>
             </div>
        
         </div>
         <div class="row mt-5">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <form action="{{ route('targetSales.store') }}" method="POST">
+                <form action="{{ route('kuwago-two-target.store') }}" method="POST">
                     @csrf
-                    <div class="form-group mb-3">
-                        <label for="business_type">Business Type</label>
-                        <select name="business_type" id="business_type" class="form-control" required>
-                            <option value="" disabled selected>Select Business</option>
-                            <option value="UdDesign">UdDesign</option>
-                            <option value="Kuwago1">Kuwago1</option>
-                            <option value="Kuwago2">Kuwago2</option>
-                        </select>
-                    </div>
                     <div class="form-group mb-3">
                         <label for="amount">Amount</label>
                         <input type="number" name="amount" id="amount" class="form-control" required>

@@ -6,6 +6,10 @@ use App\Models\TargetSales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\BudgetAllocation;
+use App\Models\KuwagoTwoBudget;
+use App\Models\KuwagoTwoTargetSale;
+use App\Models\UddesignBudget;
+use App\Models\UddesignTargetSale;
 
 class TargetSalesController extends Controller
 {
@@ -25,18 +29,44 @@ class TargetSalesController extends Controller
             $budgetAllocation->end_date = Carbon::parse($budgetAllocation->end_date);
             return $budgetAllocation;
         });
+
+        // Get all target sales and convert dates to Carbon instances
+        $kuwagoTwoTargets = KuwagoTwoTargetSale::all()->map(function($kuwagoTwoTarget) {
+            $kuwagoTwoTarget->start_date = Carbon::parse($kuwagoTwoTarget->start_date);
+            $kuwagoTwoTarget->end_date = Carbon::parse($kuwagoTwoTarget->end_date);
+            return $kuwagoTwoTarget;
+        });
+   
+        // Get all budget allocations and convert dates to Carbon instances
+        $kuwagoTwoBudgets = KuwagoTwoBudget::all()->map(function($kuwagoTwoBudget) {
+            $kuwagoTwoBudget->start_date = Carbon::parse($kuwagoTwoBudget->start_date);
+            $kuwagoTwoBudget->end_date = Carbon::parse($kuwagoTwoBudget->end_date);
+            return $kuwagoTwoBudget;
+        });
+
+        // Get all target sales and convert dates to Carbon instances
+        $uddesignTargets = UddesignTargetSale::all()->map(function($uddesignTarget) {
+            $uddesignTarget->start_date = Carbon::parse($uddesignTarget->start_date);
+            $uddesignTarget->end_date = Carbon::parse($uddesignTarget->end_date);
+            return $uddesignTarget;
+        });
+   
+        // Get all budget allocations and convert dates to Carbon instances
+        $uddesignBudgets = UddesignBudget::all()->map(function($uddesignBudget) {
+            $uddesignBudget->start_date = Carbon::parse($uddesignBudget->start_date);
+            $uddesignBudget->end_date = Carbon::parse($uddesignBudget->end_date);
+            return $uddesignBudget;
+        });
    
         // Pass both targetSales and budgetAllocations to the view
-        return view('roles.general.financial-target.index', compact('targetSales', 'budgetAllocations'));
+        return view('roles.general.financial-target.index', compact('targetSales', 'budgetAllocations', 'kuwagoTwoTargets', 'kuwagoTwoBudgets', 'uddesignTargets', 'uddesignBudgets'));
     }
-
 
     // Show the form for creating a new target sale
     public function create()
     {
         return view('roles.general.financial-target.create');
     }
-
 
     // Store a newly created target sale in the database
     public function store(Request $request)
@@ -59,7 +89,6 @@ class TargetSalesController extends Controller
         return redirect()->route('targetSales.index')->with('success', 'Target sale created successfully!');
     }
 
-
     // Show the form for editing the specified target sale
     public function edit(TargetSales $targetSale)
     {
@@ -70,7 +99,6 @@ class TargetSalesController extends Controller
 
         return view('roles.general.financial-target.edit', compact('targetSale'));
     }
-
 
     // Update the specified target sale in the database
     public function update(Request $request, TargetSales $targetSale)
@@ -95,7 +123,6 @@ class TargetSalesController extends Controller
         return redirect()->route('targetSales.index')->with('success', 'Target sale updated successfully!');
     }
 
-
     // Remove the specified target sale from the database
     public function destroy(TargetSales $targetSale)
     {
@@ -105,23 +132,21 @@ class TargetSalesController extends Controller
         return redirect()->route('targetSales.index')->with('success', 'Target sale deleted successfully!');
     }
 
-    public function fetchTargetSaleAmount(Request $request)
-    {
-        $businessType = $request->input('business_type');
-        $targetSale = TargetSales::where('business_type', $businessType)->first();
+    // public function fetchTargetSaleAmount(Request $request)
+    // {
+    //     $businessType = $request->input('business_type');
+    //     $targetSale = TargetSales::where('business_type', $businessType)->first();
 
-        if ($targetSale) {
-            return response()->json([
-                'amount' => '₱' . number_format($targetSale->amount, 2)
-            ]);
-        }
+    //     if ($targetSale) {
+    //         return response()->json([
+    //             'amount' => '₱' . number_format($targetSale->amount, 2)
+    //         ]);
+    //     }
 
-        return response()->json([
-            'amount' => null
-        ]);
-    }
-
-
+    //     return response()->json([
+    //         'amount' => null
+    //     ]);
+    // }
 
     // public function showTargetSales(Request $request)
     // {
@@ -129,7 +154,6 @@ class TargetSalesController extends Controller
 
     //     return view('general.kuwago-one.dashboard', compact('targetSales'));
     // }
-
 
     // public function showTargetSale(Request $request, $displayIdentifier)
     // {
@@ -148,9 +172,7 @@ class TargetSalesController extends Controller
         // Set the specific target sale to be displayed
         TargetSales::where('id', $id)->update(['is_displayed' => true]);
     
-        return redirect()->back()->with('status', 'Target sale has been set to display.');
+        return redirect()->back()->with('status', 'New Kuwago One Target sale has been set to display.');
     }
     
-
-
 }

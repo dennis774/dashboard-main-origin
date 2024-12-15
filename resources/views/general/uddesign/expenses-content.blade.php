@@ -12,25 +12,33 @@
                         <!-- CARD TITLES -->
                         <div class="row mt-3 w-100">
                             <div class="col-6 d-flex justify-content-center db-card-title">
-                                Target Sales
+                                Total Expenses
                             </div>
                             <div class="col-6 d-flex justify-content-center db-card-title">
                                 Budget Allocated
-                                
                             </div>
                         </div>
                         <!-- CARD VALUES -->
+                        @if ($budgetAllocation)
+                        <span style="font-size: 8px;">{{ $budgetAllocation->start_date }} - {{ $budgetAllocation->end_date }}</span>
+
                         <div class="row w-100">
                             <div class="col-6 d-flex justify-content-center fw-bold db-card-title" style="font-size: clamp(0.75rem, 1.6vw, 1.3rem);">
-                                999,999,999.00
+                                <span class="fw-bold" style="letter-spacing: 0.005rem;">{{ $budgetAllocation->amount }}</span>
                             </div>
                             <div class="col-6 d-flex justify-content-center fw-bold db-card-title" style="font-size: clamp(0.75rem, 1.6vw, 1.3rem);">
-                                100.00
+                            {{ $budgetExpenses }}
                             </div>
                         </div>
                         <div class="row d-flex flex-grow-1 align-items-center justify-content-center">
-                            Half Donut Chart
+                        <span style="font-size: 8px;"><span id="percentage" ></span>%</span>
+                            <div style="width: 200px;height: 50px;margin: auto;">
+                                <canvas id="budgetAllocation"  style="width: 100% !important; height: 100% !important;"></canvas>
+                            </div>
                         </div>
+                        @else
+                            <span style="font-size: 8px;">No target sale found for display.</span>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -239,6 +247,69 @@
     });
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('budgetAllocation').getContext('2d');
+
+        // Values for the chart
+        var budgetAllocation = {{ $budgetAllocation->amount }};
+        var TotalBudgetExpenses = {{ $budgetExpenses }};
+
+        // Calculate percentage
+        var percentage = (TotalBudgetExpenses / budgetAllocation) * 100;
+
+        // Display the percentage in the view
+        document.getElementById('percentage').innerText = percentage.toFixed(2);
+
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [''],
+                datasets: [
+                    {
+                        label: 'Expenses',
+                        data: [TotalBudgetExpenses],
+                        backgroundColor: '#FFA500' // Orange color for Total Sales
+                    },
+                    {
+                        label: 'Budget',
+                        data: [budgetAllocation],
+                        backgroundColor: '#FFFFFF', // White color for Financial Target
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y', // Display the bar chart vertically (y-axis)
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'top' // Display the legend at the top
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                var label = tooltipItem.dataset.label || '';
+                                return label + ': ' + tooltipItem.raw.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            display: false // Show the ticks on X-axis
+                        }
+                    },
+                    y: {
+                        beginAtZero: true // Ensure the Y-axis begins at zero
+                    }
+                }
+            }
+        });
+    });
+</script>
 
 {{-- ORIGINAL CODE --}}
 <?php

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\KuwagoTwo\KuwagoTwoOrderDetails;
 use App\Models\KuwagoTwo\KuwagoTwoExpenseDetail;
+use App\Models\KuwagoTwoBudget;
+use App\Models\KuwagoTwoTargetSale;
 
 class Kuwago_TwoController extends Controller
 {
@@ -123,7 +125,7 @@ class Kuwago_TwoController extends Controller
     }
 
     // Main method to fetch and aggregate chart data based on the provided fields and interval
-    private function generateChartData(Request $request, $view, array $fields, $extraSelect = '')
+    private function generateChartData(Request $request, $view, array $fields, $extraSelect = '', $kuwagoTwoTarget = null, $kuwagoTwoBudget = null)
     {
         $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
         $dates = $this->getDateRange($interval, $request, KuwagoTwoReport::class, 'date');
@@ -218,6 +220,26 @@ class Kuwago_TwoController extends Controller
         // Calculate total of the amount
         $totalExpenseAmount = $chartExpenseData->sum('total_amount');
 
+        if (!$kuwagoTwoTarget) {
+            $financialTargetSales = KuwagoTwoTargetSale::where('is_displayed', true)->first();
+        }
+        // Fetch the financial target dates
+        $financialStartDate = $financialTargetSales->start_date;
+        $financialEndDate = $financialTargetSales->end_date;
+
+        // Fetch total financial target sales
+        $financialTotalSales = KuwagoTwoReport::whereBetween('date', [$financialStartDate, $financialEndDate])->sum('sales');
+
+        if (!$kuwagoTwoBudget) {
+            $budgetAllocation = KuwagoTwoBudget::where('is_displayed', true)->first();
+        }
+        // Fetch the financial target dates
+        $budgetStartDate = $budgetAllocation->start_date;
+        $budgetEndDate = $budgetAllocation->end_date;
+
+        // Fetch total budget allocation
+        $budgetExpenses = KuwagoTwoReport::whereBetween('date', [$budgetStartDate, $budgetEndDate])->sum('expenses');
+
         $actionRoute = route($view);
         $thisWeek = $this->getCurrentWeekData();
         $lastWeek = $this->getLastWeekData();
@@ -226,7 +248,7 @@ class Kuwago_TwoController extends Controller
         $thisYear = $this->getCurrentYearData();
         $lastYear = $this->getLastYearData();
 
-        return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes', 'chartExpenseData', 'totalExpenseAmount'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
+        return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes', 'chartExpenseData', 'totalExpenseAmount','financialTargetSales', 'financialTotalSales', 'budgetAllocation', 'budgetExpenses',), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
     }
 
 
