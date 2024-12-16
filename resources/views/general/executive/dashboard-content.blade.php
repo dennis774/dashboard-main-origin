@@ -131,7 +131,7 @@
                     {{-- TEMPERATURE --}}
                     <div class="row d-flex justify-content-center">
                         <span class="text-center ps-5" style="font-size: 6.5rem;">
-                            {{ round($jsonData['current']['temperature_2m'])  }}&deg;
+                            {{ round($jsonData1['current']['temperature_2m'])  }}&deg;
                         </span>
                     </div>
 
@@ -139,7 +139,7 @@
                     <div class="row d-flex m-0 mt-3 w-100">
                         <div class="col-auto d-flex justify-content-center w-100">
                             <img src="{{ asset('assets/images/icons/wind-img-icon.png') }}" style="height: 20px;" alt="Wind Icon">
-                            <span class="ms-1" style="font-size: 0.85rem; letter-spacing: 1px;">Northwest, {{ round($jsonData['current']['wind_speed_10m'], 2) }} km/hr</span>
+                            <span class="ms-1" style="font-size: 0.85rem; letter-spacing: 1px;">Northwest, {{ round($jsonData1['current']['wind_speed_10m'], 2) }} km/hr</span>
                         </div>
                     </div>
                     
@@ -188,17 +188,17 @@
                         <div class="col-12 pb-3 d-flex flex-row">
                             {{-- CLOUD ICON --}}
                             <div class="col-auto d-flex align-items-center justify-content-center" style="width:23%;">
-                                Cloud
+                                {{ $simpleWeatherDescription[2] }}
                             </div>
 
                             {{-- DATE & WEATHER --}}
                             <div class="col-auto" style="width: 57.5%;">
                                 <div class="col-12 d-flex flex-column justify-content-center align-items-start">
-                                    <span class="fw-medium lh-1" style="font-size:0.7rem; letter-spacing:0.5px;">Wednesday, December 21</span>
+                                    <span class="fw-medium lh-1" style="font-size:0.7rem; letter-spacing:0.5px;">{{ $forecastDate[1] }}</span>
                                 </div>
 
                                 <div class="col-12 d-flex flex-column justify-content-center align-items-start">
-                                    <span class="text-white opacity-75 fw-normal" style="font-size:0.7rem; ">Sunny Cloudy</span>
+                                    <span class="text-white opacity-75 fw-normal" style="font-size:0.7rem; ">{{ $weatherDescription[1] }}</span>
                                 </div>
                             </div>
                             {{-- LINE --}}
@@ -206,11 +206,153 @@
 
                             {{-- TEMPERATURE --}}
                             <div class="col-auto d-flex align-items-center justify-content-center" style="width:18.5%;">
-                                <span style="font-size: 1.05rem;">34°</span>
+                                <span style="font-size: 1.05rem;">{{ round($jsonData2["daily"]["temperature_2m_max"][1]) }}&deg;</span>
                             </div>
                         </div>
-                        
-                       
+                        <div class="col-12 pb-3 d-flex flex-row">
+                            {{-- CLOUD ICON --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:23%;">
+                            {{ $simpleWeatherDescription[3] }}
+                            </div>
+
+                            {{-- DATE & WEATHER --}}
+                            <div class="col-auto" style="width: 57.5%;">
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="fw-medium lh-1" style="font-size:0.7rem; letter-spacing:0.5px;">{{ $forecastDate[2] }}</span>
+                                </div>
+
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="text-white opacity-75 fw-normal" style="font-size:0.7rem; ">{{ $weatherDescription[2] }}</span>
+                                </div>
+                            </div>
+                            {{-- LINE --}}
+                            <div class="vr text-white opacity-100" style="width: 1px; "></div>
+
+                            {{-- TEMPERATURE --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:18.5%;">
+                                <span style="font-size: 1.05rem;">{{ round($jsonData2["daily"]["temperature_2m_max"][2]) }}&deg;</span>
+                            </div>
+                        </div>
+                        <div class="col-12 pb-3 d-flex flex-row">
+                            {{-- CLOUD ICON --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:23%;">
+                            {{ $simpleWeatherDescription[4] }}
+                            </div>
+
+                            {{-- DATE & WEATHER --}}
+                            <div class="col-auto" style="width: 57.5%;">
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="fw-medium lh-1" style="font-size:0.7rem; letter-spacing:0.5px;">{{ $forecastDate[3] }}</span>
+                                </div>
+
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="text-white opacity-75 fw-normal" style="font-size:0.7rem; ">{{ $weatherDescription[3] }}</span>
+                                </div>
+                            </div>
+                            {{-- LINE --}}
+                            <div class="vr text-white opacity-100" style="width: 1px; "></div>
+
+                            {{-- TEMPERATURE --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:18.5%;">
+                                <span style="font-size: 1.05rem;">{{ round($jsonData2["daily"]["temperature_2m_max"][3]) }}&deg;</span>
+                            </div>
+                        </div>
+                        <div class="col-12 pb-3 d-flex flex-row">
+                            {{-- CLOUD ICON --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:23%;">
+                            {{ $simpleWeatherDescription[5] }}
+                            </div>
+
+                            {{-- DATE & WEATHER --}}
+                            <div class="col-auto" style="width: 57.5%;">
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="fw-medium lh-1" style="font-size:0.7rem; letter-spacing:0.5px;">{{ $forecastDate[4] }}</span>
+                                </div>
+
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="text-white opacity-75 fw-normal" style="font-size:0.7rem; ">{{ $weatherDescription[4] }}</span>
+                                </div>
+                            </div>
+                            {{-- LINE --}}
+                            <div class="vr text-white opacity-100" style="width: 1px; "></div>
+
+                            {{-- TEMPERATURE --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:18.5%;">
+                                <span style="font-size: 1.05rem;">{{ round($jsonData2["daily"]["temperature_2m_max"][4]) }}&deg;</span>
+                            </div>
+                        </div>
+                        <div class="col-12 pb-3 d-flex flex-row">
+                            {{-- CLOUD ICON --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:23%;">
+                            {{ $simpleWeatherDescription[6] }}
+                            </div>
+
+                            {{-- DATE & WEATHER --}}
+                            <div class="col-auto" style="width: 57.5%;">
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="fw-medium lh-1" style="font-size:0.7rem; letter-spacing:0.5px;">{{ $forecastDate[5] }}</span>
+                                </div>
+
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="text-white opacity-75 fw-normal" style="font-size:0.7rem; ">{{ $weatherDescription[5] }}</span>
+                                </div>
+                            </div>
+                            {{-- LINE --}}
+                            <div class="vr text-white opacity-100" style="width: 1px; "></div>
+
+                            {{-- TEMPERATURE --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:18.5%;">
+                                <span style="font-size: 1.05rem;">{{ round($jsonData2["daily"]["temperature_2m_max"][5]) }}&deg;</span>
+                            </div>
+                        </div>
+                        <div class="col-12 pb-3 d-flex flex-row">
+                            {{-- CLOUD ICON --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:23%;">
+                            {{ $simpleWeatherDescription[7] }}
+                            </div>
+
+                            {{-- DATE & WEATHER --}}
+                            <div class="col-auto" style="width: 57.5%;">
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="fw-medium lh-1" style="font-size:0.7rem; letter-spacing:0.5px;">{{ $forecastDate[6] }}</span>
+                                </div>
+
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="text-white opacity-75 fw-normal" style="font-size:0.7rem; ">{{ $weatherDescription[6] }}</span>
+                                </div>
+                            </div>
+                            {{-- LINE --}}
+                            <div class="vr text-white opacity-100" style="width: 1px; "></div>
+
+                            {{-- TEMPERATURE --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:18.5%;">
+                                <span style="font-size: 1.05rem;">{{ round($jsonData2["daily"]["temperature_2m_max"][6]) }}&deg;</span>
+                            </div>
+                        </div>
+                        <div class="col-12 pb-3 d-flex flex-row">
+                            {{-- CLOUD ICON --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:23%;">
+                            {{ $simpleWeatherDescription[8] }}
+                            </div>
+
+                            {{-- DATE & WEATHER --}}
+                            <div class="col-auto" style="width: 57.5%;">
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="fw-medium lh-1" style="font-size:0.7rem; letter-spacing:0.5px;">{{ $forecastDate[7] }}</span>
+                                </div>
+
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                    <span class="text-white opacity-75 fw-normal" style="font-size:0.7rem; ">{{ $weatherDescription[7] }}</span>
+                                </div>
+                            </div>
+                            {{-- LINE --}}
+                            <div class="vr text-white opacity-100" style="width: 1px; "></div>
+
+                            {{-- TEMPERATURE --}}
+                            <div class="col-auto d-flex align-items-center justify-content-center" style="width:18.5%;">
+                                <span style="font-size: 1.05rem;">{{ round($jsonData2["daily"]["temperature_2m_max"][7]) }}&deg;</span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

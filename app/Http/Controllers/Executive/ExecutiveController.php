@@ -134,12 +134,33 @@ class ExecutiveController extends Controller
         $time = Carbon::now($timezone)->format("h:i A");
 
         $url = "https://api.open-meteo.com/v1/forecast?latitude=16.1&longitude=120.5167&current=temperature_2m,is_day,rain,cloud_cover,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,wind_speed_10m_max&timezone=Asia%2FSingapore&forecast_days=14";
-        
-        $response = Http::get($url);
-        $jsonData = [];
+        $url2 = "https://api.open-meteo.com/v1/forecast?latitude=16.1&longitude=120.5167&current=temperature_2m,is_day,rain,cloud_cover,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,wind_speed_10m_max&timezone=Asia%2FSingapore&forecast_days=14";
 
-        if($response->successful()){
-            $jsonData = $response->json();
+        $response1 = Http::get($url);
+        $response2 = Http::get($url);
+        $jsonData1 = [];
+        $forecastDate = [];
+        $weatherDescription = [];
+        $simpleWeatherDescription = [];
+        $jsonData2 = [];
+
+        if($response1->successful()){
+            $jsonData1 = $response1->json();
+        }
+
+        if($response2->successful()){
+            $jsonData2 = $response2->json();
+
+            for ($i = 0; $i < count($jsonData2["daily"]["time"]); $i++){
+                $carbonDate = Carbon::parse($jsonData2["daily"]["time"][$i]);
+                $formattedDate = $carbonDate->format('l, F j');
+                $forecastDate[] = $formattedDate;
+                $weatherDescription[] = $this->translateWeatherCode($jsonData2["daily"]["weather_code"][$i]);
+                $simpleWeatherDescription[] = $this->simpleTranslateWeatherCode($jsonData2["daily"]["weather_code"][$i]);
+            }
+
+        }else{
+            $jsonData = "Fail";
         }
 
         // Define the fields for Uddesign and Kuwago Two
@@ -202,7 +223,7 @@ class ExecutiveController extends Controller
             ]
         ];
 
-        return view('general.executive.dashboard', compact('actionRoute', 'totals', 'dealData', 'chartData', 'jsonData', 'date', 'time', 'prediction_data'));
+        return view('general.executive.dashboard', compact('actionRoute', 'totals', 'dealData', 'chartData', 'jsonData1', 'jsonData2', 'date', 'time', 'prediction_data', 'weatherDescription', 'simpleWeatherDescription', 'forecastDate'));
     }
 
 
