@@ -116,10 +116,10 @@
         <!-- RIGHT COLUMN -->
         <div class="col d-flex flex-column align-items-center row-gap-3 p-0 h-100">
             <div class="row">
-                <div class="col-8 d-flex ps-2 justify-content-start">
+                <div class="col-12 d-flex ps-2 justify-content-start">
                     <span class="uddesign-side-text" style="font-size: 1.1rem;">List of Deals</span>
                 </div>
-                <div class="col-4 d-flex justify-content-end">
+                <div class="position-absolute justify-content-end">
                 <a href="{{route('deals.create')}}">
                     <i class="fa-solid fa-plus text-white text"></i>
                 </a>

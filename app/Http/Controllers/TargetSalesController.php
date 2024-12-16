@@ -16,51 +16,52 @@ class TargetSalesController extends Controller
     // Show the list of target sales
     public function index()
     {
-        // Get all target sales and convert dates to Carbon instances
-        $targetSales = TargetSales::all()->map(function ($targetSale) {
+        // Get all target sales and convert dates to Carbon instances, ordered by start_date descending
+        $targetSales = TargetSales::orderBy('start_date', 'desc')->get()->map(function ($targetSale) {
             $targetSale->start_date = Carbon::parse($targetSale->start_date);
             $targetSale->end_date = Carbon::parse($targetSale->end_date);
             return $targetSale;
         });
 
-        // Get all budget allocations and convert dates to Carbon instances
-        $budgetAllocations = BudgetAllocation::all()->map(function ($budgetAllocation) {
+        // Get all budget allocations and convert dates to Carbon instances, ordered by start_date descending
+        $budgetAllocations = BudgetAllocation::orderBy('start_date', 'desc')->get()->map(function ($budgetAllocation) {
             $budgetAllocation->start_date = Carbon::parse($budgetAllocation->start_date);
             $budgetAllocation->end_date = Carbon::parse($budgetAllocation->end_date);
             return $budgetAllocation;
         });
 
-        // Get all target sales and convert dates to Carbon instances
-        $kuwagoTwoTargets = KuwagoTwoTargetSale::all()->map(function ($kuwagoTwoTarget) {
+        // Get all KuwagoTwo target sales and convert dates to Carbon instances, ordered by start_date descending
+        $kuwagoTwoTargets = KuwagoTwoTargetSale::orderBy('start_date', 'desc')->get()->map(function ($kuwagoTwoTarget) {
             $kuwagoTwoTarget->start_date = Carbon::parse($kuwagoTwoTarget->start_date);
             $kuwagoTwoTarget->end_date = Carbon::parse($kuwagoTwoTarget->end_date);
             return $kuwagoTwoTarget;
         });
 
-        // Get all budget allocations and convert dates to Carbon instances
-        $kuwagoTwoBudgets = KuwagoTwoBudget::all()->map(function ($kuwagoTwoBudget) {
+        // Get all KuwagoTwo budget allocations and convert dates to Carbon instances, ordered by start_date descending
+        $kuwagoTwoBudgets = KuwagoTwoBudget::orderBy('start_date', 'desc')->get()->map(function ($kuwagoTwoBudget) {
             $kuwagoTwoBudget->start_date = Carbon::parse($kuwagoTwoBudget->start_date);
             $kuwagoTwoBudget->end_date = Carbon::parse($kuwagoTwoBudget->end_date);
             return $kuwagoTwoBudget;
         });
 
-        // Get all target sales and convert dates to Carbon instances
-        $uddesignTargets = UddesignTargetSale::all()->map(function ($uddesignTarget) {
+        // Get all Uddesign target sales and convert dates to Carbon instances, ordered by start_date descending
+        $uddesignTargets = UddesignTargetSale::orderBy('start_date', 'desc')->get()->map(function ($uddesignTarget) {
             $uddesignTarget->start_date = Carbon::parse($uddesignTarget->start_date);
             $uddesignTarget->end_date = Carbon::parse($uddesignTarget->end_date);
             return $uddesignTarget;
         });
 
-        // Get all budget allocations and convert dates to Carbon instances
-        $uddesignBudgets = UddesignBudget::all()->map(function ($uddesignBudget) {
+        // Get all Uddesign budget allocations and convert dates to Carbon instances, ordered by start_date descending
+        $uddesignBudgets = UddesignBudget::orderBy('start_date', 'desc')->get()->map(function ($uddesignBudget) {
             $uddesignBudget->start_date = Carbon::parse($uddesignBudget->start_date);
             $uddesignBudget->end_date = Carbon::parse($uddesignBudget->end_date);
             return $uddesignBudget;
         });
 
-        // Pass both targetSales and budgetAllocations to the view
+        // Pass all data to the view
         return view('roles.general.financial-target.index', compact('targetSales', 'budgetAllocations', 'kuwagoTwoTargets', 'kuwagoTwoBudgets', 'uddesignTargets', 'uddesignBudgets'));
     }
+
 
     // Show the form for creating a new target sale
     public function create()
@@ -72,7 +73,7 @@ class TargetSalesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'business_type' => 'required|string',
+            // 'business_type' => 'required|string',
             'amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -104,7 +105,7 @@ class TargetSalesController extends Controller
     public function update(Request $request, TargetSales $targetSale)
     {
         $request->validate([
-            'business_type' => 'required|string',
+            // 'business_type' => 'required|string',
             'amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -113,7 +114,7 @@ class TargetSalesController extends Controller
 
         // Update the target sale, ensuring dates are Carbon instances
         $targetSale->update([
-            'business_type' => $request->business_type,
+            // 'business_type' => $request->business_type,
             'amount' => $request->amount,
             'start_date' => Carbon::parse($request->start_date),
             'end_date' => Carbon::parse($request->end_date),

@@ -16,7 +16,7 @@
                     {{ number_format($totals['totalSales'],2) }}
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Sales Prediction'))) }}
+                        Predicted: {{ number_format(round(array_sum(array_column($prediction_data, 'Total Sales Prediction'))),2) }}
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="SalesChart" class="p-0"></canvas>
@@ -32,7 +32,7 @@
                         {{ number_format($totals['totalProfit'],2) }}
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Profit Prediction'))) }}
+                        Predicted: {{  number_format(round(array_sum(array_column($prediction_data, 'Total Profit Prediction'))),2) }}
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="ProfitChart" class="p-0"></canvas>
@@ -48,7 +48,7 @@
                         {{ number_format($totals['totalExpenses'],2) }}
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Expenses Prediction'))) }}
+                        Predicted: {{ number_format(round(array_sum(array_column($prediction_data, 'Total Expenses Prediction'))),2) }}
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="ExpenseChart" class="p-0"></canvas>
@@ -139,7 +139,7 @@
                     <div class="row d-flex m-0 mt-3 w-100">
                         <div class="col-auto d-flex justify-content-center w-100">
                             <img src="{{ asset('assets/images/icons/wind-img-icon.png') }}" style="height: 20px;" alt="Wind Icon">
-                            <span class="ms-1" style="font-size: 0.85rem; letter-spacing: 1px;">Northwest, {{ round($jsonData1['current']['wind_speed_10m'], 2) }} km/hr</span>
+                            <span class="ms-1" style="font-size: 0.85rem; letter-spacing: 1px;">Windspeed, {{ round($jsonData1['current']['wind_speed_10m'], 2) }} km/hr</span>
                         </div>
                     </div>
                     
