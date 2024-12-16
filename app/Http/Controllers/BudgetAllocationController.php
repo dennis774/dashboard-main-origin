@@ -14,13 +14,11 @@ class BudgetAllocationController extends Controller
         return view('roles.general.budget-allocation.index', compact('budgetAllocations'));
     }
 
-
     // Show the form for creating a new budget allocation
     public function create()
     {
         return view('roles.general.budget-allocation.create');
     }
-
 
     // Store a new budget allocation in the database
     public function store(Request $request)
@@ -39,13 +37,11 @@ class BudgetAllocationController extends Controller
         return redirect()->route('targetSales.index')->with('success', 'Budget allocation created successfully!');
     }
 
-
     // Show the form for editing the specified budget allocation
     public function edit(BudgetAllocation $budgetAllocation)
     {
         return view('roles.general.budget-allocation.edit', compact('budgetAllocation'));
     }
-
 
     // Update the specified budget allocation in the database
     public function update(Request $request, BudgetAllocation $budgetAllocation)
@@ -64,7 +60,6 @@ class BudgetAllocationController extends Controller
         return redirect()->route('targetSales.index')->with('success', 'Budget allocation updated successfully!');
     }
 
-
     // Delete the specified budget allocation
     public function destroy(BudgetAllocation $budgetAllocation)
     {
@@ -74,4 +69,14 @@ class BudgetAllocationController extends Controller
         return redirect()->route('targetSales.index')->with('success', 'Budget allocation deleted successfully!');
     }
 
+    public function setDisplayUddesignTarget($id)
+    {
+        // Reset all other target sales
+        BudgetAllocation::query()->update(['is_displayed' => false]);
+
+        // Set the specific target sale to be displayed
+        BudgetAllocation::where('id', $id)->update(['is_displayed' => true]);
+
+        return redirect()->back()->with('status', 'New Kuwago One Budget allocations has been set to display.');
+    }
 }

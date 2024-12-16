@@ -6,7 +6,7 @@
         <div class="row d-flex rounded-5 py-1 justify-content-between nav-row">
             <div class="col-3 flex-grow-1 flex-lg-grow-0 d-flex align-items-center justify-content-center justify-content-lg-end" style="width: min-content;">
                 <a class="navbar-brand me-0 me-lg-2" href="#">
-                    <img src="{{ asset('assets/images/icons/user-profile-img.jpeg') }}" class="object-fit-cover border border-white" style="height: 45px; width: 45px; border-radius: 100%;" alt="Profile Image">
+                    <img src="{{ Auth::user()->user_image ? asset('user_images/' . Auth::user()->user_image) : asset('user_images/default-image.jpg') }}" class="object-fit-cover border border-white" style="height: 45px; width: 45px; border-radius: 100%;" alt="Profile Image">
                 </a>
                 <p class="mb-0 d-none d-lg-flex text-white text-greeting">Welcome, {{ Auth::user()->name }}!</p>
             </div>

@@ -15,17 +15,17 @@
 
                     {{-- CLIENT NAME --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Client Name:</span>
+                        <span class="uddeals-fields-text" id="client-name">Client Name:</span>
                     </div>
 
                     {{-- CONTACT NUMBER --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Contact Number:</span>
+                        <span class="uddeals-fields-text" id="contact-number">Contact Number:</span>
                     </div>
 
                     {{-- EMAIL --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Email:</span>
+                        <span class="uddeals-fields-text" id="email">Email:</span>
                     </div>
                 </div>
 
@@ -34,90 +34,46 @@
 
                     {{-- DATE APPROVED --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Date Approved: </span>
+                        <span class="uddeals-fields-text" id="date-approved">Date Approved: </span>
                     </div>
 
                     {{-- PRODUCTION DUE --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Production Due: </span>
+                        <span class="uddeals-fields-text" id="production-due">Production Due: </span>
                     </div>
 
                     {{-- PAYMENT METHOD --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Payment Method:</span>
+                        <span class="uddeals-fields-text" id="payment-method">Payment Method:</span>
                     </div>
 
                     {{-- DATE CLOSED --}}
                     <div class="col-12 d-flex">
-                        <span class="uddeals-fields-text">Date Closed:</span>
+                        <span class="uddeals-fields-text" id="date-closed">Date Closed:</span>
                     </div>
                 </div>
             </div>
             {{-- MIDDLE ROW --}}
             <div class="row" style="height:63%;">
                 {{-- WHITE PANEL --}}
-                <div class="col d-flex mt-2 ms-3 me-1 rounded-4" style="background-color: #e9e9e8;">
+                <div class="col d-flex p-0 mt-2 ms-3 me-1 ps-2 rounded-4" style="background-color: #e9e9e8;">
                     {{-- ITEM DESCRIPTION --}}
-                    <div class="col-auto pt-2" style="width: 35%; max-height:250px;">
-                        {{-- TABLE HEADER --}}
-                        <span class="uddeals-panel-text">Item Description</span>
-                        <div class="col-12 h-100 overflow-y-scroll overflow-x-hidden weather-column">
-                            {{-- NOT FOUND TEXT --}}
-                            {{-- <span class="d-flex align-items-center justify-content-center h-100 fst-italic text-black opacity-50">No items found.</span> --}}
-
-                            {{-- ITEMS --}}
-                            <div class="row d-flex mt-2 mx-2 align-items-start justify-content-center uddeals-panel-content">
-                                item 1famajl fkafajff ajkfafaakdj asklads
-                            </div>
-                        </div>
-
+                    <div class="w-100 scrollable-table overflow-y-scroll rounded-4" style="height: 265px;">
+                        <table cellspacing="0" cellpadding="5" style="width: 100%; text-align: center;">
+                            <thead class="sticky-top w-100" style="background-color: #e9e9e8">
+                                <tr>
+                                    <th class="col-auto uddeals-panel-text" style="width: 37%;">Item Description</th>
+                                    <th class="col uddeals-panel-text">Quantity</th>
+                                    <th class="col uddeals-panel-text">Unit Price</th>
+                                    <th class="col uddeals-panel-text">Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deal-items-tbody" class="ms-3 overflow-y-scroll weather-column">
+                                
+                            </tbody>
+                        </table>
                     </div>
 
-                    {{-- QUANTITY --}}
-                    <div class="col pt-2">
-                        {{-- TABLE HEADER --}}
-                        <span class="uddeals-panel-text">Quantity</span>
-                        <div class="col-12 h-100 overflow-y-scroll overflow-x-hidden weather-column">
-                            {{-- NOT FOUND TEXT --}}
-                            {{-- <span class="d-flex align-items-center justify-content-center h-100 fst-italic text-black opacity-50">No items found.</span> --}}
-
-                            {{-- QUANTITY ITEMS --}}
-                            <div class="row d-flex mt-2 mx-2 align-items-start justify-content-center uddeals-panel-content">
-                                1 pc
-                            </div>
-
-                        </div>
-                    </div>
-
-                    {{-- UNIT PRICE --}}
-                    <div class="col pt-2">
-                        {{-- TABLE HEADER --}}
-                        <span class="uddeals-panel-text">Unit Price</span>
-                        <div class="col-12 h-100 overflow-y-scroll overflow-x-hidden weather-column">
-                            {{-- NOT FOUND TEXT --}}
-                            {{-- <span class="d-flex align-items-center justify-content-center h-100 fst-italic text-black opacity-50">No items found.</span> --}}
-
-                            {{-- ITEMS --}}
-                            <div class="row d-flex mt-2 mx-2 align-items-start justify-content-center uddeals-panel-content">
-                                Php 1.00
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TOTAL PRICE --}}
-                    <div class="col pt-2">
-                        {{-- TABLE HEADER --}}
-                        <span class="uddeals-panel-text">Total Price</span>
-                        <div class="col-12 h-100 overflow-y-scroll overflow-x-hidden weather-column">
-                            {{-- NOT FOUND TEXT --}}
-                            {{-- <span class="d-flex align-items-center justify-content-center h-100 fst-italic text-black opacity-50">No items found.</span> --}}
-
-                            {{-- ITEMS --}}
-                            <div class="row d-flex mt-2 mx-2 align-items-start justify-content-center uddeals-panel-content">
-                                Php 1.00
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -128,7 +84,7 @@
 
                     {{-- GRAND TOTAL TEXT --}}
                     <div class="col-12 d-flex align-items-end">
-                        <span class="fw-bold" style="font-family: Poppins; font-size: 1.2rem; letter-spacing: 1.5px;">Grand Total: </span>
+                        <span class="fw-bold" id="grand-total" style="font-family: Poppins; font-size: 1.2rem; letter-spacing: 1.5px;">Grand Total: </span>
                     </div>
                 </div>
 
@@ -137,7 +93,7 @@
 
                     {{-- STATUS TEXT --}}
                     <div class="col-12 d-flex">
-                        <span class="fw-bold" style="font-family: Poppins; font-size: 1.2rem; letter-spacing: 1.5px;">Status: </span>
+                        <span class="fw-bold" id="status" style="font-family: Poppins; font-size: 1.2rem; letter-spacing: 1.5px;">Status: </span>
                     </div>
                 </div>
             </div>
@@ -153,7 +109,7 @@
         <div class="col d-flex flex-column align-items-center row-gap-3 p-0 h-100">
             <!-- DEALS LIST-->
             <div class="col-12 d-flex ps-2 justify-content-start">
-                <span class="uddesign-side-text" style="font-size: 1.1rem;">Deal Type: All</span>
+                <span class="uddesign-side-text" style="font-size: 1.1rem;">List of Deals</span>
             </div>
             <div class="row d-flex w-100 h-100 ps-4 align-items-center justify-content-evenly overflow-y-scroll">
 
@@ -204,7 +160,10 @@
         // Select all links with the 'deal-link' class
         const dealLinks = document.querySelectorAll('.deal-link');
         const deals = @json($deals);
+        
+
         deals.sort((a, b) => a.id - b.id);
+        
         console.log(deals);
 
         console.log(deals[5].deal_name);
@@ -218,6 +177,33 @@
                 
                 console.log('Clicked Deal ID:', dealId); // Output the deal ID to the console
                 document.getElementById('deal-name').textContent = "Deal Name: " + deals[dealId-1].deal_name;
+                document.getElementById('client-name').textContent = "Client Name: " + deals[dealId-1].client_name;
+                document.getElementById('contact-number').textContent = "Contact Number: " + deals[dealId-1].contact_number;
+                document.getElementById('email').textContent = "Email: " + deals[dealId-1].email;
+                document.getElementById('date-approved').textContent = "Date Approved: " + deals[dealId-1].date_approved;
+                document.getElementById('production-due').textContent = "Production Due: " + deals[dealId-1].production_due_date;
+                document.getElementById('payment-method').textContent = "Payment Method: " + deals[dealId-1].payment_method.replace(/_/g, ' & ');
+                document.getElementById('date-closed').textContent = "Date Closed: " + deals[dealId-1].date_closed;
+                document.getElementById('grand-total').textContent = "Grand Total: " + deals[dealId-1].grand_price;
+                document.getElementById('status').textContent = "Status: " + deals[dealId-1].status;
+
+                const dealItems = deals[dealId-1].items;
+
+                console.log("hi" + dealItems);
+                
+                const dealItemsTbody = document.getElementById('deal-items-tbody');
+                dealItemsTbody.innerHTML = '';
+
+                dealItems.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="col-auto uddeals-panel-content">${item.description}</td>
+                        <td class="col uddeals-panel-content">${item.quantity}</td>
+                        <td class="col uddeals-panel-content">${item.unit_price}</td>
+                        <td class="col uddeals-panel-content">${item.total_price}</td>
+                    `;
+                    dealItemsTbody.appendChild(row);
+                });
                 
             });
         });

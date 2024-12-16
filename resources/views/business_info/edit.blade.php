@@ -1,4 +1,4 @@
-    {{-- <div class="py-12">
+ {{-- <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="container">
@@ -56,143 +56,147 @@
             </div>
         </div>
     </div> --}}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Manage Users</title>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <link href="{{ url('assets/css/style.css') }}" rel="stylesheet" />
-        <script src="{{ url('assets/js/chart.js') }}"></script>
-        <link href="{{ url('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
-        <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
-        <link rel="stylesheet" href="{{url('fontawesome/css/all.min.css')}}" />
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mt-4">
-                    <a href="javascript:history.back()" class="backtoIndex
- d-flex justify-content-start">
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </a>
-                </div>
-   
-                <div class="col-lg-4 mt-4">
-                    <h2 class="text-center" style="color: #fff; font-size: 35px;">Edit Your Businesses</h2>
-                </div>
-   
-                <div class="col-lg-4 mt-4">
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+            <title>Manage Users</title>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <link href="{{ url('assets/css/style.css') }}" rel="stylesheet" />
+            {{-- GOOGLE FONT - POPPINS --}}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+            <script src="{{ url('assets/js/chart.js') }}"></script>
+            <link href="{{ url('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
+            <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
+            <link rel="stylesheet" href="{{url('fontawesome/css/all.min.css')}}" />
+        </head>
+        <body class="businesses-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mt-4">
+                        <a href="javascript:history.back()" class="backtoIndex
+     d-flex justify-content-start">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </a>
+                    </div>
+       
+                    <div class="col-lg-4 mt-4">
+                        <h2 class="text-center" style="color: #fff; font-size: 35px;">Edit Your Businesses</h2>
+                    </div>
+       
+                    <div class="col-lg-4 mt-4">
+                    </div>
                 </div>
             </div>
-        </div>
-   
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-   
-        <div class="container">
-            <form method="POST" action="{{url('business', $business_infos->id)}}" enctype="multipart/form-data">
-                @csrf @method('PUT')
-                <div class="row justify-content-center">
-                    <div class="col-lg-4">
-                        <div class="container businessesCard ps-3 pb-3 pt-1">
-                            <div class="row align-items-center">
-                                <div class="col-lg-7 d-flex align-items-center businessName">
-                                    <p><input type="text" class="form-control" name="business_name" value="{{ $business_infos->business_name }}" /></p>
+       
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+       
+            <div class="container">
+                <form method="POST" action="{{url('business', $business_infos->id)}}" enctype="multipart/form-data">
+                    @csrf @method('PUT')
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4">
+                            <div class="container businessesCard ps-3 pb-3 pt-1">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-7 d-flex align-items-center businessName">
+                                        <p><input type="text" class="form-control" name="business_name" value="{{ $business_infos->business_name }}" /></p>
+                                    </div>
+                                    <div class="col-lg-5 d-flex justify-content-center align-items-center">
+                                        <label for="business_logo">
+                                            <img src="{{ asset('business_logos/' . $business_infos->business_logo) }}" alt="Business Logo" class="logos" />
+                                            <input type="file" id="business_logo" name="business_logo" style="display: none;" />
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="col-lg-5 d-flex justify-content-center align-items-center">
-                                    <label for="business_logo">
-                                        <img src="{{ asset('business_logos/' . $business_infos->business_logo) }}" alt="Business Logo" class="logos" />
-                                        <input type="file" id="business_logo" name="business_logo" style="display: none;" />
-                                    </label>
+       
+                                <div class="row">
+                                    <div class="col-lg-12 d-flex justify-content-center">
+                                        <label for="business_image" class="upload-btn">
+                                            <img src="{{ asset('business_images/' . $business_infos->business_image) }}" alt="Business Image" class="businesses" />
+                                            <input type="file" id="business_image" name="business_image" style="display: none;" />
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-   
-                            <div class="row">
-                                <div class="col-lg-12 d-flex justify-content-center">
-                                    <label for="business_image" class="upload-btn">
-                                        <img src="{{ asset('business_images/' . $business_infos->business_image) }}" alt="Business Image" class="businesses" />
-                                        <input type="file" id="business_image" name="business_image" style="display: none;" />
-                                    </label>
+       
+                                <div class="row">
+                                    <div class="col-lg-12 mt-3">
+                                        <p class="businessSections">
+                                            Year Established:
+                                            <input type="text" class="editBusiness" name="year" value="{{ $business_infos->year }}" />
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-   
-                            <div class="row">
-                                <div class="col-lg-12 mt-3">
-                                    <p class="businessSections">
-                                        Year Established:
-                                        <input type="text" class="editBusiness" name="year" value="{{ $business_infos->year }}" />
-                                    </p>
+       
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p class="businessSections">
+                                            Business Type:
+                                            <input type="text" class="editBusiness" name="business_type" value="{{ $business_infos->business_type }}" />
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-   
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p class="businessSections">
-                                        Business Type:
-                                        <input type="text" class="editBusiness" name="business_type" value="{{ $business_infos->business_type }}" />
-                                    </p>
+       
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p class="businessSections">Location:</p>
+                                        <input type="text" class="editBusiness" name="location" value="{{ $business_infos->location }}" />
+                                    </div>
                                 </div>
-                            </div>
-   
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p class="businessSections">Location:</p>
-                                    <input type="text" class="editBusiness" name="location" value="{{ $business_infos->location }}" />
+       
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p class="businessSections">Description</p>
+                                        <textarea class="businessIndexDesc" name="description" rows="4" required>{{ $business_infos->description }}</textarea>
+                                    </div>
                                 </div>
-                            </div>
-   
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p class="businessSections">Description</p>
-                                    <textarea class="businessIndexDesc" name="description" rows="4" required>{{ $business_infos->description }}</textarea>
-                                </div>
-                            </div>
-   
-                            <div class="row mt-3">
-                                <div class="col-lg-12 d-flex justify-content-between">
-                                    <form method="POST" action="{{ url('business', $business_infos->id) }}" enctype="multipart/form-data" class="w-100">
-                                        @csrf @method('PUT')
-                                        <button type="submit" class="updateBusiness"><i class="fa-regular fa-bookmark" style="color: black;"></i></button>
-                                    </form>
-                                 
+       
+                                <div class="row mt-3">
+                                    <div class="col-lg-12 d-flex justify-content-between">
+                                        <form method="POST" action="{{ url('business', $business_infos->id) }}" enctype="multipart/form-data" class="w-100">
+                                            @csrf @method('PUT')
+                                            <button type="submit" class="updateBusiness"><i class="fa-solid fa-check" style="color: black;"></i></button>
+                                        </form>
+                                     
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </form>
+                @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
                 </div>
-            </form>
-            @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
+                @endif
             </div>
-            @endif
-        </div>
-   
-        <script>
-            document.querySelectorAll(".upload-btn").forEach((label) => {
-                const input = label.querySelector('input[type="file"]');
-                const img = label.querySelector("img");
-                img.addEventListener("click", () => {
-                    input.click();
+       
+            <script>
+                document.querySelectorAll(".upload-btn").forEach((label) => {
+                    const input = label.querySelector('input[type="file"]');
+                    const img = label.querySelector("img");
+                    img.addEventListener("click", () => {
+                        input.click();
+                    });
+                    input.addEventListener("change", (event) => {
+                        const [file] = event.target.files;
+                        if (file) {
+                            img.src = URL.createObjectURL(file);
+                        }
+                    });
                 });
-                input.addEventListener("change", (event) => {
-                    const [file] = event.target.files;
-                    if (file) {
-                        img.src = URL.createObjectURL(file);
-                    }
-                });
-            });
-        </script>
-    </body>
-</html>
-
+            </script>
+        </body>
+    </html>

@@ -68,6 +68,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Manage Users</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- GOOGLE FONT - POPPINS --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
     <link href="{{ url('assets/css/style.css') }}" rel="stylesheet" />
     <script src="{{ url('assets/js/chart.js') }}"></script>
     <link href="{{ url('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -87,7 +92,7 @@
 
 
                     <div class="col-lg-4 mt-4">
-                        <h2 class="text-center" style="color: #fff; font-size: 35px;">Your Businesses</h2>
+                        <h2 class="text-center" style="color: #fff; font-size: 2rem; letter-spacing: 1.5px;">Your Businesses</h2>
                     </div>
 
 
@@ -98,7 +103,7 @@
 
 
                 @if(session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success position-absolute">{{ session('success') }}</div>
                 @endif
 
 
@@ -111,31 +116,32 @@
                                     <div class="container businessesCard ps-3 pb-3 pt-1">
                                         <div class="container">
                                             <div class="row align-items-center">
-                                                <div class="col-lg-7 d-flex align-items-center businessName">
-                                                    <p>{{ $business->business_name }}</p>
+                                                <div class="col-lg-7 ps-0 d-flex align-items-center businessName">
+                                                    {{ $business->business_name }}
                                                 </div>
                                                 <div class="col-lg-5 d-flex justify-content-center align-items-center">
-                                                    <img src="{{ asset('business_logos/' . $business->business_logo) }}" alt="Business Logo" class="logos" />
+                                                    <img src="{{ asset('business_logos/' . $business->business_logo) }}" style="height: 50px;" alt="Business Logo" class="logos" />
                                                 </div>
                                             </div>
+                                            <hr class="m-0 mb-3">
                                         </div>
 
 
                                         <div class="row">
-                                            <div class="col-lg-1"></div>
-                                            <div class="col-lg-10 d-flex justify-content-center">
+                                            <div class="col-auto"></div>
+                                            <div class="col-10 d-flex justify-content-center">
                                                 <label class="upload-btn">
                                                     <img src="{{ asset('business_images/' . $business->business_image) }}" alt="Business Image" class="businesses" />
                                                 </label>
                                             </div>
-                                            <div class="col-lg-1"></div>
+                                            <div class="col-auto"></div>
                                         </div>
 
 
                                         <div class="row">
                                             <div class="col-lg-12 mt-3">
                                                 <p class="businessSections">Year Established:
-                                                    <span class="editBusiness">{{ $business->year }}</span>
+                                                    <span class="fw-normal editBusiness" style="font-size: 13px;">{{ $business->year }}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -144,7 +150,7 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <p class="businessSections">Business Type:
-                                                    <span class="editBusiness">{{ $business->business_type }}</span>
+                                                    <span class="fw-normal editBusiness" style="font-size: 13px;">{{ $business->business_type }}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -153,7 +159,7 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <p class="businessSections">Location:
-                                                    <span class="editBusiness">{{ $business->location }}</span>
+                                                    <span class="fw-normal editBusiness" style="font-size: 13px;">{{ $business->location }}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -168,7 +174,7 @@
 
                                         <div class="row">
                                             <div class="col-lg-12 businessIndexDesc">
-                                                <p class="editBusiness" style="font-size: 13px; width: 100%;">{{ $business->description }}</p>
+                                                <span class="fw-normal editBusiness" style="font-size: 13px;">{{ $business->description }}</span>
                                             </div>
                                         </div>
 

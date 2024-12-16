@@ -15,7 +15,7 @@
                 <div class="row d-flex w-100">
                     <div class="col-12 d-flex w-100 align-items-center justify-content-center">
 
-                        @if(!str_contains(request()->url(), '/promos'))
+                        @if(!str_contains(request()->url(), '/promos') && !str_contains(request()->url(), '/uddeals'))
 
                         <!-- DATE FILTER BUTTON -->
                         <button class="btn dropdown-toggle w-100 pb-1 date-filter-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -235,7 +235,7 @@
 
 
 <!-- DATE FILTER MODAL for GENERAL to EXPENSES-->
-@if(!str_contains(request()->url(), '/promos') && !str_contains(request()->url(), '/feedbacks') && !str_contains(request()->url(), '/executive'))
+@if(!str_contains(request()->url(), '/promos') && !str_contains(request()->url(), '/uddeals') && !str_contains(request()->url(), '/feedbacks') && !str_contains(request()->url(), '/executive'))
 <div class="modal fade" id="custom-date-modal" tabindex="-1" aria-labelledby="customDateModalLabel">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-white px-2" style="height:335px; width: 65%; font-family: Poppins;">

@@ -4,20 +4,61 @@ namespace App\Http\Controllers\KuwagoOne;
 
 use App\Models\Promo;
 use App\Models\Feedback;
+use App\Models\TargetSales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\KuwagoOneReport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\BudgetAllocation;
+use App\Models\KuwagoOne\KuwagoOneOrder;
 use App\Models\KuwagoOne\KuwagoOneOrderDetails;
+use App\Models\KuwagoOne\KuwagoOneExpenseDetail;
 
 class Kuwago_OneController extends Controller
 {
     // Handles the dashboard view for /kuwago-one
+    // public function general_kuwago_one(Request $request)
+    // {
+    //     return $this->generateChartData($request, 'general.kuwago-one.dashboard', ['sales', 'expenses', 'orders'], 'sales - expenses as profit');
+    // }
+
+    // public function general_kuwago_one(Request $request)
+    // {
+    //     // Fetch the target sale marked for display
+    //     $targetSale = TargetSales::where('is_displayed', true)->first();
+
+    //     return $this->generateChartData(
+    //         $request, 
+    //         'general.kuwago-one.dashboard', 
+    //         ['sales', 'expenses', 'orders'], 
+    //         'sales - expenses as profit', 
+    //         $targetSale
+    //     );
+    // }
+
     public function general_kuwago_one(Request $request)
     {
-        return $this->generateChartData($request, 'general.kuwago-one.dashboard', ['sales', 'expenses', 'orders'], 'sales - expenses as profit');
+        return $this->generateChartData(
+            $request,
+            'general.kuwago-one.dashboard',
+            ['sales', 'expenses', 'orders'],
+            'sales - expenses as profit'
+        );
     }
+
+
+
+    public function general_kuwago_one_new(Request $request)
+    {
+        return $this->generateChartData(
+            $request,
+            'general.kuwago-one.sale',
+            ['sales', 'expenses', 'orders'],
+            'sales - expenses as profit'
+        );
+    }
+
 
     // Handles the sales view for /kuwago-one/sales
     public function chart_sales_kuwago_one(Request $request)
@@ -50,46 +91,30 @@ class Kuwago_OneController extends Controller
     }
 
     // Filters the data by providing the start and end dates based on the selected interval
-    private function getDateRange($interval, $request)
+    private function getDateRange($interval, $request, $modelClass, $dateField)
     {
         switch ($interval) {
             case 'today':
                 return ['start' => Carbon::now()->startOfDay(), 'end' => Carbon::now()->endOfDay()];
             case 'yesterday':
                 return [
-                    'start' => Carbon::now()
-                        ->subDays(1)
-                        ->startOfDay(),
-                    'end' => Carbon::now()
-                        ->subDays(1)
-                        ->endOfDay(),
+                    'start' => Carbon::now()->subDays(1)->startOfDay(),
+                    'end' => Carbon::now()->subDays(1)->endOfDay(),
                 ];
             case 'last3days':
                 return [
-                    'start' => Carbon::now()
-                        ->subDays(3)
-                        ->startOfDay(),
-                    'end' => Carbon::now()
-                        ->subDays(1)
-                        ->endOfDay(),
+                    'start' => Carbon::now()->subDays(3)->startOfDay(),
+                    'end' => Carbon::now()->subDays(1)->endOfDay(),
                 ];
             case 'last5days':
                 return [
-                    'start' => Carbon::now()
-                        ->subDays(5)
-                        ->startOfDay(),
-                    'end' => Carbon::now()
-                        ->subDays(1)
-                        ->endOfDay(),
+                    'start' => Carbon::now()->subDays(5)->startOfDay(),
+                    'end' => Carbon::now()->subDays(1)->endOfDay(),
                 ];
             case 'lastweek':
                 return [
-                    'start' => Carbon::now()
-                        ->subWeek()
-                        ->startOfWeek(),
-                    'end' => Carbon::now()
-                        ->subWeek()
-                        ->endOfWeek(),
+                    'start' => Carbon::now()->subWeek()->startOfWeek(),
+                    'end' => Carbon::now()->subWeek()->endOfWeek(),
                 ];
             case 'thisweek':
                 return ['start' => Carbon::now()->startOfWeek(), 'end' => Carbon::now()->endOfWeek()];
@@ -97,26 +122,18 @@ class Kuwago_OneController extends Controller
                 return ['start' => Carbon::now()->startOfMonth(), 'end' => Carbon::now()->endOfMonth()];
             case 'lastmonth':
                 return [
-                    'start' => Carbon::now()
-                        ->subMonth()
-                        ->startOfMonth(),
-                    'end' => Carbon::now()
-                        ->subMonth()
-                        ->endOfMonth(),
+                    'start' => Carbon::now()->subMonth()->startOfMonth(),
+                    'end' => Carbon::now()->subMonth()->endOfMonth(),
                 ];
             case 'thisyear':
                 return ['start' => Carbon::now()->startOfYear(), 'end' => Carbon::now()->endOfYear()];
             case 'lastyear':
                 return [
-                    'start' => Carbon::now()
-                        ->subYear()
-                        ->startOfYear(),
-                    'end' => Carbon::now()
-                        ->subYear()
-                        ->endOfYear(),
+                    'start' => Carbon::now()->subYear()->startOfYear(),
+                    'end' => Carbon::now()->subYear()->endOfYear(),
                 ];
             case 'overall':
-                return ['start' => Carbon::parse(KuwagoOneReport::min('date')), 'end' => Carbon::parse(KuwagoOneReport::max('date'))];
+                return ['start' => Carbon::parse($modelClass::min($dateField)), 'end' => Carbon::parse($modelClass::max($dateField))];
             case 'custom':
                 return ['start' => Carbon::parse($request->input('start_date')), 'end' => Carbon::parse($request->input('end_date'))];
             default:
@@ -146,10 +163,10 @@ class Kuwago_OneController extends Controller
     }
 
     // Main method to fetch and aggregate chart data based on the provided fields and interval
-    private function generateChartData(Request $request, $view, array $fields, $extraSelect = '')
+    private function generateChartData(Request $request, $view, array $fields, $extraSelect = '', $targetSale = null, $budgetAllocation = null)
     {
         $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
-        $dates = $this->getDateRange($interval, $request);
+        $dates = $this->getDateRange($interval, $request, KuwagoOneReport::class, 'date');
         $selectFields = implode(', ', array_map(fn($field) => "SUM($field) as $field", $fields));
 
         // Fetch and aggregate chart data for reports (excluding category and total_pcs)
@@ -165,19 +182,20 @@ class Kuwago_OneController extends Controller
                 return $item;
             });
 
-        // Ensure aggregation of overall data into one period
+        // Ensure aggregation of overall data by year
         if ($interval === 'overall') {
-            $chartdata = $chartdata->reduce(function ($carry, $item) use ($reportFields) {
-                if (is_null($carry)) {
-                    return $item;
-                }
-                foreach ($reportFields as $field) {
-                    $carry->$field += $item->$field;
-                }
-                return $carry;
-            }, null);
-
-            $chartdata = collect([$chartdata]);
+            $chartdata = $chartdata->groupBy('period')->map(function ($yearGroup) use ($reportFields) {
+                $aggregatedData = $yearGroup->reduce(function ($carry, $item) use ($reportFields) {
+                    if (is_null($carry)) {
+                        return $item;
+                    }
+                    foreach ($reportFields as $field) {
+                        $carry->$field += $item->$field;
+                    }
+                    return $carry;
+                });
+                return $aggregatedData;
+            })->values();
         } else {
             // Generate all dates within the interval
             $allDates = $this->generateDateRange($dates['start'], $dates['end'], $interval);
@@ -230,6 +248,42 @@ class Kuwago_OneController extends Controller
         // Get the bottom 5 least sold dishes
         $bottomDishes = $dishData->sortBy('total_pcs')->take(5);
 
+        $chartExpenseData = KuwagoOneExpenseDetail::whereBetween('date', [$dates['start'], $dates['end']])
+            ->join('kuwago_one_expense_types', 'kuwago_one_expense_details.expense_type_id', '=', 'kuwago_one_expense_types.expense_type_id')
+            ->join('kuwago_one_expense_categories', 'kuwago_one_expense_types.expense_category_id', '=', 'kuwago_one_expense_categories.expense_category_id')
+            ->selectRaw('kuwago_one_expense_categories.name as expenseCategory, SUM(kuwago_one_expense_details.price) as total_amount')
+            ->groupBy('kuwago_one_expense_categories.name')
+            ->get();
+
+        // Calculate total of the amount
+        $totalExpenseAmount = $chartExpenseData->sum('total_amount');
+
+        // Handle the financial target marked for display
+        if (!$targetSale) {
+            $financialTargetSales = TargetSales::where('is_displayed', true)->first();
+        }
+        // Fetch the financial target dates
+        $financialStartDate = $financialTargetSales->start_date;
+        $financialEndDate = $financialTargetSales->end_date;
+
+        // Fetch total financial target sales
+        $financialTotalSales = KuwagoOneReport::whereBetween('date', [$financialStartDate, $financialEndDate])->sum('sales');
+
+        if (!$budgetAllocation) {
+            $budgetAllocation = BudgetAllocation::where('is_displayed', true)->first();
+        }
+        // Fetch the financial target dates
+        $budgetStartDate = $budgetAllocation->start_date;
+        $budgetEndDate = $budgetAllocation->end_date;
+
+        // Fetch total budget allocation
+        $budgetExpenses = KuwagoOneReport::whereBetween('date', [$budgetStartDate, $budgetEndDate])->sum('expenses');
+
+        // Fetch and count orders based on the date range
+        $ordersCount = KuwagoOneOrder::whereBetween('date', [$dates['start'], $dates['end']])
+            ->distinct('order_id')->count('order_id');
+        // dd($dates, $ordersCount);
+
         $actionRoute = route($view);
         $thisWeek = $this->getCurrentWeekData();
         $lastWeek = $this->getLastWeekData();
@@ -238,8 +292,11 @@ class Kuwago_OneController extends Controller
         $thisYear = $this->getCurrentYearData();
         $lastYear = $this->getLastYearData();
 
-        return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
+        return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes', 'chartExpenseData', 'totalExpenseAmount', 'financialTargetSales', 'financialTotalSales', 'budgetAllocation', 'budgetExpenses', 'ordersCount'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
     }
+
+
+
 
     // Gets the current week's data for sales, expenses, orders, and profit
     private function getCurrentWeekData()
@@ -347,10 +404,11 @@ class Kuwago_OneController extends Controller
         return $this->generateFeedbackData($request, 'general.kuwago-one.feedbacks');
     }
 
+    // For Kuwago-One
     private function generateFeedbackData(Request $request, $view)
     {
         $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
-        $dates = $this->getDateRange($interval, $request);
+        $dates = $this->getDateRange($interval, $request, Feedback::class, 'feedback_date');  // Pass the model class
 
         // Fetch feedback data
         $feedback = Feedback::whereBetween('feedback_date', [$dates['start'], $dates['end']])->get();

@@ -48,7 +48,9 @@
 
 
     <!-- BOOTSTRAP SCRIPT -->
+    @include('general.footer')
     <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
+    @include('general.footer-script')
 
     <!-- BUSINESSES DROPDOWN SCRIPT -->
     <script>

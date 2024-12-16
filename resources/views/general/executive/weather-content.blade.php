@@ -6,20 +6,20 @@
         <div class="col-auto d-flex flex-column row-gap-2 p-0 h-100" style="width: 74%;">
 
             {{-- UPPER ROW --}}
-            <div class="row d-flex flex-grow-1" style="height: 37%">
+            <div class="row d-flex flex-grow-1" style="height: 45%">
                 <div class="col d-flex flex-column align-items-center">
                     {{-- OVERALL SALES --}}
                     <div class="row mb-1" style="height: 10%; font-size: 1.1rem; letter-spacing:1px;">
                         Overall Sales
                     </div>
-                    <div class="row d-flex justify-content-center align-items-center fw-bold" style="height: 20%; font-size: 1.85rem; letter-spacing:1.5px; color: #7ed957;">
-                        300,000
+                    <div class="row d-flex justify-content-center align-items-center fw-bold lh-1" style="height: 20%; font-size: 1.85rem; letter-spacing:1.5px; color: #7ed957;">
+                    {{ $totals['totalSales'] }}
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
                         Predicted: +300,000
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
-                        Chart
+                        <canvas id="SalesChart"></canvas>
                     </div>
                 </div>
 
@@ -29,13 +29,13 @@
                         Overall Profit
                     </div>
                     <div class="row d-flex justify-content-center align-items-center fw-bold" style="height: 20%; font-size: 1.85rem; letter-spacing:1.5px; color: #7ed957;">
-                        300,000
+                    {{ $totals['totalProfit'] }}
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
                         Predicted: +300,000
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
-                        Chart
+                        <canvas id="ProfitChart"></canvas>
                     </div>
                 </div>
 
@@ -45,13 +45,13 @@
                         Overall Expense
                     </div>
                     <div class="row d-flex justify-content-center align-items-center fw-bold" style="height: 20%; font-size: 1.85rem; letter-spacing:1.5px; color: #7ed957;">
-                        300,000
+                    {{ $totals['totalExpenses'] }}
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
                         Predicted: +300,000
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
-                        Chart
+                        <canvas id="ExpenseChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,8 @@
                         <div class="col-auto d-flex justify-content-start fw-bold" style="font-size: 1.1rem;">Predicted: +600</div>
                     </div>
                     <div class="col-12 d-flex flex-grow-1 align-items-center justify-content-center">
-                        CHART
+                    <canvas id="TopDishesChart"></canvas>
+
                     </div>
                 </div>
 
@@ -77,70 +78,28 @@
                 {{-- UDDESIGN CUSTOM DEALS --}}
                 <div class="col d-flex flex-column">
                     {{-- TITLE --}}
-                    <div class="row d-flex w-100 mb-3 fw-bold justify-content-center align-items-start lh-1" style="font-size: 1.65rem; letter-spacing: 1.5px;">
+                    <div class="row d-flex w-100 fw-bold justify-content-center align-items-start" style="font-size: 1.65rem; letter-spacing: 1.5px;">
                         UdDesign Custom Deals
                     </div>
 
                     {{-- TOTALS --}}
                     <div class="col-12 d-flex flex-grow-1 py-2 px-0">
-                        <div class="col-12 d-flex flex-grow-1 rounded-4 align-items-center justify-content-center dashboard-card" style="font-size: 1rem; letter-spacing:1px;">
+                        <div class="col-12 d-flex flex-grow-1 mb-2 mt-1 rounded-4 align-items-center justify-content-center dashboard-card" style="font-size: 1rem; letter-spacing:1px;">
                             {{-- OPEN --}}
+                            @foreach ($dealData as $deal)
                             <div class="col d-flex flex-column align-items-center justify-content-center h-100">
                                 <div class="col-auto d-flex align-items-center justify-content-center" style="height: 27%;">
-                                    Open
+                                {{ ucfirst($deal->status) }}
                                 </div>
                                 <div class="col-12 d-flex align-items-center justify-content-center fw-bold" style="font-size: 3.3rem; letter-spacing:0.5px; color: #df9f14;">
-                                    09
+                                {{ $deal->count }}
                                 </div>
                             </div>
-                            
+                            @endforeach
                             <div class="vr position-absolute opacity-50" style="left:20%; top:47%; width: 1.5px; height: 35%;"></div>
-
-                            {{-- PROCESSING --}}
-                            <div class="col d-flex flex-column align-items-center justify-content-center h-100">
-                                <div class="col-auto d-flex align-items-center justify-content-center" style="height: 27%;">
-                                    Processing
-                                </div>
-                                <div class="col-12 d-flex align-items-center justify-content-center fw-bold" style="font-size: 3.3rem; letter-spacing:0.5px; color: #df9f14;">
-                                    09
-                                </div>
-                            </div>
-
-                            {{-- CLOSED --}}
                             <div class="vr position-absolute opacity-50" style="left:40%; top:47%; width: 1.5px; height: 35%;"></div>
-
-                            <div class="col d-flex flex-column align-items-center justify-content-center h-100">
-                                <div class="col-auto d-flex align-items-center justify-content-center" style="height: 27%;">
-                                    Closed
-                                </div>
-                                <div class="col-12 d-flex align-items-center justify-content-center fw-bold" style="font-size: 3.3rem; letter-spacing:0.5px; color: #df9f14;">
-                                    09
-                                </div>
-                            </div>
-
                             <div class="vr position-absolute opacity-50" style="left:60%; top:47%; width: 1.5px; height: 35%;"></div>
-
-                            {{-- ONHOLD --}}
-                            <div class="col d-flex flex-column align-items-center justify-content-center h-100">
-                                <div class="col-auto d-flex align-items-center justify-content-center" style="height: 27%;">
-                                    On-Hold
-                                </div>
-                                <div class="col-12 d-flex align-items-center justify-content-center fw-bold" style="font-size: 3.3rem; letter-spacing:0.5px; color: #df9f14;">
-                                    09
-                                </div>
-                            </div>
-
                             <div class="vr position-absolute opacity-50" style="left:80%; top:47%; width: 2px; height: 35%;"></div>
-
-                            {{-- CANCELLED --}}
-                            <div class="col d-flex flex-column align-items-center justify-content-center h-100">
-                                <div class="col-auto d-flex align-items-center justify-content-center" style="height: 27%;">
-                                    Cancelled
-                                </div>
-                                <div class="col-12 d-flex align-items-center justify-content-center fw-bold" style="font-size: 3.3rem; letter-spacing:0.5px; color: #df9f14;">
-                                    09
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -188,7 +147,7 @@
             </div>
 
             {{-- NEXT DAY FORECAST --}}
-            <div class="row d-flex w-100 p-0 g-0 ps-1 pb-3 align-items-center weather-column-row" style="height: 30%">
+            <div class="row d-flex w-100 px-1 pb-3 align-items-center" style="height: 30%">
                 {{-- TITLE --}}
                 <div class="row d-flex w-100 mb-2 pe-0 justify-content-start align-items-center">
                     <span class="text-start ps-1">The Next Day Forecast</span>
@@ -240,3 +199,141 @@
         <!-- END RIGHT COLUMN -->
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Sales Chart
+        var salesCtx = document.getElementById('SalesChart').getContext('2d');
+        var salesChart = new Chart(salesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Uddesign', 'Kuwago1', 'Kuwago2'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [@json($chartData['Uddesign']['sales']), @json($chartData['Kuwago1']['sales']), @json($chartData['Kuwago2']['sales'])],
+                    backgroundColor: ['rgba(0, 128, 0, 0.5)', 'rgba(0, 128, 0, 0.5)', 'rgba(0, 128, 0, 0.5)'], // Use rgba for transparency
+                    borderColor: ['rgba(0, 128, 0, 1)', 'rgba(0, 128, 0, 1)', 'rgba(0, 128, 0, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Profit Chart
+        var profitCtx = document.getElementById('ProfitChart').getContext('2d');
+        var profitChart = new Chart(profitCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Uddesign', 'Kuwago1', 'Kuwago2'],
+                datasets: [{
+                    label: 'Profit',
+                    data: [@json($chartData['Uddesign']['profit']), @json($chartData['Kuwago1']['profit']), @json($chartData['Kuwago2']['profit'])],
+                    backgroundColor: ['rgba(255, 255, 0, 0.5)', 'rgba(255, 255, 0, 0.5)', 'rgba(255, 255, 0, 0.5)'],
+                    borderColor: ['rgba(255, 255, 0, 1)', 'rgba(255, 255, 0, 1)', 'rgba(255, 255, 0, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Expense Chart
+        var expenseCtx = document.getElementById('ExpenseChart').getContext('2d');
+        var expenseChart = new Chart(expenseCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Uddesign', 'Kuwago1', 'Kuwago2'],
+                datasets: [{
+                    label: 'Expenses',
+                    data: [@json($chartData['Uddesign']['expenses']), @json($chartData['Kuwago1']['expenses']), @json($chartData['Kuwago2']['expenses'])],
+                    backgroundColor: ['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.5)'],
+                    borderColor: ['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('TopDishesChart').getContext('2d');
+
+        // Full data from the server
+        var dishData1 = @json($chartData['Kuwago1']['topDishes1']);
+        var dishData2 = @json($chartData['Kuwago2']['topDishes2']);
+
+        // Combine data from both sources
+        var combinedData = dishData1.concat(dishData2);
+
+        // Sum total_pcs for dishes with the same name
+        var dishMap = combinedData.reduce(function (acc, dish) {
+            if (acc[dish.dish]) {
+                acc[dish.dish] += dish.total_pcs;
+            } else {
+                acc[dish.dish] = dish.total_pcs;
+            }
+            return acc;
+        }, {});
+
+        // Convert dishMap to an array of objects and sort by total_pcs
+        var sortedDishes = Object.keys(dishMap).map(function (key) {
+            return { dish: key, total_pcs: dishMap[key] };
+        }).sort(function (a, b) {
+            return b.total_pcs - a.total_pcs;
+        }).slice(0, 5); // Take top 5
+
+        // Prepare labels and data for the chart
+        var labels = sortedDishes.map(function (item) {
+            return item.dish;
+        });
+        var dishData = sortedDishes.map(function (item) {
+            return item.total_pcs;
+        });
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Top 5 Dishes',
+                    data: dishData,
+                    backgroundColor: 'rgba(0, 128, 0, 0.5)', // Use rgba for transparency
+                    borderColor: 'rgba(0, 128, 0, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>

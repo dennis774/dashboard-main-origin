@@ -14,6 +14,7 @@
                     <div class="col-12 d-flex align-items-start justify-content-center" style="height: 15%;">
                         <span class="dashboard-total-text" style="font-size: 1.4rem;">{{number_format($totalSales,2)}}</span>
                     </div>
+                    {{-- DONUT CHART --}}
                     <div class="col-12 d-flex align-items-center justify-content-center" style="height: 70%;">
                         <canvas id="myChart1"></canvas>
                     </div>
@@ -33,14 +34,20 @@
             <!-- LEAST SELLING -->
             <div class="col-3 p-0" style="width: 26%">
                 <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
-                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                    <div class="col-12 d-flex mt-1 mb-3 align-items-end justify-content-start" style="height: 15%;">
                         <span class="ms-3 db-card-title">Least-Selling Products</span>
                     </div>
-                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
+                    <div class="col-12 d-flex ps-2 align-items-start justify-content-start" style="height: 85%;">
                         <ol>
-                            @foreach($bottomDishes as $dish)
-                            <li>{{ $dish->dish }}: {{ $dish->total_pcs }} pcs</li>
-                            @endforeach
+                            @if($bottomDishes->isNotEmpty())
+                                @foreach($bottomDishes as $dish)
+                                    <li class="text-start justify-content-between mb-2" style="font-size:0.85rem; letter-spacing: 0.5px;">
+                                        {{ $dish->dish }}: {{$dish->total_pcs}}
+                                    </li>
+                                @endforeach
+                            @else
+                                <span class="fw-light fst-italic text-center" style="font-size: 0.75rem;">No dishes available.</span>
+                            @endif
                         </ol>
                     </div>
                 </div>
@@ -79,18 +86,15 @@
 
 
 
-
-
-
 <!-- Donut Chart for  cash or gcash-->
 <script>
     const totalCash = @json($totalCash);
     const totalGcash = @json($totalGcash);
 
-    const xValues = ["Cash", "Gcash"];
-    const yValues = [totalCash, totalGcash];
+    const xValues = ["Cash", "GCash"];
+    const yValues = (totalCash === 0 && totalGcash === 0) ? [0.5, 0.5] : [totalCash, totalGcash];
 
-    const barColors = ["#b91d47", "#00aba9"];
+    const barColors = ["#df9f14", "#e9e9e8"];
 
     new Chart("myChart1", {
         type: "doughnut",
@@ -98,11 +102,19 @@
             labels: xValues,
             datasets: [{
                 backgroundColor: barColors,
+                borderWidth: 0,
                 data: yValues
             }]
         },
         options: {
-            maintainAspectRatio: false, // Allow responsive resizing
+            cutout: '50%',
+            aspectRatio: 0.8,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10
+                },
+            },
             plugins: {
                 legend: {
                     display: false // Hide legend
@@ -115,7 +127,7 @@
     });
 </script>
 
-<!-- Line Chart for sales -->
+<!-- SALES TREND CHART -->
 <script>
     const ctx2 = document.getElementById('myChart2').getContext('2d');
     const myChart2 = new Chart(ctx2, {
@@ -125,48 +137,67 @@
             datasets: [{
                 label: 'Sales',
                 data: @json($chartdata->pluck('sales')),
-                borderColor: 'green',
+                borderColor: 'rgba(108, 229, 232, 1)',
                 borderWidth: 2,
                 fill: false // Disable fill under the line
             }]
         },
         options: {
+            aspectRatio: 2.6,
+            elements: {
+                point: {
+                    radius: 5, 
+                    backgroundColor: 'rgba(108, 229, 232, 1)',
+                    borderColor: 'rgba(108, 229, 232, 1)', 
+                }
+            },
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 20,
+                    bottom: 10
+                },
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'white' // Set Y-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 10,
+                            family: 'Poppins',
+                        }
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)' // Set horizontal grid line color
+                        color: 'rgba(255, 255, 255, 0.2)'
                     }
                 },
                 x: {
                     ticks: {
-                        color: 'white' // Set X-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family: 'Poppins',
+                        }
                     },
                     grid: {
-                        display: false // Disable vertical grid lines
+                        lineWidth: 0,
+                        drawOnChartArea: false,
+                        color: 'white',
                     }
                 }
             },
             plugins: {
                 legend: {
-                    labels: {
-                        color: 'white' // Set legend text color to white
-                    }
-                },
-                tooltip: {
-                    bodyColor: 'white', // Tooltip text color
-                    titleColor: 'white', // Tooltip title color
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                    display: false,
                 }
             }
         }
     });
 </script>
 
-<!-- Bar Chart for Category -->
+<!-- SALES BY CATEGORY CHART -->
 <script>
     const categoryCtx = document.getElementById('categoryChart').getContext('2d');
     const categoryChart = new Chart(categoryCtx, {
@@ -176,17 +207,30 @@
             datasets: [{
                 label: 'Products Sold',
                 data: @json($chartCategoryData->pluck('total_pcs')),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(108, 229, 232, 1)',
+                borderColor: 'rgba(108, 229, 232, 1)',
                 borderWidth: 1
             }]
         },
         options: {
+            aspectRatio: 3.3,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 20,
+                    bottom: 10
+                },
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'white' // Set Y-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 10,
+                            family: 'Poppins',
+                        }
                     },
                     grid: {
                         color: 'rgba(255, 255, 255, 0.2)' // Set horizontal grid line color
@@ -194,18 +238,20 @@
                 },
                 x: {
                     ticks: {
-                        color: 'white' // Set X-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 8,
+                            family: 'Poppins',
+                        },
                     },
                     grid: {
-                        display: false // Disable vertical grid lines
+                        lineWidth: 0,
                     }
                 }
             },
             plugins: {
                 legend: {
-                    labels: {
-                        color: 'white' // Set legend text color to white
-                    }
+                    display: false,
                 },
                 tooltip: {
                     bodyColor: 'white', // Tooltip text color
@@ -217,7 +263,7 @@
     });
 </script>
 
-<!-- Bar Chart for Top 5 Dishes -->
+<!-- TOP SELLING CHART -->
 <script>
     const topDishesCtx = document.getElementById('topDishesChart').getContext('2d');
     const topDishesChart = new Chart(topDishesCtx, {
@@ -225,36 +271,65 @@
         data: {
             labels: @json($topDishes->pluck('dish')),
             datasets: [{
-                label: 'Total PCS',
+                label: 'Order Quantity',
                 data: @json($topDishes->pluck('total_pcs')),
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
+                backgroundColor: ['#df9f14','#cdad69','#dcffef','#4ff6a7','#205d40'],
+                borderColor: ['#df9f14','#cdad69','#dcffef','#4ff6a7','#205d40'],
+                borderWidth: 1,
+                categoryPercentage: 0.95,
+                barPercentage: 0.95,
             }]
         },
         options: {
-            indexAxis: 'y', // Display bar chart with y-axis representation
+            indexAxis: 'y',
+            aspectRatio: 2.4,
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 25,
+                    top: 10,
+                    bottom: 10
+                },
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'white'
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family:'Poppins',
+                        },
+                        callback: function(value, index) {
+                            // Truncate long labels
+                            const labels = @json($topDishes->pluck('dish'));
+                            const maxLabelLength = 11;
+                            const label = labels[index] || '';
+                            return label.length > maxLabelLength ? label.substring(0, maxLabelLength) + '...' : label;
+                        }
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)'
+                        lineWidth: 0
                     }
                 },
                 x: {
                     ticks: {
-                        color: 'white'
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family:'Poppins',
+                        }
+                        
                     },
                     grid: {
-                        display: false
+                        color: 'rgba(255, 255, 255, 0.2)',
+                        lineWidth: 0.5
                     }
                 }
             },
             plugins: {
                 legend: {
+                    display: false,
                     labels: {
                         color: 'white'
                     }

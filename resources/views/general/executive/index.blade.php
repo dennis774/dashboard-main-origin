@@ -37,6 +37,8 @@
     <!-- DASHBOARD MAIN CONTAINER & SIDEBAR -->
     <div class="d-flex justify-content-center align-items-center text-center db-container">
 
+            
+
         <!-- DASHBOARD CONTENTS -->
         @yield('content')
 
@@ -81,4 +83,3 @@
 </body>
 
 </html>
-
