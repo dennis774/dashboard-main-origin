@@ -21,13 +21,13 @@ class UddesignController extends Controller
     public function general_uddesign(Request $request, $uddesignTarget = null)
     {
         $fields = ['total_sales', 'print_sales', 'merch_sales', 'custom_sales', 'total_expenses', 'print_expenses', 'merch_expenses', 'custom_expenses'];
-    
+
         $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
         $groupByField = $this->getGroupByField($interval);
         $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
-    
+
         $chartdata = $data['chartdata'];
-    
+
         $chartdata = $chartdata->map(function ($item) {
             $item->total_profit = $item->total_sales - $item->total_expenses;
             $item->print_profit = $item->print_sales - $item->print_expenses;
@@ -35,22 +35,23 @@ class UddesignController extends Controller
             $item->custom_profit = $item->custom_sales - $item->custom_expenses;
             return $item;
         });
-    
+
         $totalPrintSales = $chartdata->sum('print_sales');
         $totalPrintProfit = $chartdata->sum('print_profit');
         $totalPrintExpenses = $chartdata->sum('print_expenses');
-    
+
         $totalMerchSales = $chartdata->sum('merch_sales');
         $totalMerchProfit = $chartdata->sum('merch_profit');
         $totalMerchExpenses = $chartdata->sum('merch_expenses');
-    
+
         $totalCustomSales = $chartdata->sum('custom_sales');
         $totalCustomProfit = $chartdata->sum('custom_profit');
         $totalCustomExpenses = $chartdata->sum('custom_expenses');
-    
+
         $totalSales = $chartdata->sum('total_sales');
         $totalProfit = $chartdata->sum('total_profit');
         $totalExpenses = $chartdata->sum('total_expenses');
+
         // Fetch financial target sales
         $financialTargetSales = null;
         $financialTotalSales = 0;
@@ -62,14 +63,15 @@ class UddesignController extends Controller
                 $financialTotalSales = UddesignReport::whereBetween('date', [$financialStartDate, $financialEndDate])->sum('total_sales');
             }
         }
+
         $actionRoute = route('general.uddesign.dashboard');
         $totals = compact('totalSales', 'totalProfit', 'totalExpenses');
         $print = compact('totalPrintSales', 'totalPrintProfit', 'totalPrintExpenses');
         $merch = compact('totalMerchSales', 'totalMerchProfit', 'totalMerchExpenses');
         $custom = compact('totalCustomSales', 'totalCustomProfit', 'totalCustomExpenses');
+
         return view('general.uddesign.dashboard', array_merge(compact('actionRoute', 'chartdata', 'financialTargetSales', 'financialTotalSales'), $totals, $print, $merch, $custom));
     }
-    
 
 
     // Handles the sales view for /kuwago-two/sales
@@ -126,16 +128,19 @@ class UddesignController extends Controller
     {
         $fields = ['total_expenses', 'print_expenses', 'merch_expenses', 'custom_expenses'];
 
-    //     $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
-    //     $groupByField = $this->getGroupByField($interval);
-    //     $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
+        $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
+        $groupByField = $this->getGroupByField($interval);
+        $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
 
         $chartdata = $data['chartdata'];
         $chartExpenseData = $data['chartExpenseData'];
         $expenseData = $data['expenseData'];
         $totalExpenseAmount = $data['totalExpenseAmount'];
 
-    //     $actionRoute = route('general.uddesign.expenses');
+        $totalExpenses = $chartdata->sum('total_expenses');
+        $totalPrintExpenses = $chartdata->sum('print_expenses');
+        $totalMerchExpenses = $chartdata->sum('merch_expenses');
+        $totalCustomExpenses = $chartdata->sum('custom_expenses');
 
         if (!$uddesignBudget) {
             $budgetAllocation = UddesignBudget::where('is_displayed', true)->first();
@@ -163,30 +168,6 @@ class UddesignController extends Controller
             'budgetExpenses'
         ));
     }
-    // Fetch the financial target dates
-    $budgetStartDate = $budgetAllocation->start_date;
-    $budgetEndDate = $budgetAllocation->end_date;
-
-    // Fetch total budget allocation
-    $budgetExpenses = UddesignReport::whereBetween('date', [$budgetStartDate, $budgetEndDate])->sum('total_expenses');
-
-    $actionRoute = route('general.uddesign.expenses');
-
-    return view('general.uddesign.expenses', compact(
-        'actionRoute',
-        'chartdata',
-        'totalExpenses',
-        'totalPrintExpenses',
-        'totalMerchExpenses',
-        'totalCustomExpenses',
-        'chartExpenseData',
-        'expenseData',
-        'totalExpenseAmount',
-        'budgetAllocation',
-        'budgetExpenses'
-    ));
-}
-
 
 
     // This method changes the format of the date for display purposes, ensuring the date is presented correctly based on the interval.

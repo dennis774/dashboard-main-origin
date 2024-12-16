@@ -1186,11 +1186,7 @@ div.expensesbyCat {
     scroll-behavior: smooth;
 }
 
-.feedbacks-column {
-    scrollbar-gutter: stable;
-    scroll-behavior: smooth;
-}
-
+.star,
 .star-1,
 .star-2 {
     color: white;
@@ -1200,6 +1196,7 @@ div.expensesbyCat {
     pointer-events: none;
 }
 
+.star::before,
 .star-1::before,
 .star-2::before {
     content: "★";
@@ -1211,7 +1208,8 @@ div.expensesbyCat {
     transition: clip-path 1.2s ease-out;
 }
 
-.feedback-rating-text .feedback-rating-text-1,
+.feedback-rating-text,
+.feedback-rating-text-1,
 .feedback-rating-text-2 {
     font-family: "Helvetica Now Text";
     font-size: 2.2rem;
