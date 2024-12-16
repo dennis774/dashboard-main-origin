@@ -24,10 +24,10 @@
                             <!-- CARD VALUES -->
                             <div class="row w-100">
                                 <div class="col-6 d-flex justify-content-center fw-bold db-card-title" style="font-size: clamp(0.75rem, 1.6vw, 1.3rem);">
-                                    {{number_format($budgetExpenses,2)}}
+                                    <span id="totalExpenses">{{number_format($budgetExpenses,2)}}</span>
                                 </div>
                                 <div class="col-6 d-flex justify-content-center fw-bold db-card-title" style="font-size: clamp(0.75rem, 1.6vw, 1.3rem);">
-                                    {{ number_format($budgetAllocation->amount,2) }}
+                                    <span id="budgetAllocated">{{ number_format($budgetAllocation->amount,2) }}</span>
                                 </div>
                             </div>
                             <div class="row d-flex w-100 align-items-center justify-content-center" style="height: 60%">
@@ -64,7 +64,7 @@
                                     
                                     </ul>
                                 </div>          
-                                <span class="d-flex justify-content-center mt-2" style="font-size: 1rem;">Total Expense Amount: {{ number_format($totalExpenseAmount, 2) }}</span>                      
+                                <span id="totalExpenseAmount" class="d-flex justify-content-center mt-2" style="font-size: 1rem;">Total Expense Amount: {{ number_format($totalExpenseAmount, 2) }}</span>                      
                             </div>
                         </div>
                     </div>
@@ -265,6 +265,10 @@
                             weight: 'bold',
                             size: 24
                         }
+                    },
+                    bgColor:{
+                        backgroundColor: 'rgb(210, 210, 210)',
+                        applyBackground: false
                     }
                 }
             },
@@ -289,7 +293,8 @@
                     ctx.fillText(text, textX, textY);
                     ctx.save();
                 }
-            }]
+            }],
+            plugins: [bgColor]
         });
     });
 </script>
@@ -369,9 +374,14 @@
             plugins: {
                 legend: {
                     display: false,
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(210, 210, 210)',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -435,9 +445,14 @@
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
                     backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(210, 210, 210)',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 

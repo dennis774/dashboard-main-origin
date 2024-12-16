@@ -101,7 +101,7 @@
                                     
 
                                     @if ($financialTargetSales)
-                                        {{$financialTargetSales->amount}}<br>
+                                        <span id="targetSales">{{$financialTargetSales->amount}}<br></span>
                                         <span style="font-size: 0.65rem; font-weight: normal;">{{ $financialTargetSales->start_date }} - {{ $financialTargetSales->end_date }}</span>
                                     @else
                                         <p>No target sale found for display.</p>

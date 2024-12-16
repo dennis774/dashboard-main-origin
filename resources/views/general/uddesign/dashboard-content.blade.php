@@ -29,13 +29,13 @@
                         <!-- DB RIGHT SIDE -->
                         <div class="col d-flex flex-column py-3 ms-3 h-100 uddesign-side-text" style="width: 50%;">
                             <div class="col-12 d-flex flex-row align-items-center" style="height: 33%;">
-                                <span class="me-1">Print/Photo:</span> {{number_format($totalPrintSales,2)}}
+                                <span id="salesPhoto" class="me-1">Print/Photo: {{number_format($totalPrintSales,2)}}
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">UdD Merch:</span> {{number_format($totalMerchSales,2)}}
+                                <span id="salesMerch" class="me-1">UdD Merch: {{number_format($totalMerchSales,2)}}</span>
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">Custom Deals:</span> {{number_format($totalCustomSales,2)}}
+                                <span id="salesDeals" class="me-1">Custom Deals: {{number_format($totalCustomSales,2)}}</span>
                             </div>
                         </div>
 
@@ -68,13 +68,13 @@
                         <!-- DB RIGHT SIDE -->
                         <div class="col d-flex flex-column py-3 ms-3 h-100 uddesign-side-text" style="width: 50%;">
                             <div class="col-12 d-flex flex-row align-items-center" style="height: 33%;">
-                                <span class="me-1">Print/Photo:</span> {{number_format($totalPrintProfit,2)}}
+                                <span id="profitPhoto" class="me-1">Print/Photo: {{number_format($totalPrintProfit,2)}}</span>
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">UdD Merch:</span> {{number_format($totalMerchProfit,2)}}
+                                <span id="profitMerch" class="me-1">UdD Merch: {{number_format($totalMerchProfit,2)}}</span>
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">Custom Deals:</span> {{number_format($totalCustomProfit,2)}}
+                                <span id="profitDeals" class="me-1">Custom Deals: {{number_format($totalCustomProfit,2)}}</span>
                             </div>
                         </div>
 
@@ -98,7 +98,7 @@
                             <!-- DB CARD CONTENT -->
                             <div class="row d-flex flex-grow-1 w-100 px-2 pb-3 align-items-center">
                                 <div class="col align-self-middle text-start dashboard-total-text" style="width: 50%;">
-                                    <span>{{number_format($totalExpenses,2)}}</span>
+                                    <span id="totalExpenses">{{number_format($totalExpenses,2)}}</span>
                                 </div>
                             </div>
                         </div>
@@ -107,13 +107,13 @@
                         <!-- DB RIGHT SIDE -->
                         <div class="col d-flex flex-column py-3 ms-3 h-100 uddesign-side-text" style="width: 50%;">
                             <div class="col-12 d-flex flex-row align-items-center" style="height: 33%;">
-                                <span class="me-1">Print/Photo:</span> {{number_format($totalPrintExpenses,2)}}
+                                <span id="expensesPhoto" class="me-1">Print/Photo: {{number_format($totalPrintExpenses,2)}}</span>
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">UdD Merch:</span> {{number_format($totalMerchExpenses,2)}}
+                                <span id="expensesMerch" class="me-1">UdD Merch: {{number_format($totalMerchExpenses,2)}}</span>
                             </div>
                             <div class="col-12 d-flex align-items-center" style="height: 33%;">
-                                <span class="me-1">Custom Deals:</span> {{number_format($totalCustomExpenses,2)}}
+                                <span id="expensesDeals" class="me-1">Custom Deals: {{number_format($totalCustomExpenses,2)}}</span>
                             </div>
                         </div>
 
@@ -135,7 +135,7 @@
                                     <div class="col-7 align-self-middle text-start lh-1 dashboard-total-text">
                                     
                                     @if ($financialTargetSales)
-                                        {{$financialTargetSales->amount}}<br>
+                                        <span id="targetSales">{{$financialTargetSales->amount}}</span><br>
                                         <span style="font-size: 0.65rem; font-weight: normal;">{{ $financialTargetSales->start_date }} - {{ $financialTargetSales->end_date }}</span>
                                     @else
                                         <p>No target sale found for display.</p>
@@ -191,7 +191,7 @@
             </div>
 
             <!-- UDDSEIGN MERCH SALES CARD -->
-            <div class="row d-flex flex-grow-1 w-100 m-0 mb-3 column-gap-3 align-items-center" style="height:42%;">
+            <div class="row d-flex flex-grow-1 w-100 m-0 mb-3 column-gap-3 align-items-center" style="height: 42%;">
                 <div class="col h-100 p-0">
                     <div class="card rounded-4 h-100 w-100 dashboard-card">
                         <div class="row h-100 w-100 justify-content-center align-items-center text-white">
@@ -205,69 +205,7 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var ctx = document.getElementById('salesChart').getContext('2d');
 
-        // Values for the chart
-        var financialTargetAmount = {{ $financialTargetSales->amount }};
-        var financialTotalSales = {{ $financialTotalSales }};
-
-        // Calculate percentage
-        var percentage = (financialTotalSales / financialTargetAmount) * 100;
-
-        // Display the percentage in the view
-        document.getElementById('percentage').innerText = percentage.toFixed(2);
-
-        var salesChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [''],
-                datasets: [
-                    {
-                        label: 'Total Sales',
-                        data: [financialTotalSales],
-                        backgroundColor: '#FFA500' // Orange color for Total Sales
-                    },
-                    {
-                        label: 'Target Sales',
-                        data: [financialTargetAmount],
-                        backgroundColor: '#FFFFFF', // White color for Financial Target
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                indexAxis: 'y', // Display the bar chart vertically (y-axis)
-                plugins: {
-                    legend: {
-                        display: false,
-                        position: 'top' // Display the legend at the top
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                var label = tooltipItem.dataset.label || '';
-                                return label + ': ' + tooltipItem.raw.toLocaleString();
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        ticks: {
-                            display: false // Show the ticks on X-axis
-                        }
-                    },
-                    y: {
-                        beginAtZero: true // Ensure the Y-axis begins at zero
-                    }
-                }
-            }
-        });
-    });
-</script>   
 
 {{-- SCRIPT FOR HALF DONUT CHART --}}
 <script>
@@ -458,4 +396,3 @@
         toggleDropdownRight();
     }
 </script>
-

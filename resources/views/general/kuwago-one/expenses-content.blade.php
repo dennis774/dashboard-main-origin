@@ -22,7 +22,7 @@
                                     </div>
                                     <!-- DB CONTENT/CHART -->
                                     <div class="col-12 d-flex align-items-center justify-content-start" style="height: 65%;">
-                                        <span class="fw-bold" style="letter-spacing: 0.005rem;">{{number_format($budgetExpenses,2)}}</span>
+                                        <span id="totalExpenses" class="fw-bold" style="letter-spacing: 0.005rem;">{{number_format($budgetExpenses,2)}}</span>
                                     </div>
                                 </div>
                                 <!-- HALF CIRCLE -->
@@ -40,7 +40,7 @@
                                     </div>
                                     <!-- DB CONTENT/CHART -->
                                     <div class="col-12 d-flex align-items-center justify-content-end" style="height: 65%;">
-                                        <span class="fw-bold" style="letter-spacing: 0.005rem;">{{ number_format($budgetAllocation->amount,2) }}</span>
+                                        <span id="budgetAllocated" class="fw-bold" style="letter-spacing: 0.005rem;">{{ number_format($budgetAllocation->amount,2) }}</span>
                                     </div>
                                 </div>
                             @else
@@ -74,7 +74,7 @@
                                         @endforeach
                                     </ul>
                                 </div>
-                                <span class="d-flex justify-content-center mt-2" style="font-size: 1.2rem;">Total Expense Amount: {{ number_format($totalExpenseAmount, 2) }}</span>
+                                <span id="totalExpenseAmount" class="d-flex justify-content-center mt-2" style="font-size: 1.2rem;">Total Expense Amount: {{ number_format($totalExpenseAmount, 2) }}</span>
                                 
                             </div>
                         </div>
@@ -126,6 +126,19 @@
 
 {{-- SCRIPT FOR HALF DONUT CHART --}}
 <script>
+
+const bgColor = {
+        id: 'bgColor',
+        beforeDraw: (Chart, steps, options) => {
+            const {ctx, width, height} = Chart;
+            if(options.applyBackground){
+                ctx.fillStyle = options.backgroundColor;
+                ctx.fillRect(0, 0, width, height)
+                ctx.restore();
+            }
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         var ctx = document.getElementById('arcChart').getContext('2d');
 
@@ -197,8 +210,12 @@
                             weight: 'bold',
                             size: 24
                         }
+                    },
+                    bgColor:{
+                        backgroundColor: 'gray',
+                        applyBackground: false
                     }
-                }
+                },
             },
             // CENTER TEXT
             plugins: [{
@@ -221,7 +238,8 @@
                     ctx.fillText(text, textX, textY);
                     ctx.save();
                 }
-            }]
+            }],
+            plugins: [bgColor]
         });
     });
 </script>
@@ -290,9 +308,15 @@
             plugins: {
                 legend: {
                     display: false,
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
+                
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 

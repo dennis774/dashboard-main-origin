@@ -37,7 +37,7 @@
                         <span class="ms-3 db-card-title">Least-Selling Products</span>
                     </div>
                     <div class="col-12 d-flex ps-2 align-items-start justify-content-start" style="height: 85%;">
-                        <ol>
+                        <ol id="leastSelling">
                             @if($bottomDishes->isNotEmpty())
                                 @foreach($bottomDishes as $dish)
                                     <li class="text-start justify-content-between mb-2" style="font-size:0.85rem; letter-spacing: 0.5px;">

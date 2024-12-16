@@ -35,7 +35,7 @@
 <!-- SCRIPT FOR GENERATE PDF -->\
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.124/pdf.min.mjs"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://unpkg.com/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.js"></script>
 
 <script>
     function checkCurrentDashboard(){
@@ -58,6 +58,9 @@
         }
         else if(titleInLink == "/uddesign/expenses"){
             return "UD Expenses";
+        }
+        else if(titleInLink == "/executive"){
+            return "Executive";
         }
         else {
             return "Null"
@@ -86,27 +89,259 @@
             return "Kuwago Two Expenses";
         }
         else if(titleInLink == "/uddesign"){
-            return "UD Design Summary";
+            return "UdDesign Summary";
         }
         else if(titleInLink == "/uddesign/sales"){
-            return "UD Design Sales";
+            return "UdDesign Sales";
         }
         else if(titleInLink == "/uddesign/expenses"){
-            return "UD Design Expenses"
+            return "UdDesign Expenses"
+        }
+        else if(titleInLink == "/executive"){
+            return "Executive Summary"
         }
         else {
             return "Null"
         }
     }
+    function executiveGeneratePDF(){
+        const title = getTitle()
+
+        const salesChart = document.getElementById('SalesChart');
+        const profitChart = document.getElementById('ProfitChart');
+        const expenseChart = document.getElementById('ExpenseChart');
+        const topDishesChart = document.getElementById('TopDishesChart');
+
+        const totalSalesActual = document.getElementById('totalSalesActual');
+        const totalSalesPred = document.getElementById('totalSalesPred');
+
+        const totalProfitActual = document.getElementById('totalProfitActual');
+        const totalProfitPred = document.getElementById('totalProfitPred');
+
+        const totalExpenseActual = document.getElementById('totalExpenseActual');
+        const totalExpensePred = document.getElementById('totalExpensePred');
+
+        const topDishesActual = document.getElementById('topDishesActual');
+        const topDishesPred = document.getElementById('topDishesPred');
+        
+        const salesChartref = Chart.getChart(salesChart);
+        const profitChartref = Chart.getChart(profitChart);
+        const expenseChartref = Chart.getChart(expenseChart);
+        const topDishesChartref = Chart.getChart(topDishesChart);
+
+        salesChartref.options.plugins.bgColor.applyBackground = true;
+        salesChartref.update();
+        profitChartref.options.plugins.bgColor.applyBackground = true;
+        profitChartref.update();
+        expenseChartref.options.plugins.bgColor.applyBackground = true;
+        expenseChartref.update();
+        topDishesChartref.options.plugins.bgColor.applyBackground = true;
+        topDishesChartref.update();
+
+        setTimeout(() => {
+            const salesChartImage = salesChart.toDataURL('image/jpeg', 1.0);
+            const profitChartImage = profitChart.toDataURL('image/jpeg', 1.0);
+            const expensesChartImage = expenseChart.toDataURL('image/jpeg', 1.0);
+            const topDishesChartImage = topDishesChart.toDataURL('image/jpeg', 1.0);
+
+            let pdf = new jsPDF('portrait');
+            
+            pdf.setFontSize(27);
+            pdf.setFont('Arial', 'bold');
+            pdf.text(15, 15, title);
+            pdf.setFontSize(13);
+            pdf.setFont('Arial', 'normal');
+            
+            pdf.text(40, 27, "Overall Sales");
+            pdf.addImage(salesChartImage, 'JPEG', 15, 30, 90, 45);
+            pdf.text(140, 27, "Overall Profit");
+            pdf.addImage(profitChartImage, 'JPEG', 108, 30, 90, 45);
+            pdf.text(40, 85, "Overall Expenses");
+            pdf.addImage(expensesChartImage, 'JPEG', 15, 89, 90, 45);
+            pdf.text(140, 85, "Kuwago Orders");
+            pdf.addImage(topDishesChartImage, 'JPEG', 108, 89, 90, 45);
+
+            // Set font size
+            pdf.setFontSize(15);
+
+            // Define your table data
+            const overallSalesTable = [
+                ["Overall Sales", "Prediction"],
+                [totalSalesActual.innerText, totalSalesPred.innerText.split(":")[1]?.trim()]
+            ];
+
+            // Define your table data
+            const overallProfitTable = [
+                ["Overall Profit", "Prediction"],
+                [totalProfitActual.innerText, totalProfitPred.innerText.split(":")[1]?.trim()]
+            ];
+
+            // Define your table data
+            const overallExpensesTable = [
+                ["Overall Expenses", "Prediction"],
+                [totalExpenseActual.innerText, totalExpensePred.innerText.split(":")[1]?.trim()]
+            ];
+
+            // Define your table data
+            const overallTopDishesTable = [
+                ["Kuwago Orders", "Prediction"],
+                [topDishesActual.innerText.split(":")[1]?.trim(), topDishesPred.innerText.split(":")[1]?.trim()]
+            ];
+
+
+            let overallSales_x = 20;
+            let overallSales_y = 142;
+            const cellPadding = 4;  // Padding for the text inside cells
+            const cellWidth = 40;  // Cell width
+            const cellHeight = 10; // Cell height
+            const overallSalesColumns = overallSalesTable[0].length;
+
+            let overallProfit_x = 115;
+            let overallProfit_y = 142;
+            const overallProfitColumns = overallProfitTable[0].length;
+
+            let overallExpense_x = 20;
+            let overallExpense_y = 170;
+            const overallExpenseColumns = overallExpensesTable[0].length;
+
+            let overallOrders_x = 115;
+            let overallOrders_y = 170;
+            const overallOrdersColumns = overallTopDishesTable[0].length;
+
+            // Set font size
+            pdf.setFontSize(12);
+
+            // Loop through rows and cells
+            overallSalesTable.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, overallSales_x + (cellIndex * cellWidth) + cellPadding, overallSales_y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(overallSales_x + (cellIndex * cellWidth), overallSales_y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(overallSales_x, overallSales_y, overallSalesColumns * cellWidth, overallSalesTable.length * cellHeight);
+            
+            // Loop through rows and cells
+            overallProfitTable.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, overallProfit_x + (cellIndex * cellWidth) + cellPadding, overallProfit_y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(overallProfit_x + (cellIndex * cellWidth), overallProfit_y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(overallProfit_x, overallProfit_y, overallProfitColumns * cellWidth, overallProfitTable.length * cellHeight);
+            
+            // Loop through rows and cells
+            overallExpensesTable.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, overallExpense_x + (cellIndex * cellWidth) + cellPadding, overallExpense_y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(overallExpense_x + (cellIndex * cellWidth), overallExpense_y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(overallExpense_x, overallExpense_y, overallExpenseColumns * cellWidth, overallExpensesTable.length * cellHeight);
+            
+            // Loop through rows and cells
+            overallTopDishesTable.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, overallOrders_x + (cellIndex * cellWidth) + cellPadding, overallOrders_y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(overallOrders_x + (cellIndex * cellWidth), overallOrders_y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(overallOrders_x, overallOrders_y, overallOrdersColumns * cellWidth, overallTopDishesTable.length * cellHeight);
+
+            pdf.text(15, 245, 'Date Created: ');
+            pdf.text(15, 260, 'Prepared By: ');
+            pdf.text(15, 275, 'Approved By: ');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
+
+            pdf.save('executive_totals.pdf');
+
+            salesChartref.options.plugins.bgColor.applyBackground = false;
+            salesChartref.update();
+            profitChartref.options.plugins.bgColor.applyBackground = false;
+            profitChartref.update();
+            expenseChartref.options.plugins.bgColor.applyBackground = false;
+            expenseChartref.update();
+            topDishesChartref.options.plugins.bgColor.applyBackground = false;
+            topDishesChartref.update();
+
+        }, 100)
+    }
+
 
     function udDashboardGeneratePDF(){
         const title = getTitle()
 
         const printingChart = document.getElementById('PrintingChart');
         const merchChart = document.getElementById('MerchChart');
+
         const totalSales = document.getElementById('totalSales');
+        const salesPhoto = document.getElementById('salesPhoto');
+        const salesMerch = document.getElementById('salesMerch');
+        const salesDeals = document.getElementById('salesDeals');
+
         const totalExpenses = document.getElementById('totalExpenses');
+        const expensesPhoto = document.getElementById('expensesPhoto');
+        const expensesMerch = document.getElementById('expensesMerch');
+        const expensesDeals = document.getElementById('expensesDeals');
+
+
         const totalProfit = document.getElementById('totalProfit');
+        const profitPhoto = document.getElementById('profitPhoto');
+        const profitMerch = document.getElementById('profitMerch');
+        const profitDeals = document.getElementById('profitDeals');
+
+        const targetSales = document.getElementById('targetSales');
 
         const printingChartref = Chart.getChart(printingChart);
         const merchChartref = Chart.getChart(merchChart);
@@ -122,20 +357,159 @@
 
             let pdf = new jsPDF('portrait');
             
-            pdf.setFontSize(15);
-            pdf.setFont('Times', 'Roman');
-            
+            pdf.setFontSize(27);
+            pdf.setFont('Arial', 'bold');
             pdf.text(15, 15, title);
+            pdf.setFontSize(13);
+            pdf.setFont('Arial', 'normal');
+
             pdf.text(15, 25, 'Printing/Photocopy Sales, Profit, and Expenses');
             pdf.addImage(printingChartImage, 'JPEG', 45, 30, 120, 50);
             pdf.text(15, 90, 'UdD Merch Sales, Profit, and Expenses');
             pdf.addImage(merchChartImage, 'JPEG', 45, 95, 120, 50);
-            pdf.text(15, 155, 'Total Sales:');
-            pdf.text(42, 155, totalSales.innerText);
-            pdf.text(15, 165, 'Total Profit:');
-            pdf.text(42, 165, totalProfit.innerText);
-            pdf.text(15, 175, 'Total Expenses:');
-            pdf.text(50, 175, totalExpenses.innerText);
+
+            // Set font size
+            pdf.setFontSize(15);
+
+            // Define your table data
+            const totalSalesTable = [
+                ["Total Sales"]
+                ["Print/Photo", "UdD Merch", "Custom Deals", "Total Sales"],
+                [salesPhoto.innerText.split(":")[1]?.trim(), salesMerch.innerText.split(":")[1]?.trim(), salesDeals.innerText.split(":")[1]?.trim(), totalSales.innerText],
+            ];
+
+            const totalExpensesTable = [
+                ["Print/Photo", "UdD Merch", "Custom Deals", "Total Expenses"],
+                [expensesPhoto.innerText.split(":")[1]?.trim(), expensesMerch.innerText.split(":")[1]?.trim(), expensesDeals.innerText.split(":")[1]?.trim(), totalExpenses.innerText],
+            ];
+
+            const totalProfitTable = [
+                ["Print/Photo", "UdD Merch", "Custom Deals", "Total Profit"],
+                [profitPhoto.innerText.split(":")[1]?.trim(), profitMerch.innerText.split(":")[1]?.trim(), profitDeals.innerText.split(":")[1]?.trim(), totalProfit.innerText],
+            ];
+
+            const targetSalesTable = [
+                ["Target Sales"],
+                [targetSales.innerText]
+            ];
+        
+
+           // Starting position for the table
+            let totalSales_x = 35;
+            let totalSales_y = 150;
+            const cellPadding = 4;  // Padding for the text inside cells
+            const cellWidth = 35;  // Cell width
+            const cellHeight = 10; // Cell height
+            const salesColumns = totalSalesTable[1].length; // Number of columns (assuming all rows have the same number of columns)
+            
+            let totalExpenses_x = 35;
+            let totalExpenses_y = 200;
+            const expensesColumns = totalExpensesTable[0].length;
+
+            let totalProfit_x = 35;
+            let totalProfit_y = 175;
+            const profitColumns = totalProfitTable[0].length;
+
+            let targetSales_x = 140;
+            let targetSales_y = 225;
+            const targetSalesColumns = targetSalesTable[0].length;
+
+            // Set font size
+            pdf.setFontSize(12);
+
+            // Loop through rows and cells
+            totalSalesTable.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, totalSales_x + (cellIndex * cellWidth) + cellPadding, totalSales_y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(totalSales_x + (cellIndex * cellWidth), totalSales_y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(totalSales_x, totalSales_y, salesColumns * cellWidth, totalSalesTable.length * cellHeight);
+            
+            // Loop through rows and cells
+            totalProfitTable.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, totalProfit_x + (cellIndex * cellWidth) + cellPadding, totalProfit_y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(totalProfit_x + (cellIndex * cellWidth), totalProfit_y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(totalProfit_x, totalProfit_y, profitColumns * cellWidth, totalProfitTable.length * cellHeight);
+
+
+            // Loop through rows and cells
+            totalExpensesTable.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, totalExpenses_x + (cellIndex * cellWidth) + cellPadding, totalExpenses_y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(totalExpenses_x + (cellIndex * cellWidth), totalExpenses_y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(totalExpenses_x, totalExpenses_y, expensesColumns * cellWidth, totalExpensesTable.length * cellHeight);
+            
+            // Loop through rows and cells
+            targetSalesTable.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, targetSales_x + (cellIndex * cellWidth) + cellPadding, targetSales_y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(targetSales_x + (cellIndex * cellWidth), targetSales_y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(targetSales_x, targetSales_y, targetSalesColumns * cellWidth, targetSalesTable.length * cellHeight);
+
+            pdf.text(15, 245, 'Date Created: ');
+            pdf.text(15, 260, 'Prepared By: ');
+            pdf.text(15, 275, 'Approved By: ');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
 
             pdf.save('ud_dashboard_totals.pdf');
 
@@ -156,6 +530,11 @@
         const expenseCategoryChart = document.getElementById('expenseCategoryChart');
         const expenseCategoryChartref = Chart.getChart(expenseCategoryChart);
 
+        const budgetAllocated = document.getElementById('budgetAllocated');
+        const totalExpenses = document.getElementById('totalExpenses');
+        const totalExpenseAmount = document.getElementById('totalExpenseAmount');
+
+
         myChartref.options.plugins.bgColor.applyBackground = true;
         myChartref.update();
         expenseCategoryChartref.options.plugins.bgColor.applyBackground = true;
@@ -167,14 +546,65 @@
 
             let pdf = new jsPDF('portrait');
             
-            pdf.setFontSize(15);
-            pdf.setFont('Times', 'Roman');
+            pdf.setFontSize(27);
+            pdf.setFont('Arial', 'bold');
             pdf.text(15, 15, title);
+            pdf.setFontSize(15);
+            pdf.setFont('Arial', 'normal');
+            
+            pdf.text(42, 32, 'Expense Trends');
+            pdf.addImage(myChartImage, 'JPEG', 15, 35, 85, 40);
+            pdf.text(130, 32, 'Expense by Category');
+            pdf.addImage(expenseCategoryChartImage, 'JPEG', 110, 35, 85, 40);
+            
+            // Set font size
+            pdf.setFontSize(15);
 
-            pdf.text(15, 25, 'Expense Trends');
-            pdf.addImage(myChartImage, 'JPEG', 45, 30, 110, 50);
-            pdf.text(15, 90, 'Expense by Category');
-            pdf.addImage(expenseCategoryChartImage, 'JPEG', 45, 95, 120, 50);
+            // Define your table data
+            const tableData = [
+                ["Budget Allocated", "Total Expenses", "Total Expense Amount"],
+                [budgetAllocated.innerText, totalExpenses.innerText, totalExpenseAmount.innerText.split(":")[1]?.trim()],
+            ];
+            
+            
+
+           // Starting position for the table
+            let x = 22;
+            let y = 85;
+            const cellPadding = 4;  // Padding for the text inside cells
+            const cellWidth = 55;  // Cell width
+            const cellHeight = 10; // Cell height
+            const numColumns = tableData[0].length; // Number of columns (assuming all rows have the same number of columns)
+
+            // Set font size
+            pdf.setFontSize(12);
+
+            // Loop through rows and cells
+            tableData.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, x + (cellIndex * cellWidth) + cellPadding, y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(x + (cellIndex * cellWidth), y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(x, y, numColumns * cellWidth, tableData.length * cellHeight);
+            
+            pdf.text(15, 245, 'Date Created: ');
+            pdf.text(15, 260, 'Prepared By: ');
+            pdf.text(15, 275, 'Approved By: ');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
 
             pdf.save('ud_expenses_totals.pdf');
             
@@ -187,7 +617,9 @@
 
     function udSalesGeneratePDF(){
         const title = getTitle()
-
+        
+        const donutChart = document.getElementById('donutChart');
+        const donutChartref = Chart.getChart(donutChart);
         const myChart2 = document.getElementById('myChart2');
         const myChart2ref = Chart.getChart(myChart2);
         const printCategoryChart = document.getElementById('printCategoryChart');
@@ -196,8 +628,14 @@
         const categoryChartref = Chart.getChart(categoryChart);
         const topDishesChart = document.getElementById('topDishesChart');
         const topDishesChartref = Chart.getChart(topDishesChart);
-        const totalSales = document.getElementById('totalSales');
 
+        const totalSales = document.getElementById('totalSales');
+        const printPhoto = document.getElementById('printPhoto');
+        const udMerch = document.getElementById('udMerch');
+        const customDeals = document.getElementById('customDeals');
+        
+        donutChartref.options.plugins.bgColor.applyBackground = true;
+        donutChartref.update();
         myChart2ref.options.plugins.bgColor.applyBackground = true;
         myChart2ref.update();
         printCategoryChartref.options.plugins.bgColor.applyBackground = true;
@@ -208,27 +646,79 @@
         topDishesChartref.update();
 
         setTimeout(() => {
+            const donutChartImage = donutChart.toDataURL('image/jpeg', 1.0);
             const myChart2Image = myChart2.toDataURL('image/jpeg', 1.0);
             const printCategoryChartImage = printCategoryChart.toDataURL('image/jpeg', 1.0);
             const categoryChartImage = categoryChart.toDataURL('image/jpeg', 1.0);
             const topDishesChartImage = topDishesChart.toDataURL('image/jpeg', 1.0);
             let pdf = new jsPDF('portrait');
             
-            pdf.setFontSize(15);
-            pdf.setFont('Times', 'Roman');
+            pdf.setFontSize(27);
+            pdf.setFont('Arial', 'bold');
             pdf.text(15, 15, title);
-            pdf.text(15, 25, 'Sales Trends');
-            pdf.addImage(myChart2Image, 'JPEG', 45, 30, 110, 50);
+
+            pdf.setFontSize(15);
+            pdf.setFont('Arial', 'normal');
+            pdf.text(25, 25, 'Payment Methods');
+            pdf.addImage(donutChartImage, 'JPEG', 25, 30, 45, 50);
+            pdf.text(90, 25, 'Sales Trends');
+            pdf.addImage(myChart2Image, 'JPEG', 90, 30, 110, 50);
             pdf.text(15, 88, 'Sales by Category');
             pdf.addImage(printCategoryChartImage, 'JPEG', 15, 93, 68, 55);
             pdf.addImage(categoryChartImage, 'JPEG', 90, 93, 110, 55);
             pdf.text(15, 158, 'Top-Selling Products');
             pdf.addImage(topDishesChartImage, 'JPEG', 45, 163, 110, 55);
 
-            pdf.text(15, 229, 'Total Sales:');
-            pdf.text(43, 229.5, totalSales.innerText);
+            // Define your table data
+            const tableData = [
+                ["Print/Photo", "UdD Merch", "Custom Deals", "Total Sales"],
+                [printPhoto.innerText.split(":")[1]?.trim(), udMerch.innerText.split(":")[1]?.trim(), customDeals.innerText.split(":")[1]?.trim(), totalSales.innerText],
+            ];
+
+            // Set font size
+            pdf.setFontSize(15);
+
+           // Starting position for the table
+            let x = 32;
+            let y = 225;
+            const cellPadding = 4;  // Padding for the text inside cells
+            const cellWidth = 36;  // Cell width
+            const cellHeight = 10; // Cell height
+            const numColumns = tableData[0].length; // Number of columns (assuming all rows have the same number of columns)
+
+            // Set font size
+            pdf.setFontSize(12);
+
+            // Loop through rows and cells
+            tableData.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, x + (cellIndex * cellWidth) + cellPadding, y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(x + (cellIndex * cellWidth), y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(x, y, numColumns * cellWidth, tableData.length * cellHeight);
+            
+            pdf.text(15, 245, 'Date Created: ');
+            pdf.text(15, 260, 'Prepared By: ');
+            pdf.text(15, 275, 'Approved By: ');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
 
             pdf.save('ud_sales_totals.pdf');
+            
+            donutChartref.options.plugins.bgColor.applyBackground = false;
+            donutChartref.update();
 
             myChart2ref.options.plugins.bgColor.applyBackground = false;
             myChart2ref.update();
@@ -254,6 +744,7 @@
         const totalOrders = document.getElementById('totalOrders');
         const totalExpenses = document.getElementById('totalExpenses');
         const totalProfit = document.getElementById('totalProfit');
+        const targetSales = document.getElementById('targetSales');
 
         const myChart = Chart.getChart(canvas)
         
@@ -264,20 +755,58 @@
             const canvasImage = canvas.toDataURL('image/jpeg', 1.0);
             let pdf = new jsPDF('portrait');
             
-            pdf.setFontSize(15);
-            pdf.setFont('Times', 'Roman');
+            pdf.setFont('Arial', 'bold');
+            pdf.setFontSize(27);
             pdf.text(15, 15, title);
             //console.log(pdf.internal.pageSize.getWidth);
-            pdf.addImage(canvasImage, 'JPEG', 15, 20, 90, 40);
+            pdf.addImage(canvasImage, 'JPEG',  25, 25, 160, 75);
 
-            pdf.text(15, 110, 'Total Sales:');
-            pdf.text(42, 110, totalSales.innerText);
-            pdf.text(15, 120, 'Total Profit:');
-            pdf.text(42, 120, totalProfit.innerText);
-            pdf.text(15, 130, 'Total Expenses:');
-            pdf.text(50, 130, totalExpenses.innerText);
-            pdf.text(15, 140, 'Total Orders:');
-            pdf.text(47, 140, totalOrders.innerText);
+            // Define your table data
+            const tableData = [
+                ["Total Sales", "Total Profit", "Total Expenses", "Total Orders", "Target Sales"],
+                [totalSales.innerText, totalProfit.innerText, totalExpenses.innerText, totalOrders.innerText, targetSales.innerText],
+            ];
+
+            // Set font size
+            pdf.setFontSize(15);
+
+           // Starting position for the table
+            let x = 15;
+            let y = 110;
+            const cellPadding = 4;  // Padding for the text inside cells
+            const cellWidth = 36;  // Cell width
+            const cellHeight = 10; // Cell height
+            const numColumns = tableData[0].length; // Number of columns (assuming all rows have the same number of columns)
+
+            // Set font size
+            pdf.setFontSize(12);
+
+            // Loop through rows and cells
+            tableData.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, x + (cellIndex * cellWidth) + cellPadding, y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(x + (cellIndex * cellWidth), y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(x, y, numColumns * cellWidth, tableData.length * cellHeight);
+            
+            pdf.text(15, 245, 'Date Created: ');
+            pdf.text(15, 260, 'Prepared By: ');
+            pdf.text(15, 275, 'Approved By: ');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
+
             pdf.save('dashboard_totals.pdf');
 
             myChart.options.plugins.bgColor.applyBackground = false;
@@ -301,6 +830,8 @@
         const topDishesChart = document.getElementById('topDishesChart');
         const topDishesChartref = Chart.getChart(topDishesChart);
 
+        const leastSelling = document.getElementById('leastSelling');
+
         myChart1ref.options.plugins.bgColor.applyBackground = true;
         myChart1ref.update();
 
@@ -320,13 +851,68 @@
             const topDishesChartCanvas = topDishesChart.toDataURL('image/jpeg', 1.0);
                 
             let pdf = new jsPDF('portrait');
-            pdf.setFontSize(15);
-            pdf.setFont('Times', 'Roman');
+            
+            pdf.setFontSize(27);
+            pdf.setFont('Arial', 'bold');
             pdf.text(15, 15, title);
-            pdf.addImage(myChart1Canvas, 'JPEG', 15, 20, 90, 40);
-            pdf.addImage(myChart2Canvas, 'JPEG', 106, 20, 90, 40);
-            pdf.addImage(catergoryChartCanvas, 'JPEG', 15, 65, 90, 40);
-            pdf.addImage(topDishesChartCanvas, 'JPEG', 106, 65, 90, 40);
+            pdf.setFontSize(15);
+            pdf.setFont('Arial', 'normal');
+            pdf.text(41, 26, 'Total Sales');
+            pdf.addImage(myChart1Canvas, 'JPEG', 37, 30, 35, 40);
+            pdf.text(135, 26, 'Sales Trend');
+            pdf.addImage(myChart2Canvas, 'JPEG', 106, 30, 90, 40);
+            pdf.text(37 , 81, 'Sales by Category');
+            pdf.addImage(catergoryChartCanvas, 'JPEG', 15, 85, 90, 40);
+            pdf.text(128 , 81, 'Top-Selling Products');
+            pdf.addImage(topDishesChartCanvas, 'JPEG', 106, 85, 90, 40);
+            
+            const listItems = [...leastSelling.querySelectorAll("li")].map(li => li.innerText);
+
+            // Define your table data
+            const tableData = [
+                ["Least-Selling Products"],
+                ...listItems.map(item => [item])
+            ];
+
+            // Set font size
+            pdf.setFontSize(15);
+
+           // Starting position for the table
+            let x = 80;
+            let y = 135;
+            const cellPadding = 4;  // Padding for the text inside cells
+            const cellWidth = 50;  // Cell width
+            const cellHeight = 10; // Cell height
+            const numColumns = tableData[0].length; // Number of columns (assuming all rows have the same number of columns)
+
+            // Set font size
+            pdf.setFontSize(12);
+
+            // Loop through rows and cells
+            tableData.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, x + (cellIndex * cellWidth) + cellPadding, y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(x + (cellIndex * cellWidth), y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(x, y, numColumns * cellWidth, tableData.length * cellHeight);
+            
+            pdf.text(15, 245, 'Date Created: ');
+            pdf.text(15, 260, 'Prepared By: ');
+            pdf.text(15, 275, 'Approved By: ');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
 
             pdf.save('sales_totals.pdf');
 
@@ -351,6 +937,10 @@
         const expensesCategory = document.getElementById('expenseCategoryChart');
         const expensesCategoryref = Chart.getChart(expensesCategory);
 
+        const budgetAllocated = document.getElementById('budgetAllocated');
+        const totalExpenses = document.getElementById('totalExpenses');
+        const totalExpenseAmount = document.getElementById('totalExpenseAmount');
+
         myChartref.options.plugins.bgColor.applyBackground = true;
         myChartref.update();
 
@@ -362,11 +952,64 @@
             const expensesCategoryCanvas =expensesCategory.toDataURL('image/jpeg', 1.0);
 
             let pdf = new jsPDF('portrait');
-            pdf.setFontSize(15);
-            pdf.setFont('Times', 'Roman');
+            pdf.setFontSize(27);
+            pdf.setFont('Arial', 'bold');
             pdf.text(15, 15, title);
-            pdf.addImage(myChartCanvas, 'JPEG', 15, 20, 90, 40);
-            pdf.addImage(expensesCategoryCanvas, 'JPEG', 106, 20, 90, 40);
+            pdf.setFontSize(15);
+            pdf.setFont('Arial', 'normal');
+            pdf.text(42, 32, 'Expense Trends');
+            pdf.addImage(myChartCanvas, 'JPEG', 15, 35, 85, 40);
+            pdf.text(130, 32, 'Expense by Category');
+            pdf.addImage(expensesCategoryCanvas, 'JPEG', 110, 35, 85, 40);
+            
+            // Set font size
+            pdf.setFontSize(15);
+
+            // Define your table data
+            const tableData = [
+                ["Budget Allocated", "Total Expenses", "Total Expense Amount"],
+                [budgetAllocated.innerText, totalExpenses.innerText, totalExpenseAmount.innerText.split(":")[1]?.trim()],
+            ];
+            
+            
+
+           // Starting position for the table
+            let x = 22;
+            let y = 85;
+            const cellPadding = 4;  // Padding for the text inside cells
+            const cellWidth = 55;  // Cell width
+            const cellHeight = 10; // Cell height
+            const numColumns = tableData[0].length; // Number of columns (assuming all rows have the same number of columns)
+
+            // Set font size
+            pdf.setFontSize(12);
+
+            // Loop through rows and cells
+            tableData.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+
+                    // Set bold font for the first row (header)
+                    if (rowIndex === 0) {
+                        pdf.setFont("Arial", "bold");
+                    } else {
+                        pdf.setFont("Arial", "normal");
+                    }
+
+                    // Add the text in each cell with padding
+                    pdf.text(cell, x + (cellIndex * cellWidth) + cellPadding, y + (rowIndex * cellHeight) + cellPadding);
+
+                    // Draw a border around each cell
+                    pdf.rect(x + (cellIndex * cellWidth), y + (rowIndex * cellHeight), cellWidth, cellHeight);
+                });
+            });
+
+            // Draw a border around the entire table (optional, for clarity)
+            pdf.rect(x, y, numColumns * cellWidth, tableData.length * cellHeight);
+            
+            pdf.text(15, 245, 'Date Created: ');
+            pdf.text(15, 260, 'Prepared By: ');
+            pdf.text(15, 275, 'Approved By: ');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
 
             pdf.save('expenses_totals.pdf');
 
@@ -396,6 +1039,8 @@
         }
         else if(checkCurrentDashboard() == "UD Expenses"){
             udExpensesGeneratePDF();
+        }else if(checkCurrentDashboard() == "Executive"){
+            executiveGeneratePDF();
         }
     }
 </script>

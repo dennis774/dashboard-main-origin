@@ -21,7 +21,7 @@
                                     </div>
                                     <!-- DB CONTENT/CHART -->
                                     <div class="col-12 d-flex align-items-center justify-content-start" style="height: 65%;">
-                                        <span class="fw-bold" style="letter-spacing: 0.005rem;">{{number_format($budgetExpenses,2)}}</span>
+                                        <span id="totalExpenses" class="fw-bold" style="letter-spacing: 0.005rem;">{{number_format($budgetExpenses,2)}}</span>
                                     </div>
                                 </div>
                                 <!-- HALF CIRCLE -->
@@ -38,7 +38,7 @@
                                     </div>
                                     <!-- DB CONTENT/CHART -->
                                     <div class="col-12 d-flex align-items-center justify-content-end" style="height: 65%;">
-                                        <span class="fw-bold" style="letter-spacing: 0.005rem;">{{ number_format($budgetAllocation->amount,2) }}</span>
+                                        <span id="budgetAllocated" class="fw-bold" style="letter-spacing: 0.005rem;">{{ number_format($budgetAllocation->amount,2) }}</span>
                                     </div>
                                 </div>
                             @else
@@ -72,7 +72,7 @@
                                         @endforeach
                                     </ul>
                                 </div>
-                                <span class="d-flex justify-content-center mt-2" style="font-size: 1.2rem;">Total Expense Amount: {{ number_format($totalExpenseAmount, 2) }}</span>
+                                <span id="totalExpenseAmount" class="d-flex justify-content-center mt-2" style="font-size: 1.2rem;">Total Expense Amount: {{ number_format($totalExpenseAmount, 2) }}</span>
                                 
                             </div>
                         </div>
@@ -208,6 +208,10 @@ const bgColor = {
                             weight: 'bold',
                             size: 24
                         }
+                    },
+                    bgColor:{
+                        backgroundColor: 'gray',
+                        applyBackground: false
                     }
                 }
             },
@@ -232,7 +236,8 @@ const bgColor = {
                     ctx.fillText(text, textX, textY);
                     ctx.save();
                 }
-            }]
+            }],
+            plugins: [bgColor]
         });
     });
 </script>
@@ -301,9 +306,14 @@ const bgColor = {
             plugins: {
                 legend: {
                     display: false,
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 

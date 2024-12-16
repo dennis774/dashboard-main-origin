@@ -109,43 +109,17 @@
                     bodyColor: 'white',
                     titleColor: 'white',
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(210, 210, 210)',
+                    applyBackground: false
                 }
             }
-        }
+            },
+            plugins:[bgColor]
         });
 
         // MERCH CHART
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            color: 'white' // Color of the y-axis labels
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        labels: {
-                            font: {
-                                size: 10,          
-                                family: 'Helvetica Text Now, sans-serif',    
-                                weight: 'semibold'     
-                                },  
-                            color: 'white',
-                            boxWidth: 13,
-                            bodHeight: 17
-                        }
-                    },
-                    bgColor:{
-                        backgroundColor: 'gray',
-                        applyBackground: false
-                    }
-                }
-            },
-            plugins: [bgColor]
-        });
-
-
         var ctx = document.getElementById('MerchChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -235,37 +209,14 @@
                     bodyColor: 'white',
                     titleColor: 'white',
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(210, 210, 210)',
+                    applyBackground: false
                 }
             }
-        }
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            color: 'white' // Color of the y-axis labels
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        labels: {
-                            font: {
-                                size: 10,          
-                                family: 'Helvetica Text Now, sans-serif',    
-                                weight: 'semibold'     
-                                },  
-                            color: 'white',
-                            boxWidth: 13,
-                            bodHeight: 17
-                        }
-                    },
-                    bgColor:{
-                        backgroundColor: 'gray',
-                        applyBackground: false
-                    }
-                }
-            },
-            plugins: [bgColor]
+        },
+        plugins: [bgColor]
         });
     });
     

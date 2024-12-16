@@ -13,10 +13,10 @@
                         Overall Sales
                     </div>
                     <div class="row d-flex justify-content-center align-items-center fw-bold lh-1" style="height: 20%; font-size: 1.85rem; letter-spacing:1.5px; color: #7ed957;">
-                    {{ number_format($totals['totalSales'],2) }}
+                        <span id="totalSalesActual">{{ number_format($totals['totalSales'],2) }}</span>
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Sales Prediction'))) }}
+                        <span id="totalSalesPred">Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Sales Prediction'))) }}</span>
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="SalesChart" class="p-0"></canvas>
@@ -29,10 +29,10 @@
                         Overall Profit
                     </div>
                     <div class="row d-flex justify-content-center align-items-center fw-bold" style="height: 20%; font-size: 1.85rem; letter-spacing:1.5px; color: #7ed957;">
-                        {{ number_format($totals['totalProfit'],2) }}
+                        <span id="totalProfitActual">{{ number_format($totals['totalProfit'],2) }}</span>
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Profit Prediction'))) }}
+                        <span id="totalProfitPred">Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Profit Prediction'))) }}</span>
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="ProfitChart" class="p-0"></canvas>
@@ -45,10 +45,10 @@
                         Overall Expense
                     </div>
                     <div class="row d-flex justify-content-center align-items-center fw-bold" style="height: 20%; font-size: 1.85rem; letter-spacing:1.5px; color: #7ed957;">
-                        {{ number_format($totals['totalExpenses'],2) }}
+                        <span id="totalExpenseActual">{{ number_format($totals['totalExpenses'],2) }}</span>
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Expenses Prediction'))) }}
+                        <span id="totalExpensePred"> Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Expenses Prediction'))) }}</span>
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="ExpenseChart" class="p-0"></canvas>
@@ -64,8 +64,12 @@
                 {{-- ORDERS --}}
                 <div class="col-auto d-flex flex-column px-2" style="width: 39%;">
                     <div class="col-12 d-flex">
-                        <div class="col-7 d-flex justify-content-start fw-bold" style="font-size: 1.1rem; color: #6e82e1;">Kuwago Orders: {{ number_format($chartData['Kuwago1']['ordersCount']) }}</div>
-                        <div class="col-auto d-flex justify-content-start fw-bold" style="font-size: 1.1rem;">Predicted: +600</div>
+                        <div class="col-7 d-flex justify-content-start fw-bold" style="font-size: 1.1rem; color: #6e82e1;">
+                            <span id="topDishesActual">Kuwago Orders: {{ number_format($chartData['Kuwago1']['ordersCount']) }}</span>
+                        </div>
+                        <div class="col-auto d-flex justify-content-start fw-bold" style="font-size: 1.1rem;">
+                        <span id="topDishesPred"> Predicted: {{ round(array_sum(array_column($prediction_data, 'Number of Sales Prediction'))) }}</span>
+                        </div>
                     </div>
                     <div class="col-12 d-flex flex-grow-1 align-items-center justify-content-center">
                     <canvas id="TopDishesChart"></canvas>
@@ -398,6 +402,18 @@
 
 {{-- SCRIPT FOR CHARTS --}}
 <script>
+    const bgColor = {
+        id: 'bgColor',
+        beforeDraw: (Chart, steps, options) => {
+            const {ctx, width, height} = Chart;
+            if(options.applyBackground){
+                ctx.fillStyle = options.backgroundColor;
+                ctx.fillRect(0, 0, width, height)
+                ctx.restore();
+            }
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         // SALES CHART
         var salesCtx = document.getElementById('SalesChart').getContext('2d');
@@ -468,9 +484,14 @@
                             usePointStyle: true, 
                             pointStyle: 'rect'
                         }
+                    },
+                    bgColor:{
+                        backgroundColor: 'gray',
+                        applyBackground: false
                     }
                 }
-            }
+            },
+            plugins: [bgColor]
         });
 
         // PROFIT CHART
@@ -542,9 +563,14 @@
                             usePointStyle: true, 
                             pointStyle: 'rect'
                         }
+                    },
+                    bgColor:{
+                        backgroundColor: 'gray',
+                        applyBackground: false
                     }
                 }
-            }
+            },
+            plugins: [bgColor]
         });
 
         // EXPENSES CHART
@@ -617,9 +643,14 @@
                             pointStyle: 'rect'
                             
                         }
+                    },
+                    bgColor:{
+                        backgroundColor: 'gray',
+                        applyBackground: false
                     }
                 }
-            }
+            },
+            plugins: [bgColor]
         });
     });
 </script>
@@ -731,9 +762,14 @@
                 plugins: {
                     legend: {
                         display: false,
+                    },
+                    bgColor:{
+                        backgroundColor: 'gray',
+                        applyBackground: false
                     }
                 }
-            }
+            },
+            plugins: [bgColor]
         });
 
 
