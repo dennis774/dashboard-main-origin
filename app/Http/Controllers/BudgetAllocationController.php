@@ -73,11 +73,10 @@ class BudgetAllocationController extends Controller
     {
         // Reset all other target sales
         BudgetAllocation::query()->update(['is_displayed' => false]);
-    
+
         // Set the specific target sale to be displayed
         BudgetAllocation::where('id', $id)->update(['is_displayed' => true]);
     
         return redirect()->back()->with('status', 'New Kuwago One Budget allocations has been set to display.');
     }
-
 }

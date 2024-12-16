@@ -1,4 +1,4 @@
-    {{-- <div class="py-12">
+ {{-- <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="container">
@@ -65,17 +65,12 @@
         <title>Manage Users</title>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <link href="{{ url('assets/css/style.css') }}" rel="stylesheet" />
-        {{-- GOOGLE FONT - POPPINS --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
         <script src="{{ url('assets/js/chart.js') }}"></script>
         <link href="{{ url('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
         <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
         <link rel="stylesheet" href="{{url('fontawesome/css/all.min.css')}}" />
     </head>
-    <body class="businesses-body">
+    <body>
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mt-4">
@@ -167,7 +162,7 @@
                                 <div class="col-lg-12 d-flex justify-content-between">
                                     <form method="POST" action="{{ url('business', $business_infos->id) }}" enctype="multipart/form-data" class="w-100">
                                         @csrf @method('PUT')
-                                        <button type="submit" class="updateBusiness"><i class="fa-solid fa-check" style="color: black;"></i></button>
+                                        <button type="submit" class="updateBusiness"><i class="fa-regular fa-bookmark" style="color: black;"></i></button>
                                     </form>
                                  
                                 </div>
@@ -200,3 +195,4 @@
         </script>
     </body>
 </html>
+

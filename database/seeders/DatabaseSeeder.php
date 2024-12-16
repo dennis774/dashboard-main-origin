@@ -61,6 +61,5 @@ class DatabaseSeeder extends Seeder
             // Move to the next day
             $startDate->addDay();
         }
-
     }
 }

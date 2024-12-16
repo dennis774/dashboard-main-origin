@@ -101,8 +101,6 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
     Route::get('executive', [ExecutiveController::class, 'combinedDashboard'])->name('general.executive.dashboard');
     Route::get('executive/weather', [ExecutiveController::class, 'weather'])->name('general.executive.weather');
     Route::resource('account', AccountController::class);
-
-
 });
 // Route::get('/fetch-target-sale', [Kuwago_OneController::class, 'general_kuwago_one_new'])->name('general.kuwago-one.sale');
 

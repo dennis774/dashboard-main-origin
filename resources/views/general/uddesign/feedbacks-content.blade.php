@@ -18,8 +18,8 @@
                         <span style="font-family:Helvetica Now Text; font-size: clamp(0.75rem, 1.6vw, 0.85rem); letter-spacing: 1px;">Based on {{ $votes }} reviews</span>
                     </div>
                     <!-- BAR CHART -->
-                    <div class="row d-flex align-items-center justify-content-center" style="height: 80%;">
-                    </span></p> <canvas id="ratingChart" height="350"></canvas>
+                    <div class="row d-flex w-100 p-0 align-items-center justify-content-center" style="height: 80%;">
+                        <canvas id="ratingChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -156,8 +156,8 @@
 <!-- SCRIPT FOR CHANGING FEEDBACK RATING AND STAR CHART FILL KUWAGO ONE-->
 <script>
     const feedbackRating = {{ $averageRating ? number_format($averageRating, 1) : 'null'}};
-    const starRating = document.querySelector('.feedback-rating-text-1');
-    const starChart = document.querySelector('.star-1');
+    const starRating = document.querySelector('.feedback-rating-text');
+    const starChart = document.querySelector('.star');
 
     const ratingPercentage = 100 - ((feedbackRating / 5) * 100);
 
@@ -275,6 +275,7 @@
 </script>
 
 
+{{-- RATING CHART --}}
 <script>
     var ratingCounts = @json($ratingCounts);
 
@@ -283,72 +284,76 @@
     var chart = new Chart(ctx, {
         type: 'bar', // Bar chart
         data: {
-            labels: ['1', '2', '3', '4', '5'], // Y-axis labels (ratings)
+            labels: ['5','4','3','2','1'], // Y-axis labels (ratings)
             datasets: [{
-                label: 'Number of Votes',
-                data: [ratingCounts[1], ratingCounts[2], ratingCounts[3], ratingCounts[4], ratingCounts[
-                    5]], // X-axis data (number of votes)
-                backgroundColor: 'rgba(255, 223, 0, 0.6)', // Yellow color for the bars
-                borderColor: 'rgba(255, 223, 0, 1)', // Yellow border for the bars
-                borderWidth: 1
+                label: 'Reviews',
+                data: [ratingCounts[5], ratingCounts[4], ratingCounts[3], ratingCounts[2], ratingCounts[1]],
+                backgroundColor: '#df9f14',
+                borderColor: '#df9f14',
+                borderWidth: 1,
+                barPercentage: 0.9,
+                categoryPercentage: 1
+
             }]
         },
         options: {
-            indexAxis: 'y', // Set the index axis to 'y' for horizontal bars
+            indexAxis: 'y',
+            aspectRatio: 3,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 10,
+                    top: 5,
+                    bottom: 5
+                },
+            },
             scales: {
                 x: {
-                    beginAtZero: true, // Start the X-axis at zero (number of votes)
+                    beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Number of Votes', // Label for the X-axis
+                        text: 'Number of Rates', // Label for the X-axis
                         color: 'white', // Set the X-axis title color to white
                         font: {
-                            size: 14 // Font size for the X-axis title
+                            size: 10,
+                            family: 'Poppins'
                         }
                     },
                     ticks: {
                         color: 'white', // Set X-axis ticks to white
                         font: {
-                            size: 12 // Font size for the X-axis ticks
+                            size: 10,
+                            family: 'Poppins'
                         }
                     },
                     grid: {
-                        display: false // Remove grid lines on the X-axis
+                        color: 'rgba(255, 255, 255, 0.8)',
+                        lineWidth: 0.2
                     }
                 },
                 y: {
-                    beginAtZero: true, // Start the Y-axis at zero (ratings)
-                    title: {
-                        display: true,
-                        text: 'Rating', // Label for the Y-axis
-                        color: 'white', // Set the Y-axis title color to white
-                        font: {
-                            size: 14 // Font size for the Y-axis title
-                        }
-                    },
+                    beginAtZero: true,
                     ticks: {
                         color: 'white', // Set Y-axis ticks to white
                         font: {
-                            size: 12 // Font size for the Y-axis ticks
+                            size: 10,
+                            family: "Poppins"
                         }
                     },
                     grid: {
-                        display: false // Remove grid lines on the Y-axis
+                        display: false,
+                        lineWidth: 0
                     }
                 }
             },
-            responsive: true,
             plugins: {
                 legend: {
-                    display: false // Hide the legend
+                    display: false,
                 },
-            },
-            elements: {
-                bar: {
-                    borderWidth: 1
-                }
             },
         }
     });
 </script>
+
 

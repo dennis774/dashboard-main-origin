@@ -43,7 +43,6 @@ class ExecutiveController extends Controller
             96 => "Thunderstorm with slight hail",
             99 => "Thunderstorm with heavy hail",
         ];
-    
         return $wmoCodes[$code] ?? "Unknown weather code";
     }
 
@@ -145,8 +144,14 @@ class ExecutiveController extends Controller
 
         // Define the fields for Uddesign and Kuwago Two
         $uddesignFields = [
-            'total_sales', 'print_sales', 'merch_sales', 'custom_sales', 
-            'total_expenses', 'print_expenses', 'merch_expenses', 'custom_expenses'
+            'total_sales',
+            'print_sales',
+            'merch_sales',
+            'custom_sales',
+            'total_expenses',
+            'print_expenses',
+            'merch_expenses',
+            'custom_expenses'
         ];
 
         $kuwagoTwoFields = ['sales', 'expenses', 'orders'];
@@ -336,7 +341,5 @@ class ExecutiveController extends Controller
         ];
     }
 
-
-    
 }
 

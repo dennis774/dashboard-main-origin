@@ -51,7 +51,6 @@ class UddesignController extends Controller
         $totalSales = $chartdata->sum('total_sales');
         $totalProfit = $chartdata->sum('total_profit');
         $totalExpenses = $chartdata->sum('total_expenses');
-    
         // Fetch financial target sales
         $financialTargetSales = null;
         $financialTotalSales = 0;
@@ -63,16 +62,15 @@ class UddesignController extends Controller
                 $financialTotalSales = UddesignReport::whereBetween('date', [$financialStartDate, $financialEndDate])->sum('total_sales');
             }
         }
-    
         $actionRoute = route('general.uddesign.dashboard');
         $totals = compact('totalSales', 'totalProfit', 'totalExpenses');
         $print = compact('totalPrintSales', 'totalPrintProfit', 'totalPrintExpenses');
         $merch = compact('totalMerchSales', 'totalMerchProfit', 'totalMerchExpenses');
         $custom = compact('totalCustomSales', 'totalCustomProfit', 'totalCustomExpenses');
-    
         return view('general.uddesign.dashboard', array_merge(compact('actionRoute', 'chartdata', 'financialTargetSales', 'financialTotalSales'), $totals, $print, $merch, $custom));
     }
     
+
 
     // Handles the sales view for /kuwago-two/sales
     public function chart_sales_uddesign(Request $request)
@@ -125,25 +123,45 @@ class UddesignController extends Controller
     // }
 
     public function chart_expenses_uddesign(Request $request, $uddesignBudget = null)
-{
-    $fields = ['total_expenses', 'print_expenses', 'merch_expenses', 'custom_expenses'];
+    {
+        $fields = ['total_expenses', 'print_expenses', 'merch_expenses', 'custom_expenses'];
 
-    $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
-    $groupByField = $this->getGroupByField($interval);
-    $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
+    //     $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
+    //     $groupByField = $this->getGroupByField($interval);
+    //     $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
 
-    $chartdata = $data['chartdata'];
-    $chartExpenseData = $data['chartExpenseData'];
-    $expenseData = $data['expenseData'];
-    $totalExpenseAmount = $data['totalExpenseAmount'];
+        $chartdata = $data['chartdata'];
+        $chartExpenseData = $data['chartExpenseData'];
+        $expenseData = $data['expenseData'];
+        $totalExpenseAmount = $data['totalExpenseAmount'];
 
-    $totalExpenses = $chartdata->sum('total_expenses');
-    $totalPrintExpenses = $chartdata->sum('print_expenses');
-    $totalMerchExpenses = $chartdata->sum('merch_expenses');
-    $totalCustomExpenses = $chartdata->sum('custom_expenses');
+    //     $actionRoute = route('general.uddesign.expenses');
 
-    if (!$uddesignBudget) {
-        $budgetAllocation = UddesignBudget::where('is_displayed', true)->first();
+        if (!$uddesignBudget) {
+            $budgetAllocation = UddesignBudget::where('is_displayed', true)->first();
+        }
+        // Fetch the financial target dates
+        $budgetStartDate = $budgetAllocation->start_date;
+        $budgetEndDate = $budgetAllocation->end_date;
+
+        // Fetch total budget allocation
+        $budgetExpenses = UddesignReport::whereBetween('date', [$budgetStartDate, $budgetEndDate])->sum('total_expenses');
+
+        $actionRoute = route('general.uddesign.expenses');
+
+        return view('general.uddesign.expenses', compact(
+            'actionRoute',
+            'chartdata',
+            'totalExpenses',
+            'totalPrintExpenses',
+            'totalMerchExpenses',
+            'totalCustomExpenses',
+            'chartExpenseData',
+            'expenseData',
+            'totalExpenseAmount',
+            'budgetAllocation',
+            'budgetExpenses'
+        ));
     }
     // Fetch the financial target dates
     $budgetStartDate = $budgetAllocation->start_date;
@@ -168,6 +186,7 @@ class UddesignController extends Controller
         'budgetExpenses'
     ));
 }
+
 
 
     // This method changes the format of the date for display purposes, ensuring the date is presented correctly based on the interval.

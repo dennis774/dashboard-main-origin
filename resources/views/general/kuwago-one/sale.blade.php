@@ -3,21 +3,9 @@
 <head>
     <title>Kuwago One Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        #salesChartContainer {
-            width: 300px; /* Adjust the width as needed */
-            height: 150px; /* Adjust the height as needed */
-            margin: auto;
-        }
-
-        #salesChart {
-            width: 100% !important;
-            height: 100% !important;
-        }
-    </style>
 </head>
 <body>
-    <h1>Kuwago One Dashboard</h1>
+    <h1>Kuwago One Dashboard</title>
 
     <!-- Display Target Sale Data -->
     @if ($targetSale)
@@ -30,71 +18,49 @@
     @else
         <p>No target sale found for display.</p>
     @endif
-<div>
-    <div class="col-12">
-        <div class="row">
-            <div class="col-6">
-                <div id="salesChartContainer">
-                    <canvas id="salesChart"></canvas>
-                </div>
-            </div>
-            <div class="col-6">
-                <!-- Other content -->
-            </div>
-        </div>
-    </div>
-</div>
+
+    <!-- Create a canvas element for the chart -->
+    <canvas id="gaugeChart" width="400" height="200"></canvas>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var ctx = document.getElementById('salesChart').getContext('2d');
+            var ctx = document.getElementById('gaugeChart').getContext('2d');
 
             // Values for the chart
             var targetSaleAmount = {{ $targetSale->amount }};
             var totalSales = {{ $totalSales }};
+            var percentage = (targetSaleAmount / totalSales) * 100;
 
-            var salesChart = new Chart(ctx, {
-                type: 'bar',
+            console.log('Target Sale Amount:', targetSaleAmount);
+            console.log('Total Sales:', totalSales);
+            console.log('Percentage:', percentage);
+
+            var gaugeChart = new Chart(ctx, {
+                type: 'doughnut',
                 data: {
-                    labels: ['Sales'],
-                    datasets: [
-                        {
-                            label: 'Total Sales',
-                            data: [totalSales],
-                            backgroundColor: '#FFA500' // Orange color for Total Sales
-                        },
-                        {
-                            label: 'Target Sale',
-                            data: [targetSaleAmount],
-                            backgroundColor: '#FFFFFF', // White color for Target Sale
-                            borderColor: '#000000',
-                            borderWidth: 1
-                        }
-                    ]
+                    datasets: [{
+                        data: [percentage, 100 - percentage],
+                        backgroundColor: ['#FFA500', '#FFFFFF'],
+                        borderWidth: 0
+                    }]
                 },
                 options: {
-                    responsive: true,
-                    indexAxis: 'y', // Display the bar chart vertically
+                    circumference: Math.PI,
+                    rotation: Math.PI,
+                    cutoutPercentage: 70,
+                    tooltips: { enabled: false },
+                    hover: { mode: null },
                     plugins: {
-                        legend: {
-                            display: true
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(tooltipItem) {
-                                    var label = tooltipItem.dataset.label || '';
-                                    return label + ': ' + tooltipItem.raw.toLocaleString();
-                                }
+                        datalabels: {
+                            display: true,
+                            formatter: function(value, context) {
+                                return context.chart.data.datasets[0].data[0].toFixed(2) + '%';
+                            },
+                            color: '#000',
+                            font: {
+                                weight: 'bold',
+                                size: 24
                             }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            stacked: true, // Enable stacking on X-axis
-                            beginAtZero: true
-                        },
-                        y: {
-                            stacked: true // Enable stacking on Y-axis
                         }
                     }
                 }

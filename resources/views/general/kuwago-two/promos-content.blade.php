@@ -15,33 +15,16 @@
                 </div>
 
                 <div class="col-auto d-flex justify-content-center align-items-center h-100" id="carousel-container" style="width: 90%;">
-                    {{-- ADD PROMO --}}
-                    <div class="position-absolute top-0 end-0 p-3" style="z-index: 10;">
-                        <a href="{{ route('promos.create') }}" class="btn">
-                            <i class="fa-solid fa-plus" style="font-size: 1.5em; color: white;"></i>
-                        </a>
-                    </div>
+                 
 
                     @foreach ($promos as $key => $promo)
                     <!-- PROMO CARD -->
                     <div class="col-12 d-flex flex-column py-3 px-2 position-absolute justify-content-start align-items-center carouselItem carouselItem-two{{ $key+1 }}" data-promocard-id="{{ $promo->id }}" style="width:25%; height:78%;">
                         <!-- PROMO NAME -->
                         <div class="row d-flex w-100 justify-content-center">
-                            <div class="col-1 p-0">
-                                <a href="{{ route('promos.edit', $promo->id) }}" class="btn p-0" style="color: #fff;">
-                                    <i class="fa-regular fa-pen-to-square" style="color: #422f0a;"></i>
-                                </a>
-                            </div>
+                            
                             <div class="col d-flex align-items-center justify-content-center">
                                 <span class="text-black uddeals-panel-text">{{ $promo->title }}</span>
-                            </div>
-                            <div class="col-1 p-0">
-                                <form action="{{ route('promos.destroy', $promo->id) }}" method="POST" style="display: inline;">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn p-0" style="color: #fff;">
-                                        <i class="fa-regular fa-trash-can" style="color: #422f0a;"></i>
-                                    </button>
-                                </form>
                             </div>
                         </div>
 
@@ -53,8 +36,9 @@
                         </div>
 
                         <!-- PROMO CHART -->
-                        <div class="row d-flex w-100 justify-content-center align-items-center" style="height: 30%;">
-                            <span class="text-black">HALF DONUT</span>
+                        <div class="row d-flex w-100 justify-content-center align-items-center" style="height: 8%;">
+                            {{-- <span class="text-black">HALF DONUT</span> --}}
+
                         </div>
 
                         <!-- PROMO CHART DETAILS -->
@@ -76,8 +60,12 @@
                             <span class="text-start fw-bold promo-date-text" style="font-size: 0.7rem;">Eligible Products</span>
                         </div>
                         <div class="row d-flex w-100 justify-content-center overflow-y-scroll weather-column">
-                            <span class="text-start promo-date-text">{{ $promo->dishes_available }}</span>
-
+                            @php
+                                $dishes = is_string($promo->dishes_available) ? json_decode($promo->dishes_available, true) : $promo->dishes_available;
+                            @endphp
+                            @foreach ($dishes as $dish)
+                                <span class="text-start promo-date-text"> {{$dish}} </span>
+                            @endforeach
                         </div>
                             
                     </div>
@@ -106,7 +94,7 @@
             <div class="col-12 d-flex ps-1 justify-content-start">
                 <span class="uddesign-side-text" style="font-size: 1rem;">List of Promos</span>
             </div>
-            <div class="row d-flex ps-2 pe-3 align-items-center h-100">
+            <div class="row d-flex ps-2 pe-3 align-items-center" style="height: 90%;">
                 <div class="row d-flex w-100 h-100 ps-4 align-items-center justify-content-evenly overflow-y-scroll">
                     {{-- NOT FOUND --}}
                     {{-- <span class="text-white-50 fst-italic fw-light uddesign-fields-text">
@@ -115,8 +103,8 @@
                     <ol class="col d-flex flex-column h-100 p-0 m-0 align-items-start justify-content-start ">
     
                         @foreach ($promos as $key => $promo)
-                        <li class="ps-1 mb-1" style="font-family: Poppins; font-size: 0.85rem;" style="list-style-type: decimal;">
-                            <a href="#" class="d-flex text-white text-start text-decoration-underline uddesign-side-text promo-link" data-promo-id="{{ $promo->id }}" style="font-size: 0.85rem;">
+                        <li class="ps-1 mb-1" style="font-family: Poppins; font-size: 0.75rem;" style="list-style-type: decimal;">
+                            <a href="#" class="d-flex text-white text-start text-decoration-underline uddesign-side-text promo-link" data-promo-id="{{ $promo->id }}" style="font-size: 0.75rem;">
                                 {{  $promo->title  }}
                             </a>
                         </li>

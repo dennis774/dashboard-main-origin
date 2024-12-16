@@ -1,8 +1,8 @@
-@extends('general.kuwago-two.index')
+@extends('general.uddesign.index')
 
 @section('content')
 
-@include('general.kuwago-two.feedbacks-content')
+@include('general.uddesign.feedbacks-content')
 
 @endsection
 
