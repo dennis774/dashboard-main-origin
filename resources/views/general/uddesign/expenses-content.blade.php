@@ -5,6 +5,7 @@
         <!-- LEFT COLUMN -->
         <div class="col-auto d-flex flex-column row-gap-3 p-0 h-100" style="width: 38%;">
 
+            
             <!-- TOTAL EXPENSES & BUDGET ALLOCATION -->
             <div class="col-12" style="height: 47%;">
                 <div class="col h-100 p-0">
@@ -12,31 +13,35 @@
                         <!-- CARD TITLES -->
                         <div class="row mt-3 w-100">
                             <div class="col-6 d-flex justify-content-center db-card-title">
-                                Target Sales
+                                Total Expenses
                             </div>
                             <div class="col-6 d-flex justify-content-center db-card-title">
                                 Budget Allocated
                                 
                             </div>
                         </div>
-                        <!-- CARD VALUES -->
-                        <div class="row w-100">
-                            <div class="col-6 d-flex justify-content-center fw-bold db-card-title" style="font-size: clamp(0.75rem, 1.6vw, 1.3rem);">
-                                999,999,999.00
+                        @if($budgetAllocation)
+                            <!-- CARD VALUES -->
+                            <div class="row w-100">
+                                <div class="col-6 d-flex justify-content-center fw-bold db-card-title" style="font-size: clamp(0.75rem, 1.6vw, 1.3rem);">
+                                    {{number_format($budgetExpenses,2)}}
+                                </div>
+                                <div class="col-6 d-flex justify-content-center fw-bold db-card-title" style="font-size: clamp(0.75rem, 1.6vw, 1.3rem);">
+                                    {{ number_format($budgetAllocation->amount,2) }}
+                                </div>
                             </div>
-                            <div class="col-6 d-flex justify-content-center fw-bold db-card-title" style="font-size: clamp(0.75rem, 1.6vw, 1.3rem);">
-                                100.00
+                            <div class="row d-flex w-100 align-items-center justify-content-center" style="height: 60%">
+                                <canvas id="arcChart"></canvas>
                             </div>
-                        </div>
-                        <div class="row d-flex flex-grow-1 align-items-center justify-content-center">
-                            Half Donut Chart
-                        </div>
+                        @else
+                            <span style="font-size: 8px;">No target sale found for display.</span>
+                        @endif
                     </div>
                 </div>
             </div>
 
             <!-- RECENTLY PURCHASED -->
-            <div class=" col d-flex flex-grow-1 w-100 m-0 align-items-center">
+            <div class="col d-flex w-100 m-0 align-items-center" style="height: 50%;">
                 <div class="col p-0" style="height: 100%;">
                     <div class="card rounded-0 h-100 w-100 bg-transparent text-white border-0" style="font-size: clamp(0.7rem, 1.8vw, 1.1rem); letter-spacing: 2px;">
                         <!-- DB CARD TITLE -->
@@ -49,15 +54,18 @@
                         </div>
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 w-100 px-3 pb-3 column-gap-3 align-items-center">
-                            <div class="col-12 align-self-middle text-center db-card-title">
-                                <span>List of products here</span>
-                                <ul>
-                            @foreach ($expenseData as $expense)
-                                <li>{{ $expense->expenseType }}: ₱ {{ number_format($expense->price, 2) }}</li>
-                            @endforeach
-                        </ul>
+                            <div class="col-12 align-self-middle text-center justify-content-center db-card-title">
+                                {{-- <span>List of products here</span> --}}
+                                <div class="d-flex mt-2 text-start overflow-y-scroll weather-column" style="height:190px; max-height: 160px;">
+                                    <ul style="font-size: 0.95rem;">
+                                        @foreach ($chartExpenseData as $expense)
+                                            <li class="lh-lg">{{ $expense->expenseCategory }}: {{ number_format($expense->total_amount, 2) }}</li>
+                                        @endforeach
+                                    
+                                    </ul>
+                                </div>          
+                                <span class="d-flex justify-content-center mt-2" style="font-size: 1rem;">Total Expense Amount: {{ number_format($totalExpenseAmount, 2) }}</span>                      
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -106,6 +114,18 @@
 </div>
 
 <script>
+    const bgColor = {
+        id: 'bgColor',
+        beforeDraw: (Chart, steps, options) => {
+            const {ctx, width, height} = Chart;
+            if(options.applyBackground){
+                ctx.fillStyle = options.backgroundColor;
+                ctx.fillRect(0, 0, width, height)
+                ctx.restore();
+            }
+        }
+    }
+
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -160,171 +180,202 @@
                     display: true,
                     text: 'Your Chart Title', // Replace with your chart title
                     color: 'white' // Set the color of the chart title
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(210, 210, 210)',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
-<!-- Bar Chart for Expense Category -->
+{{-- SCRIPT FOR HALF DONUT CHART --}}
 <script>
-    const printCategoryCtx = document.getElementById('expenseCategoryChart').getContext('2d');
-    const printCategoryChart = new Chart(printCategoryCtx, {
-        type: 'bar',
-        data: {
-            labels: @json($chartExpenseData->pluck('expenseCategory')),
-            datasets: [{
-                label: 'Products Sold',
-                data: @json($chartExpenseData->pluck('total_amount')),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        color: 'white' // Set Y-axis text color to white
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('arcChart').getContext('2d');
+
+        // Values for the chart
+        var budgetAllocation = {{ $budgetAllocation->amount ?? 0 }};
+        var budgetExpenses = {{ $budgetExpenses ?? 0 }};
+
+        // Additional client-side null/NaN check
+        if (isNaN(budgetAllocation) || budgetAllocation === null) {
+            budgetAllocation = 0;
+        }
+        if (isNaN(budgetExpenses) || budgetExpenses === null) {
+            budgetExpenses = 0;
+        }
+
+        // Prevent division by zero and calculate percentage
+        // Calculate percentage and limit it to a maximum of 100%
+        var percentage = budgetAllocation !== 0 ? Math.min((budgetExpenses / budgetAllocation) * 100, 100) : 0;
+        var remainingAmount = Math.max(budgetAllocation - budgetExpenses, 0);
+
+
+        var arcChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    label: 'Target Sales',
+                    data: [budgetExpenses, remainingAmount],
+                    backgroundColor: ['#FFA500', '#FFFFFF'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                aspectRatio: 0.5,
+                maintainAspectRatio: false,
+                circumference: 180,
+                rotation: 270,
+                cutout: '60%',
+                layout: {
+                    padding: {
+                        top: 20,
+                        bottom: 15
                     },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.2)' // Set horizontal grid line color
-                    }
                 },
-                x: {
-                    ticks: {
-                        color: 'white' // Set X-axis text color to white
+                plugins: {
+                    legend: {
+                        display: false,
                     },
-                    grid: {
-                        display: false // Disable vertical grid lines
+                    tooltip: {
+                        bodyColor: 'white',
+                        titleColor: 'white',
+                        titleFont: {
+                            size: 12,
+                        },
+                        bodyFont: {
+                            size: 10,
+                            family: 'Poppins'
+                        },
+                        filter: (tooltipItem) => {
+                            return tooltipItem.dataIndex === 0;
+                        },
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)'  
+                    },
+                    datalabels: {
+                        display: true,
+                        formatter: function() {
+                            return `${percentage.toFixed(0)}%`;
+                        },
+                        color: '#000',
+                        font: {
+                            weight: 'bold',
+                            size: 24
+                        }
                     }
                 }
             },
-            plugins: {
-                legend: {
-                    labels: {
-                        color: 'white' // Set legend text color to white
-                    }
-                },
-                tooltip: {
-                    bodyColor: 'white', // Tooltip text color
-                    titleColor: 'white', // Tooltip title color
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+            // CENTER TEXT
+            plugins: [{
+                id: 'centerText',
+                beforeDraw: (chart) => {
+                    const { width } = chart;
+                    const { height } = chart;
+                    const ctx = chart.ctx;
+
+                    ctx.restore();
+                    const fontSize = (height / 100).toFixed(2);
+                    ctx.font = `${fontSize}em Poppins`;
+                    ctx.textBaseline = 'end';
+
+                    const text = `${percentage.toFixed(0)}%`;
+                    const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                    const textY = height/ 1.2;
+
+                    ctx.fillStyle = '#FFF';
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
                 }
-            }
-        }
+            }]
+        });
     });
 </script>
 
-
-{{-- ORIGINAL CODE --}}
-<?php
-/*
-<div class="container text-center content-container">
-    <div class="row mb-5">
-        {{-- START OF SIDE BAR --}}
-        <div class="col-lg-1"></div>
-        <div class="col-lg-1">
-            <div class="container">
-                <div class="row">
-                    @include('general.uddesign.sidebar')
-                </div>
-            </div>
-        </div>
-        {{-- END OF SIDE BAR --}} {{-- START OF CONTENTS--}}
-        <div class="col-lg-9 p-3 contents">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <canvas id="myChart" width="400" height="200"></canvas>
-                    </div>
-
-                    <canvas id="expenseCategoryChart" width="400" height="200"></canvas>
-                    <div>
-                        <h3>Expense Breakdown by Type</h3>
-                        <ul>
-                            @foreach ($expenseData as $expense)
-                                <li>{{$expense->expenseType}}: ₱ {{number_format($expense->price, 2)}}</li>
-                            @endforeach
-                        </ul>
-
-                        <h4>Total Expense Amount: ₱ {{number_format($totalExpenseAmount, 2)}}</h4>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-1"></div>
-    </div>
-    {{-- END OF CONTENTS--}}
-</div>
-
-
+<!-- EXPENSES TREND CHART -->
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
+    const ctx2 = document.getElementById('myChart').getContext('2d');
+    const myChart2 = new Chart(ctx2, {
         type: 'line',
         data: {
             labels: @json($chartdata->pluck('date')),
             datasets: [{
-                label: 'Print/Photo',
+                label: 'Print/Photocopy',
                 data: @json($chartdata->pluck('print_expenses')),
-                borderColor: 'blue',
-                borderWidth: 1,
-                fill: 'origin'
-            }, {
+                borderColor: 'rgba(108, 229, 232, 1)',
+                pointBackgroundColor: 'rgba(108, 229, 232, 1)',
+                pointBorderColor: 'rgba(108, 229, 232, 1)', 
+                borderWidth: 2,
+                fill: false
+            },{
                 label: 'UdD Merch',
                 data: @json($chartdata->pluck('merch_expenses')),
-                borderColor: 'green',
-                borderWidth: 1,
-                fill: 'origin'
-            }, {
+                borderColor: '#FFA500',
+                pointBackgroundColor: '#FFA500',
+                pointBorderColor: '#FFA500', 
+                borderWidth: 2,
+                fill: false 
+            },{
                 label: 'Custom Deals',
                 data: @json($chartdata->pluck('custom_expenses')),
-                borderColor: 'yellow',
-                borderWidth: 1,
-                fill: 'origin'
+                borderColor: 'green',
+                pointBackgroundColor: 'green',
+                pointBorderColor: 'green', 
+                borderWidth: 2,
+                fill: false 
             }]
         },
         options: {
+            aspectRatio: 3,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 20,
+                    bottom: 10
+                },
+            },
             scales: {
-                x: {
+                y: {
+                    beginAtZero: true,
                     ticks: {
-                        color: 'white' // Set the color of the x-axis labels
+                        color: 'white',
+                        font: {
+                            size: 10,
+                            family: 'Poppins',
+                        }
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)' // Optionally lighten grid lines for better contrast
+                        color: 'rgba(255, 255, 255, 0.2)'
                     }
                 },
-                y: {
+                x: {
                     ticks: {
-                        color: 'white' // Set the color of the y-axis labels
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family: 'Poppins',
+                        }
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)' // Optionally lighten grid lines for better contrast
+                        lineWidth: 0,
+                        drawOnChartArea: false,
+                        color: 'white',
                     }
                 }
             },
             plugins: {
                 legend: {
-                    labels: {
-                        color: 'white' // Set the color of the legend labels
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Your Chart Title', // Replace with your chart title
-                    color: 'white' // Set the color of the chart title
+                    display: false,
                 }
             }
         }
     });
 </script>
 
-<!-- Bar Chart for Expense Category -->
+<!-- EXPENSES BY CATEGORY CHART -->
 <script>
     const printCategoryCtx = document.getElementById('expenseCategoryChart').getContext('2d');
     const printCategoryChart = new Chart(printCategoryCtx, {
@@ -334,17 +385,30 @@
             datasets: [{
                 label: 'Products Sold',
                 data: @json($chartExpenseData->pluck('total_amount')),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(108, 229, 232, 1)',
+                borderColor: 'rgba(108, 229, 232, 1)',
                 borderWidth: 1
             }]
         },
         options: {
+            aspectRatio: 3,
+            layout: {
+                padding: {
+                    left: 15,
+                    right: 15,
+                    top: 20,
+                    bottom: 10
+                },
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'white' // Set Y-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 10,
+                            family: 'Poppins',
+                        }
                     },
                     grid: {
                         color: 'rgba(255, 255, 255, 0.2)' // Set horizontal grid line color
@@ -352,18 +416,20 @@
                 },
                 x: {
                     ticks: {
-                        color: 'white' // Set X-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 8,
+                            family: 'Poppins',
+                        },
                     },
                     grid: {
-                        display: false // Disable vertical grid lines
+                        lineWidth: 0,
                     }
                 }
             },
             plugins: {
                 legend: {
-                    labels: {
-                        color: 'white' // Set legend text color to white
-                    }
+                    display: false,
                 },
                 tooltip: {
                     bodyColor: 'white', // Tooltip text color
@@ -374,3 +440,4 @@
         }
     });
 </script>
+

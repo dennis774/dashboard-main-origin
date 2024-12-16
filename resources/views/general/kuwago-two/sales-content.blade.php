@@ -1,4 +1,4 @@
-{{-- START --}}
+    {{-- START --}}
 
 <!-- DASHBOARD PANEL -->
 <div class="d-flex rounded-4 dashboard-panel">
@@ -22,10 +22,10 @@
             <!-- SALES TREND -->
             <div class="col">
                 <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
-                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                    <div class="col-12 d-flex mt-1 mb-2 align-items-end justify-content-start" style="height: 15%;">
                         <span class="ms-3 db-card-title">Sales Trends</span>
                     </div>
-                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
+                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 78%;">
                         <canvas id="myChart2"></canvas>
                     </div>
                 </div>
@@ -33,18 +33,23 @@
             <!-- LEAST SELLING -->
             <div class="col-3 p-0" style="width: 26%">
                 <div class="d-flex flex-column rounded-4 h-100 main-dashboard-tile">
-                    <div class="col-12 d-flex mt-1 align-items-end justify-content-start" style="height: 15%;">
+                    <div class="col-12 d-flex mt-1 mb-3 align-items-end justify-content-start" style="height: 15%;">
                         <span class="ms-3 db-card-title">Least-Selling Products</span>
                     </div>
-                    <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
+                    <div class="col-12 d-flex ps-2 align-items-start justify-content-start" style="height: 85%;">
                         <ol>
-
-                        @foreach($bottomDishes as $dish)
-
-                        <li>{{ $dish->dish }}: {{ $dish->total_pcs }} pcs</li>
-
-                        @endforeach
-
+                            @if($bottomDishes->isNotEmpty())
+                                @foreach($bottomDishes as $dish)
+                                    <li class="text-start justify-content-between mb-2" style="font-size:0.85rem; letter-spacing: 0.5px;">
+                                        {{ $dish->dish }}: {{$dish->total_pcs}}
+                                    </li>
+                                @endforeach
+                            @else
+                                <div class="d-flex justify-content-center">
+                                    <span class="fw-light fst-italic text-center" style="font-size: 0.75rem;">No dishes available.</span>
+                                </div>
+                                
+                            @endif
                         </ol>
                     </div>
                 </div>
@@ -60,7 +65,7 @@
                         <span class="ms-3 db-card-title">Sales by Category</span>
                     </div>
                     <div class="col-12 d-flex align-items-center justify-content-center" style="height: 85%;">
-                    <canvas id="categoryChart"></canvas>
+                        <canvas id="categoryChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -91,6 +96,18 @@
 
     const barColors = ["#b91d47", "#00aba9"];
 
+    const bgColor = {
+        id: 'bgColor',
+        beforeDraw: (Chart, steps, options) => {
+            const {ctx, width, height} = Chart;
+            if(options.applyBackground){
+                ctx.fillStyle = options.backgroundColor;
+                ctx.fillRect(0, 0, width, height)
+                ctx.restore();
+            }
+        }
+    }
+
     new Chart("myChart1", {
         type: "doughnut",
         data: {
@@ -108,9 +125,14 @@
                 },
                 title: {
                     display: false // Remove title
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -159,9 +181,14 @@
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
                     backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -210,9 +237,14 @@
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
                     backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
@@ -262,71 +294,27 @@
                     bodyColor: 'white',
                     titleColor: 'white',
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                },
+                bgColor:{
+                    backgroundColor: 'gray',
+                    applyBackground: false
                 }
             }
-        }
+        },
+        plugins: [bgColor]
     });
 </script>
 
 
-
-
-<?php /*
-<div class="container text-center content-container">
-    <div class="row mb-5">
-        {{-- START OF SIDE BAR --}}
-<div class="col-lg-1"></div>
-<div class="col-lg-1">
-    <div class="container">
-        <div class="row">
-            @include('general.kuwago-one.sidebar')
-        </div>
-    </div>
-</div>
-{{-- END OF SIDE BAR --}}
-{{-- START OF CONTENTS --}}
-<div class="col-lg-9 p-3 kuwago1Sales">
-    <div class="row">
-        <div class="col-lg-2 donutChart p-2 mx-3">
-            <p>Total Sales</p>
-            <p style="font-weight: bold;">₱{{number_format($totalSales,2)}}</p>
-            <div class="chart-container d-flex justify-content-center">
-                <canvas id="myChart1"></canvas>
-            </div>
-        </div>
-        <div class="col-lg-6 salesChartKuwago1">
-            <canvas id="myChart2"></canvas>
-        </div>
-        <div class="col-lg-4 kuwagoLeastSelling mx-3">
-            <h6>Least Selling Products Here</h6>
-        </div>
-    </div>
-
-    <div class="container mt-2">
-        <div class="row">
-            <div class="col-lg-7 salesByCat">
-                <h6>Sales By Category Here</h6>
-            </div>
-            <div class="col-lg-5 topSelling">Top Selling Products</div>
-        </div>
-    </div>
-</div>
-<div class="col-lg-1"></div>
-</div>
-</div>
--->
-
-
-{{--
-<!-- 
+<!-- Donut Chart for  cash or gcash-->
 <script>
     const totalCash = @json($totalCash);
     const totalGcash = @json($totalGcash);
 
-    const xValues = ["Cash", "Gcash"];
-    const yValues = [totalCash, totalGcash];
+    const xValues = ["Cash", "GCash"];
+    const yValues = (totalCash === 0 && totalGcash === 0) ? [0.5, 0.5] : [totalCash, totalGcash];
 
-    const barColors = ["#b91d47", "#00aba9"];
+    const barColors = ["#df9f14", "#e9e9e8"];
 
     new Chart("myChart1", {
         type: "doughnut",
@@ -334,11 +322,19 @@
             labels: xValues,
             datasets: [{
                 backgroundColor: barColors,
+                borderWidth: 0,
                 data: yValues
             }]
         },
         options: {
-            maintainAspectRatio: false, // Allow responsive resizing
+            cutout: '50%',
+            aspectRatio: 0.8,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10
+                },
+            },
             plugins: {
                 legend: {
                     display: false // Hide legend
@@ -351,26 +347,110 @@
     });
 </script>
 
+<!-- SALES TREND CHART -->
 <script>
-    var ctx = document.getElementById('myChart2').getContext('2d');
-    var myChart = new Chart(ctx, {
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const myChart2 = new Chart(ctx2, {
         type: 'line',
         data: {
-            labels: @json($chartdata - > pluck('date')),
+            labels: @json($chartdata->pluck('date')),
             datasets: [{
                 label: 'Sales',
-                data: @json($chartdata - > pluck('sales')),
-                borderColor: 'green',
-                borderWidth: 5,
-                fill: 'origin'
+                data: @json($chartdata->pluck('sales')),
+                borderColor: 'rgba(108, 229, 232, 1)',
+                borderWidth: 2,
+                fill: false 
             }]
         },
         options: {
+            aspectRatio: 3,
+            elements: {
+                point: {
+                    radius: 5, 
+                    backgroundColor: 'rgba(108, 229, 232, 1)',
+                    borderColor: 'rgba(108, 229, 232, 1)', 
+                }
+            },
+            layout: {
+                padding: {
+                    left: 15,
+                    right: 35,
+                    top: 20,
+                    bottom:5
+                },
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'white' // Set Y-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 10,
+                            family: 'Poppins',
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family: 'Poppins',
+                        }
+                    },
+                    grid: {
+                        lineWidth: 0,
+                        drawOnChartArea: false,
+                        color: 'white',
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            }
+        }
+    });
+</script>
+
+<!-- SALES BY CATEGORY CHART -->
+<script>
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    const categoryChart = new Chart(categoryCtx, {
+        type: 'bar',
+        data: {
+            labels: @json($chartCategoryData->pluck('category')),
+            datasets: [{
+                label: 'Products Sold',
+                data: @json($chartCategoryData->pluck('total_pcs')),
+                backgroundColor: 'rgba(108, 229, 232, 1)',
+                borderColor: 'rgba(108, 229, 232, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            aspectRatio: 3.3,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 20,
+                    bottom: 10
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 10,
+                            family: 'Poppins',
+                        }
                     },
                     grid: {
                         color: 'rgba(255, 255, 255, 0.2)' // Set horizontal grid line color
@@ -378,18 +458,26 @@
                 },
                 x: {
                     ticks: {
-                        color: 'white' // Set X-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family: 'Poppins',
+                        },
+                        callback: function(value, index) {
+                            const labels = @json($chartCategoryData->pluck('category'));
+                            const maxLabelLength = 7;
+                            const label = labels[index] || '';
+                            return label.length > maxLabelLength ? label.substring(0, maxLabelLength) + '...' : label;
+                        }
                     },
                     grid: {
-                        display: false // Disable vertical grid lines
+                        lineWidth: 0,
                     }
                 }
             },
             plugins: {
                 legend: {
-                    labels: {
-                        color: 'white' // Set legend text color to white
-                    }
+                    display: false,
                 },
                 tooltip: {
                     bodyColor: 'white', // Tooltip text color
@@ -399,141 +487,85 @@
             }
         }
     });
-</script>  */ ?>
-
-
-
-{{-- ORIGINAL CODE --}}
-<?php /*
-<div class="container text-center content-container">
-    <div class="row mb-5">
-        {{-- START OF SIDE BAR --}}
-        <div class="col-lg-1"></div>
-        <div class="col-lg-1">
-            <div class="container">
-                <div class="row">
-                    @include('general.kuwago-two.sidebar')
-                </div>
-            </div>
-        </div>
-        {{-- END OF SIDE BAR --}} {{-- START OF CONTENTS--}}
-        <div class="col-lg-9 p-3 kuwago1Sales">
-            <div class="row">
-                <div class="col-lg-2 donutChart p-2 mx-3"> 
-                    <p>Total Sales</p>
-                    <p style="font-weight: bold;">₱{{number_format($totalSales, 2)}}</p>
-                    <div class="chart-container d-flex justify-content-center">
-                        <canvas id="myChart1"></canvas>
-                    </div>
-                </div>
-                <div class="col-lg-6 salesChartKuwago2"> 
-                    <canvas id="myChart2"></canvas>
-                </div>
-                <div class="col-lg-4 kuwagoLeastSelling mx-3">
-                    <h6>Least Selling Products Here</h6>
-                </div>
-            </div>
-
-           <div class="container mt-2">
-            <div class="row">
-                <div class="col-lg-7 salesByCat">
-                    <h6>Sales By Category Here</h6>
-                </div>
-                <div class="col-lg-5 topSelling">Top Selling Products</div>
-            </div>
-           </div>
-            
-        </div>
-        <div class="col-lg-1"></div>
-    </div>
-</div>
-
-
-
-
-
-
-<script>
-    const totalCash = @json($totalCash);
-        const totalGcash = @json($totalGcash);
-
-        const xValues = ["Cash", "Gcash"];
-        const yValues = [totalCash, totalGcash];
-
-        const barColors = ["#b91d47", "#00aba9"];
-
-        new Chart("myChart1", {
-            type: "doughnut",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-            },
-            options: {
-                maintainAspectRatio: false, // Allow responsive resizing
-                plugins: {
-                    legend: {
-                        display: false // Hide legend
-                    },
-                    title: {
-                        display: false // Remove title
-                    }
-                }
-            }
-        });
 </script>
 
+<!-- TOP SELLING CHART -->
 <script>
-    var ctx = document.getElementById('myChart2').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
+    const topDishesCtx = document.getElementById('topDishesChart').getContext('2d');
+    const topDishesChart = new Chart(topDishesCtx, {
+        type: 'bar',
         data: {
-            labels: @json($chartdata->pluck('date')),
+            labels: @json($topDishes->pluck('dish')),
             datasets: [{
-                label: 'Sales',
-                data: @json($chartdata->pluck('sales')),
-                borderColor: 'green',
-                borderWidth: 5,
-                fill: 'origin'
+                label: 'Order Quantity',
+                data: @json($topDishes->pluck('total_pcs')),
+                backgroundColor: ['#df9f14','#cdad69','#dcffef','#4ff6a7','#205d40'],
+                borderColor: ['#df9f14','#cdad69','#dcffef','#4ff6a7','#205d40'],
+                borderWidth: 1,
+                categoryPercentage: 0.95,
+                barPercentage: 0.95,
             }]
         },
         options: {
+            indexAxis: 'y',
+            aspectRatio: 2.4,
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 25,
+                    top: 10,
+                    bottom: 10
+                },
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'white' // Set Y-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family:'Poppins',
+                        },
+                        callback: function(value, index) {
+                            // Truncate long labels
+                            const labels = @json($topDishes->pluck('dish'));
+                            const maxLabelLength = 11;
+                            const label = labels[index] || '';
+                            return label.length > maxLabelLength ? label.substring(0, maxLabelLength) + '...' : label;
+                        }
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)' // Disable horizontal grid lines
+                        lineWidth: 0
                     }
                 },
                 x: {
                     ticks: {
-                        color: 'white' // Set X-axis text color to white
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family:'Poppins',
+                        }
+                        
                     },
                     grid: {
-                        display: false // Disable vertical grid lines
+                        color: 'rgba(255, 255, 255, 0.2)',
+                        lineWidth: 0.5
                     }
                 }
             },
             plugins: {
                 legend: {
+                    display: false,
                     labels: {
-                        color: 'white' // Set legend text color to white
+                        color: 'white'
                     }
                 },
                 tooltip: {
-                    bodyColor: 'white', // Tooltip text color
-                    titleColor: 'white', // Tooltip title color
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                    bodyColor: 'white',
+                    titleColor: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)'
                 }
             }
         }
     });
 </script>
-
-
-*/ ?>

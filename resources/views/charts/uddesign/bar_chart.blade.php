@@ -1,5 +1,13 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        const maxDataValue = Math.max(
+            ...@json($chartdata->pluck('print_sales')),
+            ...@json($chartdata->pluck('print_profit')),
+            ...@json($chartdata->pluck('print_expenses'))
+        );
+
+        const dynamicMax = Math.ceil(maxDataValue * 1.1);
+
         var ctx = document.getElementById('PrintingChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -8,31 +16,93 @@
                 datasets: [{
                     label: 'Sales',
                     data: @json($chartdata->pluck('print_sales')),
-                    backgroundColor: 'rgba(0, 128, 0, 0.5)', // Use rgba for transparency
-                    borderColor: 'rgba(0, 128, 0, 1)',
+                    backgroundColor: 'rgb(32, 93, 64)',
                     borderWidth: 1,
-                },{
+                    borderRadius: 5,
+                    fill: 'origin'
+                }, {
                     label: 'Profit',
                     data: @json($chartdata->pluck('print_profit')),
-                    backgroundColor: 'rgba(255, 255, 0, 0.5)',
-                    borderColor: 'rgba(255, 255, 0, 1)',
-                    borderWidth: 1,
-                },{
+                    backgroundColor: 'rgb(223, 159, 20)',
+                    fill: 'origin',
+                    borderRadius: 5
+                }, {
                     label: 'Expenses',
                     data: @json($chartdata->pluck('print_expenses')),
-                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                    borderColor: 'rgba(255, 255, 255, 1)',
+                    backgroundColor: 'rgb(217, 217, 217)',
                     borderWidth: 1,
+                    fill: 'origin',
+                    borderRadius: 5
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+            aspectRatio: 0.5,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 15,
+                    top: 5,
+                    bottom: 5,
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 9.5,
+                            family: 'Poppins',
+                        }
+                    },
+                    grid: {
+                        color: 'white',
+                        lineWidth: 0.1
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family: 'Poppins',
+                        },
+                        callback: function(value, index) {
+                            // Truncate long labels
+                            const labels = @json($chartdata->pluck('date'));
+                            const maxLabelLength = 5;
+                            const label = labels[index] || '';
+                            return label.length > maxLabelLength ? label.substring(0, maxLabelLength) + '...' : label;
+                        }
+                    },
+                    grid: {
+                        lineWidth: 0
                     }
                 }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 10,          
+                            family: 'Poppins',    
+                            },  
+                        color: 'white',
+                        usePointStyle: true, 
+                        pointStyle: 'rect'
+                    }
+                },
+                tooltip: {
+                    bodyColor: 'white',
+                    titleColor: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                }
             }
+        }
         });
+
+        // MERCH CHART
         var ctx = document.getElementById('MerchChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -41,30 +111,90 @@
                 datasets: [{
                     label: 'Sales',
                     data: @json($chartdata->pluck('merch_sales')),
-                    backgroundColor: 'rgba(0, 128, 0, 0.5)', // Use rgba for transparency
-                    borderColor: 'rgba(0, 128, 0, 1)',
+                    backgroundColor: 'rgb(32, 93, 64)',
                     borderWidth: 1,
-                },{
+                    borderRadius: 5,
+                    fill: 'origin'
+                }, {
                     label: 'Profit',
                     data: @json($chartdata->pluck('merch_profit')),
-                    backgroundColor: 'rgba(255, 255, 0, 0.5)',
-                    borderColor: 'rgba(255, 255, 0, 1)',
-                    borderWidth: 1,
-                },{
+                    backgroundColor: 'rgb(223, 159, 20)',
+                    fill: 'origin',
+                    borderRadius: 5
+                }, {
                     label: 'Expenses',
                     data: @json($chartdata->pluck('merch_expenses')),
-                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                    borderColor: 'rgba(255, 255, 255, 1)',
+                    backgroundColor: 'rgb(217, 217, 217)',
                     borderWidth: 1,
+                    fill: 'origin',
+                    borderRadius: 5
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+            aspectRatio: 0.5,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 15,
+                    top: 5,
+                    bottom: 5,
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 9.5,
+                            family: 'Poppins',
+                        }
+                    },
+                    grid: {
+                        color: 'white',
+                        lineWidth: 0.1
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family: 'Poppins',
+                        },
+                        callback: function(value, index) {
+                            // Truncate long labels
+                            const labels = @json($chartdata->pluck('date'));
+                            const maxLabelLength = 5;
+                            const label = labels[index] || '';
+                            return label.length > maxLabelLength ? label.substring(0, maxLabelLength) + '...' : label;
+                        }
+                    },
+                    grid: {
+                        lineWidth: 0
                     }
                 }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 10,          
+                            family: 'Poppins',    
+                            },  
+                        color: 'white',
+                        usePointStyle: true, 
+                        pointStyle: 'rect'
+                    }
+                },
+                tooltip: {
+                    bodyColor: 'white',
+                    titleColor: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                }
             }
+        }
         });
     });
     

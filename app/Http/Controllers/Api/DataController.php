@@ -10,6 +10,7 @@ use App\Models\KuwagoOneReport;
 use App\Models\KuwagoTwoReport;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use App\Models\KuwagoOne\KuwagoOneOrder;
 use App\Models\KuwagoOne\KuwagoOneDishes;
 use App\Models\KuwagoTwo\KuwagoTwoDishes;
 use App\Models\Uddesign\UddesignMerchType;
@@ -44,6 +45,7 @@ class DataController extends Controller
                 break;
             case 'kuwago_one':
                 $this->Kuwago_One_Refresh_Data($request);
+                $this->refreshOrders($request, 'kuwago_one_api_token', env('KUWAGO_ONE_API_URL', ''), KuwagoOneOrder::class);
                 $this->refreshOrderDetails($request, 'kuwago_one_api_token', env('KUWAGO_ONE_API_URL', ''), KuwagoOneOrderDetails::class);
                 $this->refreshExpenseDetails($request, 'kuwago_one_api_token', env('KUWAGO_ONE_API_URL', ''), KuwagoOneExpenseDetail::class);
                 break;
@@ -146,6 +148,7 @@ class DataController extends Controller
                 'cash' => $report['cash'],
                 'gcash' => $report['gcash'],
                 'sales' => $report['total_remittance'],
+                'expenses' => $report['total_purchases'],
                 'date' => $report['date'],
             ];
         });
@@ -248,6 +251,27 @@ class DataController extends Controller
                 'dish_id' => $orderDetail['dish_id'],
                 'pcs' => $orderDetail['pcs'],
                 'date' => Carbon::parse($orderDetail['date'])->format('Y-m-d H:i:s'),
+            ];
+        });
+
+        return redirect()
+            ->back()
+            ->with('success', 'Order Details refreshed successfully!');
+    }
+
+    public function refreshOrders(Request $request, $tokenKey, $baseUrl, $model)
+    {
+        $apiToken = $request->session()->get($tokenKey);
+        if (!$apiToken) {
+            return redirect()
+                ->back()
+                ->with('failed', 'API token not found in session.');
+        }
+
+        $this->fetchAndInsertDataInBatches($apiToken, $baseUrl, '/api/orders', $model, function ($order) {
+            return [
+                'order_id' => $order['id'],
+                'date' => Carbon::parse($order['date'])->format('Y-m-d'),
             ];
         });
 

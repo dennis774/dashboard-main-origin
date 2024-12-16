@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Uddesign;
 
 use App\Models\Deal;
 use Illuminate\Http\Request;
+use App\Models\UddesignBudget;
 use App\Models\UddesignReport;
 use Illuminate\Support\Carbon;
 use App\Models\UddesignFeedback;
+use App\Models\UddesignTargetSale;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Uddesign\UddesignMerchDetail;
@@ -16,7 +18,7 @@ use App\Models\Uddesign\UddesignExpenseDetail;
 class UddesignController extends Controller
 {
     // Handles the dashboard view for /uddesign
-    public function general_uddesign(Request $request)
+    public function general_uddesign(Request $request, $uddesignTarget = null)
     {
         $fields = ['total_sales', 'print_sales', 'merch_sales', 'custom_sales', 'total_expenses', 'print_expenses', 'merch_expenses', 'custom_expenses'];
 
@@ -50,14 +52,27 @@ class UddesignController extends Controller
         $totalProfit = $chartdata->sum('total_profit');
         $totalExpenses = $chartdata->sum('total_expenses');
 
+        // Fetch financial target sales
+        $financialTargetSales = null;
+        $financialTotalSales = 0;
+        if (!$uddesignTarget) {
+            $financialTargetSales = UddesignTargetSale::where('is_displayed', true)->first();
+            if ($financialTargetSales) {
+                $financialStartDate = $financialTargetSales->start_date;
+                $financialEndDate = $financialTargetSales->end_date;
+                $financialTotalSales = UddesignReport::whereBetween('date', [$financialStartDate, $financialEndDate])->sum('total_sales');
+            }
+        }
+
         $actionRoute = route('general.uddesign.dashboard');
         $totals = compact('totalSales', 'totalProfit', 'totalExpenses');
         $print = compact('totalPrintSales', 'totalPrintProfit', 'totalPrintExpenses');
         $merch = compact('totalMerchSales', 'totalMerchProfit', 'totalMerchExpenses');
         $custom = compact('totalCustomSales', 'totalCustomProfit', 'totalCustomExpenses');
 
-        return view('general.uddesign.dashboard', array_merge(compact('actionRoute', 'chartdata'), $totals, $print, $merch, $custom));
+        return view('general.uddesign.dashboard', array_merge(compact('actionRoute', 'chartdata', 'financialTargetSales', 'financialTotalSales'), $totals, $print, $merch, $custom));
     }
+
 
     // Handles the sales view for /kuwago-two/sales
     public function chart_sales_uddesign(Request $request)
@@ -86,7 +101,30 @@ class UddesignController extends Controller
     }
 
     // Handles the expenses view for /kuwago-two/expenses
-    public function chart_expenses_uddesign(Request $request)
+    // public function chart_expenses_uddesign(Request $request)
+    // {
+    //     $fields = ['total_expenses', 'print_expenses', 'merch_expenses', 'custom_expenses'];
+
+    //     $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
+    //     $groupByField = $this->getGroupByField($interval);
+    //     $data = $this->generateChartData($request, $fields, $groupByField, UddesignReport::class);
+
+    //     $chartdata = $data['chartdata'];
+    //     $chartExpenseData = $data['chartExpenseData'];
+    //     $expenseData = $data['expenseData'];
+    //     $totalExpenseAmount = $data['totalExpenseAmount'];
+    //     // dd($expenseData);
+    //     $totalExpenses = $chartdata->sum('total_expenses');
+    //     $totalPrintExpenses = $chartdata->sum('print_expenses');
+    //     $totalMerchExpenses = $chartdata->sum('merch_expenses');
+    //     $totalCustomExpenses = $chartdata->sum('custom_expenses');
+
+    //     $actionRoute = route('general.uddesign.expenses');
+
+    //     return view('general.uddesign.expenses', compact('actionRoute', 'chartdata', 'totalExpenses', 'totalPrintExpenses', 'totalMerchExpenses', 'totalCustomExpenses', 'chartExpenseData', 'expenseData', 'totalExpenseAmount'));
+    // }
+
+    public function chart_expenses_uddesign(Request $request, $uddesignBudget = null)
     {
         $fields = ['total_expenses', 'print_expenses', 'merch_expenses', 'custom_expenses'];
 
@@ -98,16 +136,38 @@ class UddesignController extends Controller
         $chartExpenseData = $data['chartExpenseData'];
         $expenseData = $data['expenseData'];
         $totalExpenseAmount = $data['totalExpenseAmount'];
-        // dd($expenseData);
         $totalExpenses = $chartdata->sum('total_expenses');
         $totalPrintExpenses = $chartdata->sum('print_expenses');
         $totalMerchExpenses = $chartdata->sum('merch_expenses');
         $totalCustomExpenses = $chartdata->sum('custom_expenses');
 
+        if (!$uddesignBudget) {
+            $budgetAllocation = UddesignBudget::where('is_displayed', true)->first();
+        }
+        // Fetch the financial target dates
+        $budgetStartDate = $budgetAllocation->start_date;
+        $budgetEndDate = $budgetAllocation->end_date;
+
+        // Fetch total budget allocation
+        $budgetExpenses = UddesignReport::whereBetween('date', [$budgetStartDate, $budgetEndDate])->sum('total_expenses');
+
         $actionRoute = route('general.uddesign.expenses');
 
-        return view('general.uddesign.expenses', compact('actionRoute', 'chartdata', 'totalExpenses', 'totalPrintExpenses', 'totalMerchExpenses', 'totalCustomExpenses', 'chartExpenseData', 'expenseData', 'totalExpenseAmount'));
+        return view('general.uddesign.expenses', compact(
+            'actionRoute',
+            'chartdata',
+            'totalExpenses',
+            'totalPrintExpenses',
+            'totalMerchExpenses',
+            'totalCustomExpenses',
+            'chartExpenseData',
+            'expenseData',
+            'totalExpenseAmount',
+            'budgetAllocation',
+            'budgetExpenses'
+        ));
     }
+
 
     // This method changes the format of the date for display purposes, ensuring the date is presented correctly based on the interval.
     private function formatDate($interval, $period)
@@ -178,7 +238,7 @@ class UddesignController extends Controller
         }
     }
 
-    private function generateChartData(Request $request, array $fields, $groupByField, $model)
+    private function generateChartData(Request $request, array $fields, $groupByField, $model, $uddesignTarget = null, $uddesignBudget = null)
     {
         $interval = str_replace('_', '', $request->input('interval', 'thisweek'));
         $dates = $this->getDateRange($interval, $request, UddesignReport::class, 'date');
@@ -233,10 +293,12 @@ class UddesignController extends Controller
             ->selectRaw('uddesign_expense_types.name as expenseType, uddesign_expense_details.price')
             ->groupBy('uddesign_expense_types.name', 'uddesign_expense_details.price')
             ->get();
-    
+
         // Calculate total of the amount
         $totalExpenseAmount = $expenseData->sum('price');
 
+        // Calculate total of the amount
+        $totalExpenseAmount = $chartExpenseData->sum('total_amount');
 
         return [
             'chartdata' => $chartdata,
@@ -257,8 +319,15 @@ class UddesignController extends Controller
 
     public function uddeals(Request $request)
     {
-        $sort = $request->get('sort', 'newest');
-        $deals = Deal::orderBy('created_at', $sort === 'newest' ? 'desc' : 'asc')->get();
+    $sort = $request->get('sort', 'newest');
+    $deals = Deal::with('items') // Load the related items of each deal
+        ->when($sort === 'newest', function ($query) {
+            return $query->orderBy('created_at', 'desc');
+        })
+        ->when($sort === 'oldest', function ($query) {
+            return $query->orderBy('created_at', 'asc');
+        })
+        ->get();
 
         return view('general.uddesign.uddeals', compact('deals'));
     }
