@@ -302,7 +302,7 @@
             pdf.text(15, 245, 'Date Created: ');
             pdf.text(15, 260, 'Prepared By: ');
             pdf.text(15, 275, 'Approved By: ');
-            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB');
 
             pdf.save('executive_totals.pdf');
 
@@ -509,7 +509,7 @@
             pdf.text(15, 245, 'Date Created: ');
             pdf.text(15, 260, 'Prepared By: ');
             pdf.text(15, 275, 'Approved By: ');
-            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB');
 
             pdf.save('ud_dashboard_totals.pdf');
 
@@ -604,7 +604,7 @@
             pdf.text(15, 245, 'Date Created: ');
             pdf.text(15, 260, 'Prepared By: ');
             pdf.text(15, 275, 'Approved By: ');
-            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB');
 
             pdf.save('ud_expenses_totals.pdf');
             
@@ -713,7 +713,7 @@
             pdf.text(15, 245, 'Date Created: ');
             pdf.text(15, 260, 'Prepared By: ');
             pdf.text(15, 275, 'Approved By: ');
-            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB');
 
             pdf.save('ud_sales_totals.pdf');
             
@@ -805,7 +805,7 @@
             pdf.text(15, 245, 'Date Created: ');
             pdf.text(15, 260, 'Prepared By: ');
             pdf.text(15, 275, 'Approved By: ');
-            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB');
 
             pdf.save('dashboard_totals.pdf');
 
@@ -912,7 +912,7 @@
             pdf.text(15, 245, 'Date Created: ');
             pdf.text(15, 260, 'Prepared By: ');
             pdf.text(15, 275, 'Approved By: ');
-            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB');
 
             pdf.save('sales_totals.pdf');
 
@@ -1009,7 +1009,7 @@
             pdf.text(15, 245, 'Date Created: ');
             pdf.text(15, 260, 'Prepared By: ');
             pdf.text(15, 275, 'Approved By: ');
-            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB Dean, SITE');
+            pdf.text(25, 282, 'Jann Alfred A. Quinto, MSIB');
 
             pdf.save('expenses_totals.pdf');
 

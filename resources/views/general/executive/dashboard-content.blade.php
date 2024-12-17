@@ -162,7 +162,7 @@
                 <div class="row d-flex w-100 h-100 pe-0 justify-content-center align-items-start">
                     {{-- <span class="d-flex align-items-center justify-content-center h-100 fst-italic fw-light text-white opacity-50">No forecasts found.</span> --}}
                     
-                    {{-- AI FORECAST --}}
+                    <!-- {{-- AI FORECAST --}}
                     <ul class="text-start ps-1 h-100 mb-0 overflow-y-scroll weather-column" id="ai-forecast" style="font-size: 0.75rem; text-align: justify; text-justify: auto; display:block;">
                         {{-- FORECAST ITEMS --}}
                         <li class="ms-3 mb-2">
@@ -184,10 +184,10 @@
                         <li class="ms-3 mb-2">
                             Sales Projected to increase by 5% tomorrow due to good weather condition
                         </li>
-                    </ul>
+                    </ul> -->
 
                     {{-- WEATHER FORECAST --}}
-                    <div class="text-start p-0 h-100 mb-0 overflow-y-scroll weather-column" id="weather-forecast" style="font-size: 0.75rem; text-align: justify; text-justify: auto; display: none;">
+                    <div class="text-start p-0 h-100 mb-0 overflow-y-scroll weather-column" id="weather-forecast" style="font-size: 0.75rem; text-align: justify; text-justify: auto; display: block;">
                         {{-- FORECAST ITEMS --}}
                         <div class="col-12 pb-3 d-flex flex-row">
                             {{-- CLOUD ICON --}}
@@ -362,19 +362,19 @@
                 </div>
             </div>
 
-            
+<!--             
             {{-- CHECK WEATHER --}}
             <div class="row d-flex w-100 px-1 pb-0 align-items-end justify-content-end" id="check-weather-btn" style="height: 10%">
                 <a href="#" class="text-white text-end opacity-75" id="check-btn" style="font-size: 0.75rem; display:block;">Check Weather</a>
                 <a href="#" class="text-white text-end opacity-75" id="back-btn" style="font-size: 0.75rem; display:none;">Back</a>
-            </div>
+            </div> -->
 
         </div>
         <!-- END RIGHT COLUMN -->
     </div>
 </div>
 
-{{-- SCRIPT FOR FORECASTS DIVS --}}
+<!-- {{-- SCRIPT FOR FORECASTS DIVS --}}
 <script>
     const aiForecastDiv = document.getElementById('ai-forecast');
     const weatherDiv = document.getElementById('weather-forecast');
@@ -398,7 +398,7 @@
         backButton.style.display = 'none';
 
     });
-</script>
+</script> -->
 
 {{-- SCRIPT FOR CHARTS --}}
 <script>
