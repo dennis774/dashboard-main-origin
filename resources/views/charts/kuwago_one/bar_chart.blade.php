@@ -95,7 +95,7 @@
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
                 },
                 bgColor:{
-                    backgroundColor: 'gray',
+                    backgroundColor: 'rgba(224, 224, 224, 0.8)',
                     applyBackground: false
                 }
             }

@@ -111,7 +111,7 @@
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
                 },
                 bgColor:{
-                    backgroundColor: 'rgb(210, 210, 210)',
+                    backgroundColor: 'rgba(224, 224, 224, 0.8)',
                     applyBackground: false
                 }
             }
@@ -211,7 +211,7 @@
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
                 },
                 bgColor:{
-                    backgroundColor: 'rgb(210, 210, 210)',
+                    backgroundColor: 'rgba(224, 224, 224, 0.8)',
                     applyBackground: false
                 }
             }
