@@ -24,7 +24,7 @@ class BudgetAllocationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'business_type' => 'required|string',
+            // 'business_type' => 'required|string',
             'amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -47,7 +47,7 @@ class BudgetAllocationController extends Controller
     public function update(Request $request, BudgetAllocation $budgetAllocation)
     {
         $request->validate([
-            'business_type' => 'required|string',
+            // 'business_type' => 'required|string',
             'amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',

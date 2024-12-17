@@ -9,6 +9,3 @@
 @section('scripts')
 
 @endsection
-
-
-

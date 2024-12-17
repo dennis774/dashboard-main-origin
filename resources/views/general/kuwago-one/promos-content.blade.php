@@ -59,12 +59,8 @@
                             <span class="text-start fw-bold promo-date-text" style="font-size: 0.7rem;">Eligible Products</span>
                         </div>
                         <div class="row d-flex w-100 justify-content-center overflow-y-scroll weather-column">
-                            @php
-                                $dishes = is_string($promo->dishes_available) ? json_decode($promo->dishes_available, true) : $promo->dishes_available;
-                            @endphp
-                            @foreach ($dishes as $dish)
-                                <span class="text-start promo-date-text"> {{$dish}} </span>
-                            @endforeach
+                            <span class="text-start promo-date-text">{{ $promo->dishes_available }}</span>
+
                         </div>
                             
                     </div>

@@ -7,11 +7,20 @@ use Illuminate\Http\Request;
 class DealController extends Controller
 {
     // Display all deals
-    public function index()
-{
-    $deals = Deal::with('dealItems')->orderBy('created_at', 'desc')->get();
-    return view('general.uddesign.uddeals', compact('deals'));
-}
+    public function index(Request $request)
+    {
+        $sort = $request->get('sort', 'newest');
+        $deals = Deal::with('items') // Load the related items of each deal
+            ->when($sort === 'newest', function ($query) {
+                return $query->orderBy('created_at', 'desc');
+            })
+            ->when($sort === 'oldest', function ($query) {
+                return $query->orderBy('created_at', 'asc');
+            })
+            ->get();
+    
+            return view('general.uddesign.uddeals', compact('deals'));
+    }
 
 
     

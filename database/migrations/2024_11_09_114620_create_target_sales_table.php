@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('target_sales', function (Blueprint $table) {
             $table->id();
-            $table->enum('business_type', ['UdDesign', 'Kuwago1', 'Kuwago2']);  // No default value set here
+            $table->enum('business_type', ['UdDesign', 'Kuwago1', 'Kuwago2'])->nullable();  // No default value set here
             $table->decimal('amount', 10, 2);
             $table->date('start_date');
             $table->date('end_date');

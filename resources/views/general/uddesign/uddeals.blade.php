@@ -1,4 +1,4 @@
-<!-- @extends('general.uddesign.index') 
+@extends('general.uddesign.index') 
 
 @section('content')
 

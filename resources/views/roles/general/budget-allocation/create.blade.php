@@ -104,7 +104,7 @@
                 <a href="{{ route('targetSales.index') }}"><i class="fa-solid fa-arrow-left backTarget"></i></a>
             </div>
             <div class="col-lg-4 mt-4 d-flex justify-content-center ">
-                <h3 class="targetHeader">Financial Targets</h3>
+                <h3 class="targetHeader">Kuwago Two Budget Allocation</h3>
             </div>
             <div class="col-lg-4 mt-4 d-flex justify-content-end ">
             </div>

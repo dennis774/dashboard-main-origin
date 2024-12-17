@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Edit Financial Targets</title>
+    <title>Edit Kuwago One Budget Allocation</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {{-- <link href="{{ url('assets/css/style1.css') }}" rel="stylesheet" /> --}}
     {{-- GOOGLE FONT - POPPINS --}}
@@ -102,7 +102,7 @@
                 <a href="{{url('/targetSales')}}"><i class="fa-solid fa-arrow-left backTarget"></i></a>
             </div>
             <div class="col-lg-4 mt-4 d-flex justify-content-center ">
-                <h3 class="targetHeader">Financial Targets</h3>
+                <h3 class="targetHeader">Edit Kuwago One Budget Allocation</h3>
             </div>
             <div class="col-lg-4 mt-4 d-flex justify-content-end ">
             </div>

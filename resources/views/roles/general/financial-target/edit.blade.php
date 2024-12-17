@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Edit Target Sales</title>
+    <title>Edit Kuwago One Target Sales</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {{-- <link href="{{ url('assets/css/style1.css') }}" rel="stylesheet" /> --}}
     <script src="{{ url('assets/js/chart.js') }}"></script>
@@ -95,7 +95,7 @@
                 <a href="{{url('/targetSales')}}"><i class="fa-solid fa-arrow-left backTarget"></i></a>
             </div>
             <div class="col-lg-4 mt-4 d-flex justify-content-center ">
-                <h3 class="targetHeader">Financial Targets</h3>
+                <h3 class="targetHeader">Edit Kuwago One Target Sales</h3>
             </div>
             <div class="col-lg-4 mt-4 d-flex justify-content-end ">
             </div>
@@ -106,14 +106,14 @@
                 <form action="{{ route('targetSales.update', $targetSale) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="form-group mb-3">
+                    <!-- <div class="form-group mb-3">
                         <label for="business_type">Business Type</label>
                         <select name="business_type" id="business_type" class="form-control" required>
                             <option value="UdDesign" {{ $targetSale->business_type == 'UdDesign' ? 'selected' : '' }}>UdDesign</option>
                             <option value="Kuwago1" {{ $targetSale->business_type == 'Kuwago1' ? 'selected' : '' }}>Kuwago1</option>
                             <option value="Kuwago2" {{ $targetSale->business_type == 'Kuwago2' ? 'selected' : '' }}>Kuwago2</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="form-group mb-3">
                         <label for="amount">Amount</label>
                         <input type="number" name="amount" id="amount" class="form-control" value="{{ $targetSale->amount }}" required>

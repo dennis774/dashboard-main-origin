@@ -136,7 +136,6 @@ class UddesignController extends Controller
         $chartExpenseData = $data['chartExpenseData'];
         $expenseData = $data['expenseData'];
         $totalExpenseAmount = $data['totalExpenseAmount'];
-
         $totalExpenses = $chartdata->sum('total_expenses');
         $totalPrintExpenses = $chartdata->sum('print_expenses');
         $totalMerchExpenses = $chartdata->sum('merch_expenses');
@@ -313,7 +312,6 @@ class UddesignController extends Controller
     }
 
 
-
     private function getGroupByField($interval)
     {
         return $interval === 'overall' ? 'YEAR(date)' : ($interval === 'thisyear' || $interval === 'lastyear' ? 'DATE_FORMAT(date, "%Y-%m")' : 'date');
@@ -321,8 +319,15 @@ class UddesignController extends Controller
 
     public function uddeals(Request $request)
     {
-        $sort = $request->get('sort', 'newest');
-        $deals = Deal::orderBy('created_at', $sort === 'newest' ? 'desc' : 'asc')->get();
+    $sort = $request->get('sort', 'newest');
+    $deals = Deal::with('items') // Load the related items of each deal
+        ->when($sort === 'newest', function ($query) {
+            return $query->orderBy('created_at', 'desc');
+        })
+        ->when($sort === 'oldest', function ($query) {
+            return $query->orderBy('created_at', 'asc');
+        })
+        ->get();
 
         return view('general.uddesign.uddeals', compact('deals'));
     }

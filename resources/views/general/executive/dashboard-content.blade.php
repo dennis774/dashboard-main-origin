@@ -143,7 +143,7 @@
                     <div class="row d-flex m-0 mt-3 w-100">
                         <div class="col-auto d-flex justify-content-center w-100">
                             <img src="{{ asset('assets/images/icons/wind-img-icon.png') }}" style="height: 20px;" alt="Wind Icon">
-                            <span class="ms-1" style="font-size: 0.85rem; letter-spacing: 1px;">Northwest, {{ round($jsonData1['current']['wind_speed_10m'], 2) }} km/hr</span>
+                            <span class="ms-1" style="font-size: 0.85rem; letter-spacing: 1px;">Windspeed, {{ round($jsonData1['current']['wind_speed_10m'], 2) }} km/hr</span>
                         </div>
                     </div>
                     
@@ -431,7 +431,7 @@
                 }, {
                     label: 'Predicted',
                     // AI PREDICTION DATA HERE
-                    data: [@json($chartData['Uddesign']['sales']), @json($chartData['Kuwago1']['sales']), @json($chartData['Kuwago2']['sales'])],
+                    data: [@json($prediction_data[0]['Total Sales Prediction']), @json($prediction_data[1]['Total Sales Prediction']),, @json($prediction_data[2]['Total Sales Prediction']),],
                     backgroundColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'], 
                     borderColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'],
                     borderWidth: 1,
@@ -510,7 +510,7 @@
                 }, {
                     label: 'Predicted',
                     // AI PREDICTION DATA HERE
-                    data: [@json($chartData['Uddesign']['profit']), @json($chartData['Kuwago1']['profit']), @json($chartData['Kuwago2']['profit'])],
+                    data: [ @json($prediction_data[0]['Total Profit Prediction']), @json($prediction_data[1]['Total Profit Prediction']), @json($prediction_data[2]['Total Profit Prediction']),],
                     backgroundColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'], 
                     borderColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'],
                     borderWidth: 1,
@@ -589,7 +589,7 @@
                 }, {
                     label: 'Predicted',
                     // AI PREDICTION DATA HERE
-                    data: [@json($chartData['Uddesign']['expenses']), @json($chartData['Kuwago1']['expenses']), @json($chartData['Kuwago2']['expenses'])],
+                    data: [@json($prediction_data[0]['Total Expenses Prediction']),  @json($prediction_data[1]['Total Expenses Prediction']),  @json($prediction_data[2]['Total Expenses Prediction']),],
                     backgroundColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'], 
                     borderColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'],
                     borderWidth: 1,

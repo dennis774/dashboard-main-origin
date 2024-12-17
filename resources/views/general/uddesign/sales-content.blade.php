@@ -110,6 +110,14 @@
 
 {{-- DONUT CHART --}}
 <script>
+    // Doughnut Chart: Cash vs Gcash
+    const totalCash = @json($totalCash);
+    const totalGcash = @json($totalGcash);
+
+    const xValues = ["Cash", "Gcash"];
+    const yValues = [totalCash, totalGcash];
+    const barColors = ["#b91d47", "#00aba9"];
+
     const bgColor = {
         id: 'bgColor',
         beforeDraw: (Chart, steps, options) => {
@@ -379,8 +387,8 @@
             datasets: [{
                 label: 'Products Sold',
                 data: @json($chartCategoryData->pluck('total_pcs')),
-                backgroundColor: 'rgba(108, 229, 232, 1)',
-                borderColor: 'rgba(108, 229, 232, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
         },
@@ -394,6 +402,64 @@
                     bottom: 10
                 },
             },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'white' // Set Y-axis text color to white
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)' // Set horizontal grid line color
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'white' // Set X-axis text color to white
+                    },
+                    grid: {
+                        display: false // Disable vertical grid lines
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white' // Set legend text color to white
+                    }
+                },
+                tooltip: {
+                    bodyColor: 'white', // Tooltip text color
+                    titleColor: 'white', // Tooltip title color
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                },
+                bgColor:{
+                    backgroundColor: 'rgb(177, 177, 177)',
+                    applyBackground: false
+                }
+            }
+        },
+        plugins: [bgColor]
+    });
+</script>
+
+
+<!-- TOP SELLING -->
+<script>
+    const topDishesCtx = document.getElementById('topDishesChart').getContext('2d');
+    const topDishesChart = new Chart(topDishesCtx, {
+        type: 'bar',
+        data: {
+            labels: @json($topMerches->pluck('merch')),
+            datasets: [{
+                label: 'Total PCS',
+                data: @json($topMerches->pluck('total_pcs')),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Display bar chart with y-axis representation
             scales: {
                 y: {
                     beginAtZero: true,
@@ -423,105 +489,12 @@
                         }
                     },
                     grid: {
-                        lineWidth: 0,
+                        display: false
                     }
                 }
             },
             plugins: {
                 legend: {
-                    display: false,
-                },
-                tooltip: {
-                    bodyColor: 'white',
-                    titleColor: 'white',
-                    titleFont: {
-                        size: 12,
-                    },
-                    bodyFont: {
-                        size: 10,
-                        family: 'Poppins'
-                    },
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)'
-                    
-                },
-                bgColor:{
-                    backgroundColor: 'rgb(210, 210, 210)',
-                    applyBackground: false
-                }
-            }
-        },
-        plugins:[bgColor]
-    });
-</script>
-
-
-<!-- TOP SELLING -->
-<script>
-    const topDishesCtx = document.getElementById('topDishesChart').getContext('2d');
-    const topDishesChart = new Chart(topDishesCtx, {
-        type: 'bar',
-        data: {
-            labels: @json($topMerches->pluck('merch')),
-            datasets: [{
-                label: 'Order Quantity',
-                data: @json($topMerches->pluck('total_pcs')),
-                backgroundColor: ['#df9f14','#cdad69','#dcffef','#4ff6a7','#205d40'],
-                borderColor: ['#df9f14','#cdad69','#dcffef','#4ff6a7','#205d40'],
-                borderWidth: 1,
-                categoryPercentage: 0.95,
-                barPercentage: 0.95,
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            aspectRatio: 2.4,
-            layout: {
-                padding: {
-                    left: 5,
-                    right: 25,
-                    top: 10,
-                    bottom: 10
-                },
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        color: 'white',
-                        font: {
-                            size: 9,
-                            family:'Poppins',
-                        },
-                        callback: function(value, index) {
-                            // Truncate long labels
-                            const labels = @json($topMerches->pluck('merch'));
-                            const maxLabelLength = 11;
-                            const label = labels[index] || '';
-                            return label.length > maxLabelLength ? label.substring(0, maxLabelLength) + '...' : label;
-                        }
-                    },
-                    grid: {
-                        lineWidth: 0
-                    }
-                },
-                x: {
-                    ticks: {
-                        color: 'white',
-                        font: {
-                            size: 9,
-                            family:'Poppins',
-                        }
-                        
-                    },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.2)',
-                        lineWidth: 0.5
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false,
                     labels: {
                         color: 'white'
                     }
@@ -532,7 +505,7 @@
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
                 },
                 bgColor:{
-                    backgroundColor: 'rgb(210, 210, 210)',
+                    backgroundColor: 'rgb(177, 177, 177)'   ,
                     applyBackground: false
                 }
             }

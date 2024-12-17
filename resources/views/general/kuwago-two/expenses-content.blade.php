@@ -123,6 +123,10 @@
 </div>
 
 
+
+
+{{-- EXPENSE TREND CHART SCRIPT --}}
+
 {{-- SCRIPT FOR HALF DONUT CHART --}}
 <script>
 const bgColor = {

@@ -95,13 +95,24 @@
                                 <div class="card-title d-flex mb-0 align-items-center">
                                     <h5 class="card-title mb-0 ms-2 db-card-title">Target Sales</h5>
                                 </div>
+                                <div class="col-12 d-flex h-100 w-100 px-3 column-gap-2 align-items-center" style="max-height: 70%;">
+                                    <div class="col-7 align-self-middle text-start lh-1 dashboard-total-text">
+
+                                    @if ($financialTargetSales)
+                                        {{$financialTargetSales->amount}}<br>
+                                        <span style="font-size: 0.65rem; font-weight: normal;">{{ $financialTargetSales->start_date }} - {{ $financialTargetSales->end_date }}</span>
+                                    @else
+                                        <p>No target sale found for display.</p>
+                                        <span style="font-size: 8px;">No target sale found for display.</span>
+                                    @endif
+                                    
+                                    </div>
+                                    
+                                </div>
                             </div>
-                        </div>
-                        <!-- DB CARD CONTENT -->
-                        <div class="row d-flex flex-grow-1 w-100 px-3 pb-3 column-gap-3 align-items-center">
-                            <div class="col-7 align-self-middle text-start dashboard-total-text">
-                            </div>
-                            <div class="col bg-success">
+                            {{-- TARGET SALES CHART --}}
+                            <div class="col-5 d-flex justify-content-center align-items-center h-100" style="max-width: 80%;">
+                                <canvas id="gaugeChart" width="400" height="200"></canvas>
                             </div>
                         </div>
                     </div>
@@ -157,80 +168,30 @@
                                     </div>
                                     <!-- DROPDOWN DATE LIST -->
                                     <div class="col-auto d-flex flex-column align-self-start rounded-bottom-2 left-dropdown-menu hidden" id="left-dropdown-menu" style="width: 75%;">
-
-                                        <!-- ALL TIME / YESTERDAY -->
-                                        <div class="col-12 d-flex mt-1">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="all-time">All Time</label>
-                                                <input type="radio" class="left-date-option" id="all-time" name="left-compare-date" value="left-all-time">
-                                            </div>
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="yesterday">Yesterday</label>
-                                                <input type="radio" class="left-date-option" id="yesterday" name="left-compare-date" value="left-yesterday">
-                                            </div>
-                                        </div>
-
-                                        <!-- TODAY / THIS WEEK -->
-                                        <div class="col-12 d-flex">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="today">Today</label>
-                                                <input type="radio" class="left-date-option" id="today" name="left-compare-date" value="left-today">
-                                            </div>
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="this-week">This Week</label>
-                                                <input type="radio" class="left-date-option" id="this-week" name="left-compare-date" value="left-this-week">
-                                            </div>
-
-                                        </div>
-
-                                        <!-- LAST 3 DAYS / LAST WEEK -->
-                                        <div class="col-12 d-flex">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="last-3-days">Last 3 Days</label>
-                                                <input type="radio" class="left-date-option" id="last-3-days" name="left-compare-date" value="left-last-3-days">
-                                            </div>
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="last-week">Last Week</label>
-                                                <input type="radio" class="left-date-option" id="last-week" name="left-compare-date" value="left-last-week">
-                                            </div>
-
-                                        </div>
-
-                                        <!-- LAST 5 DAYS / THIS MONTH -->
-                                        <div class="col-12 d-flex">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="last-5-days">Last 5 Days</label>
-                                                <input type="radio" class="left-date-option" id="last-5-days" name="left-compare-date" value="left-last-5-days">
-                                            </div>
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="this-month">This Month</label>
-                                                <input type="radio" class="left-date-option" id="this-month" name="left-compare-date" value="left-this-month">
-                                            </div>
-                                        </div>
-
-                                        <!-- LAST 7 DAYS / LAST MONTH -->
-                                        <div class="col-12 d-flex">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="last-7-days">Last 7 Days</label>
-                                                <input type="radio" class="left-date-option" id="last-7-days" name="left-compare-date" value="left-last-7-days">
-                                            </div>
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="last-month">Last Month</label>
-                                                <input type="radio" class="left-date-option" id="last-month" name="left-compare-date" value="left-last-month">
-                                            </div>
-                                        </div>
-                                        <!-- THIS YEAR / LAST YEAR -->
-                                        <div class="col-12 d-flex mb-1">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="this-year">This Year</label>
-                                                <input type="radio" class="left-date-option" id="this-year" name="left-compare-date" value="left-this-year">
-                                            </div>
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 left-date-item" for="last-year">Last Year</label>
-                                                <input type="radio" class="left-date-option" id="last-year" name="left-compare-date" value="left-last-year">
-                                            </div>
+                                    <!-- THIS WEEK -->
+                                    <div class="col-12 d-flex">
+                                        <div class="col-12 p-0">
+                                            <label class="py-1 w-100 left-date-item" for="this-week">This Week</label>
+                                            <input type="radio" class="left-date-option" id="this-week" name="left-compare-date" value="left-this-week">
                                         </div>
                                     </div>
+
+                                    <!-- THIS MONTH -->
+                                    <div class="col-12 d-flex">
+                                        <div class="col-12 p-0">
+                                            <label class="py-1 w-100 left-date-item" for="this-month">This Month</label>
+                                            <input type="radio" class="left-date-option" id="this-month" name="left-compare-date" value="left-this-month">
+                                        </div>
+                                    </div>
+
+                                    <!-- THIS YEAR -->
+                                    <div class="col-12 d-flex mb-1">
+                                        <div class="col-12 p-0">
+                                            <label class="py-1 w-100 left-date-item" for="this-year">This Year</label>
+                                            <input type="radio" class="left-date-option" id="this-year" name="left-compare-date" value="left-this-year">
+                                        </div>
+                                    </div>
+                                </div>
 
                                 </div>
 
@@ -350,7 +311,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">{{$thisWeekProfit}}</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{number_format($thisWeekProfit,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -358,7 +319,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">{{$thisWeekSales}}</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{number_format($thisWeekSales,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -366,7 +327,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">{{$thisWeekExpenses}}</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{number_format($thisWeekExpenses,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -374,7 +335,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">{{$thisWeekOrders}}</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{number_format($thisWeekOrders)}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -494,7 +455,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">{{$thisMonthProfit}}</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{number_format($thisMonthProfit,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -502,7 +463,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">{{$thisMonthSales}}</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{number_format($thisMonthSales,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -510,7 +471,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">{{$thisMonthExpenses}}</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{number_format($thisMonthExpenses,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -518,7 +479,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">{{$thisMonthOrders}}</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{number_format($thisMonthOrders)}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -602,7 +563,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">{{$thisYearProfit}}</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{number_format($thisYearProfit,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -610,7 +571,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">{{$thisYearSales}}</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{number_format($thisYearSales,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -618,7 +579,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">{{$thisYearExpenses}}</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{number_format($thisYearExpenses,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -626,7 +587,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">{{$thisYearOrders}}</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{number_format($thisYearOrders,2)}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -689,76 +650,23 @@
                                     </div>
                                     <!-- DROPDOWN DATE LIST -->
                                     <div class="col-auto d-flex flex-column align-self-start rounded-bottom-2 right-dropdown-menu hidden" id="right-dropdown-menu" style="width: 75%;">
-
-                                        <!-- ALL TIME / YESTERDAY -->
-                                        <div class="col-12 d-flex mt-1">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 right-date-item" for="all-time-right">All Time</label>
-                                                <input type="radio" class="right-date-option" id="all-time-right" name="right-compare-date" value="right-all-time">
-                                            </div>
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 right-date-item" for="yesterday-right">Yesterday</label>
-                                                <input type="radio" class="right-date-option" id="yesterday-right" name="right-compare-date" value="right-yesterday">
-                                            </div>
-                                        </div>
-
-                                        <!-- TODAY / THIS WEEK -->
+                                        <!-- LAST WEEK -->
                                         <div class="col-12 d-flex">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 right-date-item" for="today-right">Today</label>
-                                                <input type="radio" class="right-date-option" id="today-right" name="right-compare-date" value="right-today">
-                                            </div>
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 right-date-item" for="this-week-right">This Week</label>
-                                                <input type="radio" class="right-date-option" id="this-week-right" name="right-compare-date" value="right-this-week">
-                                            </div>
-
-                                        </div>
-
-                                        <!-- LAST 3 DAYS / LAST WEEK -->
-                                        <div class="col-12 d-flex">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 right-date-item" for="last-3-days-right">Last 3 Days</label>
-                                                <input type="radio" class="right-date-option" id="last-3-days-right" name="right-compare-date" value="right-last-3-days">
-                                            </div>
-                                            <div class="col-6 p-0">
+                                            <div class="col-12 p-0">
                                                 <label class="py-1 w-100 right-date-item" for="last-week-right">Last Week</label>
                                                 <input type="radio" class="right-date-option" id="last-week-right" name="right-compare-date" value="right-last-week">
                                             </div>
-
                                         </div>
-
-                                        <!-- LAST 5 DAYS / THIS MONTH -->
+                                        <!-- LAST MONTH -->
                                         <div class="col-12 d-flex">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 right-date-item" for="last-5-days-right">Last 5 Days</label>
-                                                <input type="radio" class="right-date-option" id="last-5-days-right" name="right-compare-date" value="right-last-5-days">
-                                            </div>
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 right-date-item" for="this-month-right">This Month</label>
-                                                <input type="radio" class="right-date-option" id="this-month-right" name="right-compare-date" value="right-this-month">
-                                            </div>
-                                        </div>
-
-                                        <!-- LAST 7 DAYS / LAST MONTH -->
-                                        <div class="col-12 d-flex">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 right-date-item" for="last-7-days-right">Last 7 Days</label>
-                                                <input type="radio" class="right-date-option" id="last-7-days-right" name="right-compare-date" value="right-last-7-days">
-                                            </div>
-                                            <div class="col-6 p-0">
+                                            <div class="col-12 p-0">
                                                 <label class="py-1 w-100 right-date-item" for="last-month-right">Last Month</label>
                                                 <input type="radio" class="right-date-option" id="last-month-right" name="right-compare-date" value="right-last-month">
                                             </div>
                                         </div>
-
-                                        <!-- THIS YEAR / LAST YEAR -->
+                                        <!-- LAST YEAR -->
                                         <div class="col-12 d-flex mb-1">
-                                            <div class="col-6 p-0">
-                                                <label class="py-1 w-100 right-date-item" for="this-year-right">This Year</label>
-                                                <input type="radio" class="right-date-option" id="this-year-right" name="right-compare-date" value="right-this-year">
-                                            </div>
-                                            <div class="col-6 p-0">
+                                            <div class="col-12 p-0">
                                                 <label class="py-1 w-100 right-date-item" for="last-year-right">Last Year</label>
                                                 <input type="radio" class="right-date-option" id="last-year-right" name="right-compare-date" value="right-last-year">
                                             </div>
@@ -955,7 +863,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">{{$lastWeekProfit}}</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{number_format($lastWeekProfit,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -963,7 +871,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">{{$lastWeekSales}}</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{number_format($lastWeekSales,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -971,7 +879,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">{{$lastWeekExpenses}}</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{number_format($lastWeekExpenses,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -979,7 +887,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">{{$lastWeekOrders}}</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{number_format($lastWeekOrders)}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1099,7 +1007,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">{{$lastMonthProfit}}</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{number_format($lastMonthProfit,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -1107,7 +1015,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">{{$lastMonthSales}}</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{number_format($lastMonthSales,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -1115,7 +1023,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">{{$lastMonthExpenses}}</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{number_format($lastMonthExpenses,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -1123,7 +1031,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">{{$lastMonthOrders}}</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{number_format($lastMonthOrders)}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1171,7 +1079,7 @@
                                             <img src="{{ asset('assets/images/icons/profit-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Profit: <span class="ms-1 db-compare-text">{{$lastYearProfit}}</span>
+                                            Total Profit: <span class="ms-1 db-compare-text">{{number_format($lastYearProfit,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2 ">
@@ -1179,7 +1087,7 @@
                                             <img src="{{ asset('assets/images/icons/sales-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Sales: <span class="ms-1 db-compare-text">{{$lastYearSales}}</span>
+                                            Total Sales: <span class="ms-1 db-compare-text">{{number_format($lastYearSales,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -1187,7 +1095,7 @@
                                             <img src="{{ asset('assets/images/icons/expenses-compare-icon.png') }}" style="height: 15px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Expenses: <span class="ms-1 db-compare-text">{{$lastYearExpenses}}</span>
+                                            Total Expenses: <span class="ms-1 db-compare-text">{{number_format($lastYearExpenses,2)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex ms-4 ps-4 mb-2">
@@ -1195,7 +1103,7 @@
                                             <img src="{{ asset('assets/images/icons/order-compare-icon.png') }}" style="height: 17px;" alt="Profit Icon">
                                         </div>
                                         <div class="col-11 d-flex align-items-end db-compare-text" style="width: 80%;">
-                                            Total Order: <span class="ms-1 db-compare-text">{{$lastYearOrders}}</span>
+                                            Total Order: <span class="ms-1 db-compare-text">{{number_format($lastYearOrders)}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1608,30 +1516,3 @@
         toggleDropdownRight();
     }
 </script>
-
-
-<?php /*
-<script>
-    // Left filter logic
-    document.getElementById('left-filter-btn').addEventListener("change", function() {
-        // Hide all left sections
-        document.querySelectorAll(".left-filter-content").forEach((section) => {
-            section.style.display = "none";
-            console.log("hi" + section);
-        });
-        // Show the selected section for the left side
-        const selectedFilterLeft = this.value;
-        document.getElementById(selectedFilterLeft).style.display = "block";
-    });
-
-    // Right filter logic
-    document.getElementById("filterRight").addEventListener("change", function() {
-        // Hide all right sections
-        document.querySelectorAll(".filter-section-right").forEach((section) => {
-            section.style.display = "none";
-        });
-        // Show the selected section for the right side
-        const selectedFilterRight = this.value;
-        document.getElementById(selectedFilterRight).style.display = "block";
-    });
-</script> */ ?>

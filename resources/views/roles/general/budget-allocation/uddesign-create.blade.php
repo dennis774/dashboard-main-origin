@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Budget Allocation</title>
+    <title>Create UdDesign Budget Allocation</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {{-- <link href="{{ url('assets/css/style1.css') }}" rel="stylesheet" /> --}}
     {{-- GOOGLE FONT - POPPINS --}}
@@ -104,7 +104,7 @@
                 <a href="{{ route('targetSales.index') }}"><i class="fa-solid fa-arrow-left backTarget"></i></a>
             </div>
             <div class="col-lg-4 mt-4 d-flex justify-content-center ">
-                <h3 class="targetHeader">Financial Targets</h3>
+                <h3 class="targetHeader">UdD Budget Allocation</h3>
             </div>
             <div class="col-lg-4 mt-4 d-flex justify-content-end ">
             </div>
@@ -112,7 +112,7 @@
         <div class="row mt-5">
            
             <div class="col-lg-12 d-flex justify-content-center">
-                <h3 class="createHeader">Budget Allocation</h3>
+                <h3 class="createHeader">UdDesign Budget Allocation</h3>
             </div>
         </div>
         <div class="row mt-5">

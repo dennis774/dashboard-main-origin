@@ -40,9 +40,9 @@ class Kuwago_OneController extends Controller
     public function general_kuwago_one(Request $request)
     {
         return $this->generateChartData(
-            $request, 
-            'general.kuwago-one.dashboard', 
-            ['sales', 'expenses', 'orders'], 
+            $request,
+            'general.kuwago-one.dashboard',
+            ['sales', 'expenses', 'orders'],
             'sales - expenses as profit'
         );
     }
@@ -52,9 +52,9 @@ class Kuwago_OneController extends Controller
     public function general_kuwago_one_new(Request $request)
     {
         return $this->generateChartData(
-            $request, 
-            'general.kuwago-one.sale', 
-            ['sales', 'expenses', 'orders'], 
+            $request,
+            'general.kuwago-one.sale',
+            ['sales', 'expenses', 'orders'],
             'sales - expenses as profit'
         );
     }
@@ -294,7 +294,6 @@ class Kuwago_OneController extends Controller
 
         return view($view, array_merge(compact('actionRoute', 'chartdata', 'chartCategoryData', 'topDishes', 'bottomDishes', 'chartExpenseData', 'totalExpenseAmount', 'financialTargetSales', 'financialTotalSales', 'budgetAllocation', 'budgetExpenses', 'ordersCount'), $totals, $thisWeek, $lastWeek, $thisMonth, $lastMonth, $thisYear, $lastYear));
     }
-
 
 
 

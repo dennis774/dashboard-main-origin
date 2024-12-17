@@ -159,7 +159,7 @@
                         <table class="table targetSalesForm">
                             <thead style="position: sticky; top: 0; background: rgb(15, 0, 0); z-index: 1;">
                                 <tr>
-                                    <th>Business Type</th>
+                                    <!-- <th>Business Type</th> -->
                                     <th>Amount</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
@@ -167,9 +167,26 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- @foreach($targetSales as $target)
+                                    <tr>
+                                        <td>{{ $target->business_type }}</td>
+                                        <td>{{ $target->amount }}</td>
+                                        <td>{{ $target->start_date }}</td>
+                                        <td>{{ $target->end_date }}</td>
+                                        <td>{{ $target->display_identifier }}</td>
+                                        <td>
+                                            <form action="{{ route('target.sales.display', $target->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" {{ $target->is_displayed ? 'disabled' : '' }}>
+                                                    {{ $target->is_displayed ? 'Currently Displayed' : 'Set as Display' }}
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach -->
                                 @foreach($targetSales as $targetSale)
                                 <tr class="selectable-row" data-bs-toggle="modal" data-bs-target="#targetSaleModal" data-business-type="{{ $targetSale->business_type }}" data-amount="₱{{ number_format($targetSale->amount, 2) }}" data-start-date="{{ $targetSale->start_date->format('Y-m-d') }}" data-end-date="{{ $targetSale->end_date->format('Y-m-d') }}">
-                                    <td>{{ $targetSale->business_type }}</td>
+                                    <!-- <td>{{ $targetSale->business_type }}</td> -->
                                     <td>₱{{ number_format($targetSale->amount, 2) }}</td>
                                     <td>{{ $targetSale->start_date->format('Y-m-d') }}</td>
                                     <td>{{ $targetSale->end_date->format('Y-m-d') }}</td>
@@ -199,7 +216,7 @@
                         <table class="table targetSalesForm">
                             <thead style="position: sticky; top: 0; background: rgb(15, 0, 0); z-index: 1;">
                                 <tr>
-                                    <th>Business Type</th>
+                                    <!-- <th>Business Type</th> -->
                                     <th>Amount</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
@@ -209,7 +226,7 @@
                             <tbody>
                                 @foreach($budgetAllocations as $budgetAllocation)
                                 <tr class="selectable-row" data-bs-toggle="modal" data-bs-target="#budgetAllocationModal" data-business-type="{{ $budgetAllocation->business_type }}" data-amount="₱{{ number_format($budgetAllocation->amount, 2) }}" data-start-date="{{ $budgetAllocation->start_date->format('Y-m-d') }}" data-end-date="{{ $budgetAllocation->end_date->format('Y-m-d') }}">
-                                    <td>{{ $budgetAllocation->business_type }}</td>
+                                    <!-- <td>{{ $budgetAllocation->business_type }}</td> -->
                                     <td>₱{{ number_format($budgetAllocation->amount, 2) }}</td>
                                     <td>{{ $budgetAllocation->start_date->format('Y-m-d') }}</td>
                                     <td>{{ $budgetAllocation->end_date->format('Y-m-d') }}</td>

@@ -400,7 +400,7 @@
             const cellPadding = 4;  // Padding for the text inside cells
             const cellWidth = 35;  // Cell width
             const cellHeight = 10; // Cell height
-            const salesColumns = totalSalesTable[1].length; // Number of columns (assuming all rows have the same number of columns)
+            const salesColumns = totalSalesTable[0].length; // Number of columns (assuming all rows have the same number of columns)
             
             let totalExpenses_x = 35;
             let totalExpenses_y = 200;
