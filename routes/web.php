@@ -1,11 +1,17 @@
 <?php
 
+use App\Models\Targeting;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\KuwagoTTController;
+use App\Http\Controllers\BudgetingController;
+use App\Http\Controllers\BudgetUddController;
+use App\Http\Controllers\TargetingController;
+use App\Http\Controllers\TargetUddController;
 use App\Http\Controllers\TargetSalesController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\BusinessInfoController;
@@ -82,19 +88,31 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('targetSales', TargetSalesController::class);
     Route::resource('budgetAllocations', BudgetAllocationController::class);
-    Route::resource('kuwago-two-target', KuwagoTwoTargetController::class);
-    Route::resource('kuwago-two-budget', KuwagoTwoBudgetController::class);
-    Route::resource('uddesign-target', UddesignTargetController::class);
+    // Route::resource('kuwago-two-target', KuwagoTwoTargetController::class);
+    // Route::resource('kuwago-two-budget', KuwagoTwoBudgetController::class);
+    // Route::resource('uddesign-target', UddesignTargetController::class);
     // Route::resource('uddesign-target', 'UddesignTargetController');
 
     Route::resource('uddesign-budget', UddesignBudgetController::class);
 
     Route::post('/target-sales/display/{id}', [TargetSalesController::class, 'setDisplayTargetSale'])->name('target.sales.display');
     Route::post('/budget-allocations/display/{id}', [BudgetAllocationController::class, 'setDisplayBugetAllocation'])->name('budget.allocations.display');
-    Route::post('kuwago-two-target/display/{id}', [KuwagoTwoTargetController::class, 'setDisplayKuwagoTwoTarget'])->name('kuwagotwo.target.display');
-    Route::post('kuwago-two-budget/display/{id}', [KuwagoTwoBudgetController::class, 'setDisplayKuwagoTwoBudget'])->name('kuwagotwo.budget.display');
-    Route::post('uddesign-target/display/{id}', [UddesignTargetController::class, 'setDisplayUddesignTarget'])->name('uddesign.target.display');
-    Route::post('uddesign-budget/display/{id}', [UddesignBudgetController::class, 'setDisplayUddesignBudget'])->name('uddesign.budget.display');
+    // Route::post('kuwago-two-target/display/{id}', [KuwagoTwoTargetController::class, 'setDisplayKuwagoTwoTarget'])->name('kuwagotwo.target.display');
+    // Route::post('kuwago-two-budget/display/{id}', [KuwagoTwoBudgetController::class, 'setDisplayKuwagoTwoBudget'])->name('kuwagotwo.budget.display');
+    // Route::post('uddesign-target/display/{id}', [UddesignTargetController::class, 'setDisplayUddesignTarget'])->name('uddesign.target.display');
+    // Route::post('uddesign-budget/display/{id}', [UddesignBudgetController::class, 'setDisplayUddesignBudget'])->name('uddesign.budget.display');
+
+    Route::resource('targeting', TargetingController::class);
+    Route::post('/targeting/display/{id}', [TargetingController::class, 'setDisplayTargeting'])->name('targeting.display');
+
+    Route::resource('budgeting', BudgetingController::class);
+    Route::post('/budgeting/display/{id}', [BudgetingController::class, 'setDisplayBudgeting'])->name('budgeting.display');
+
+    Route::resource('targetUdd', TargetUddController::class);
+    Route::post('/targetUdd/display/{id}', [TargetUddController::class, 'setDisplayTargetUdd'])->name('targetUdd.display');
+
+    Route::resource('budgetUdd', BudgetUddController::class);
+    Route::post('/budgetUdd/display/{id}', [BudgetUddController::class, 'setDisplayBudgetUdd'])->name('budgetUdd.display');
 });
 
 Route::middleware(['auth', 'role:owner'])->group(function () {

@@ -124,8 +124,6 @@
                             <i class="fa-solid fa-plus text-white"></i>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="createDropdown">
-                            <li><a class="dropdown-item" href="{{ route('targetSales.create') }}">Kuwago One Create Target Sales</a></li>
-                            <li><a class="dropdown-item" href="{{ route('budgetAllocations.create') }}">Kuwago One Create Budget Allocation</a></li>
                             <li><a class="dropdown-item" href="{{ route('targeting.create') }}">Kuwago Two Create Target Sales</a></li>
                             <li><a class="dropdown-item" href="{{ route('budgeting.create') }}">Kuwago Two Create Budget Allocation</a></li>
                             <li><a class="dropdown-item" href="{{ route('targetUdd.create') }}">Uddesign Create Target Sales</a></li>
@@ -142,126 +140,6 @@
                 </div>
                 <div class="col-lg-6 d-flex justify-content-center">
                     <h3 class="createHeader" style="color: #fff;">Kuwago One Budget Allocations</h3>
-                </div>
-            </div>
-            <!-- Tables Section -->
-            <div class="row mt-5">
-                <!-- Target Sales Table -->
-                <div class="col-lg-6 targetsColumn">
-                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                        <table class="table targetSalesForm">
-                            <thead style="position: sticky; top: 0; background: rgb(15, 0, 0); z-index: 1;">
-                                <tr>
-                                    <!-- <th>Business Type</th> -->
-                                    <th>Amount</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- @foreach($targetSales as $target)
-                                    <tr>
-                                        <td>{{ $target->business_type }}</td>
-                                        <td>{{ $target->amount }}</td>
-                                        <td>{{ $target->start_date }}</td>
-                                        <td>{{ $target->end_date }}</td>
-                                        <td>{{ $target->display_identifier }}</td>
-                                        <td>
-                                            <form action="{{ route('target.sales.display', $target->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" {{ $target->is_displayed ? 'disabled' : '' }}>
-                                                    {{ $target->is_displayed ? 'Currently Displayed' : 'Set as Display' }}
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach -->
-                                @foreach($targetSales as $targetSale)
-                                <tr
-                                    class="selectable-row"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#targetSaleModal"
-                                    data-business-type="{{ $targetSale->business_type }}"
-                                    data-amount="₱{{ number_format($targetSale->amount, 2) }}"
-                                    data-start-date="{{ $targetSale->start_date->format('Y-m-d') }}"
-                                    data-end-date="{{ $targetSale->end_date->format('Y-m-d') }}"
-                                >
-                                    <!-- <td>{{ $targetSale->business_type }}</td> -->
-                                    <td>₱{{ number_format($targetSale->amount, 2) }}</td>
-                                    <td>{{ $targetSale->start_date->format('Y-m-d') }}</td>
-                                    <td>{{ $targetSale->end_date->format('Y-m-d') }}</td>
-                                    <td>
-                                        <a href="{{ route('targetSales.edit', $targetSale) }}" class="btn"><i class="fa-regular fa-pen-to-square editTarget"></i></a>
-                                        <form action="{{ route('targetSales.destroy', $targetSale) }}" method="POST" style="display: inline;">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="btn"><i class="fa-solid fa-trash-can deleteTarget"></i></button>
-                                        </form>
-                                        <form action="{{ route('target.sales.display', $targetSale  ->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" {{ $targetSale->is_displayed ? 'disabled' : '' }}> {{ $targetSale->is_displayed ? 'Currently Displayed' : 'Set as Display' }}</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Budget Allocations Table -->
-                <div class="col-lg-6 targetsColumn">
-                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                        <table class="table targetSalesForm">
-                            <thead style="position: sticky; top: 0; background: rgb(15, 0, 0); z-index: 1;">
-                                <tr>
-                                    <!-- <th>Business Type</th> -->
-                                    <th>Amount</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($budgetAllocations as $budgetAllocation)
-                                <tr
-                                    class="selectable-row"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#budgetAllocationModal"
-                                    data-business-type="{{ $budgetAllocation->business_type }}"
-                                    data-amount="₱{{ number_format($budgetAllocation->amount, 2) }}"
-                                    data-start-date="{{ $budgetAllocation->start_date->format('Y-m-d') }}"
-                                    data-end-date="{{ $budgetAllocation->end_date->format('Y-m-d') }}"
-                                >
-                                    <!-- <td>{{ $budgetAllocation->business_type }}</td> -->
-                                    <td>₱{{ number_format($budgetAllocation->amount, 2) }}</td>
-                                    <td>{{ $budgetAllocation->start_date->format('Y-m-d') }}</td>
-                                    <td>{{ $budgetAllocation->end_date->format('Y-m-d') }}</td>
-                                    <td>
-                                        <a href="{{ route('budgetAllocations.edit', $budgetAllocation) }}" class="btn"><i class="fa-regular fa-pen-to-square editTarget"></i></a>
-                                        <form action="{{ route('budgetAllocations.destroy', $budgetAllocation) }}" method="POST" style="display: inline;">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="btn"><i class="fa-solid fa-trash-can deleteTarget"></i></button>
-                                        </form>
-                                        <form action="{{ route('budget.allocations.display', $budgetAllocation  ->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" {{ $budgetAllocation->is_displayed ? 'disabled' : '' }}> {{ $budgetAllocation->is_displayed ? 'Currently Displayed' : 'Set as Display' }}</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-5">
-                <div class="col-lg-6 d-flex justify-content-center">
-                    <h3 class="createHeader" style="color: #fff;">Kuwago Two Target Sales</h3>
-                </div>
-                <div class="col-lg-6 d-flex justify-content-center">
-                    <h3 class="createHeader" style="color: #fff;">Kuwago Two Budget Allocations</h3>
                 </div>
             </div>
             <!-- Tables Section -->

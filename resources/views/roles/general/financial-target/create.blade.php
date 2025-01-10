@@ -106,7 +106,7 @@
         </div>
         <div class="row mt-5">
             <div class="col-lg-12 d-flex justify-content-center">
-                <h3 class="createHeader">Kuwago One Target Sales</h3>
+                <h3 class="createHeader">Kuwago One</h3>
             </div>
        
         </div>

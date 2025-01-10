@@ -11,6 +11,8 @@ use App\Models\UddesignFeedback;
 use App\Models\UddesignTargetSale;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\BudgetUdd;
+use App\Models\TargetUdd;
 use App\Models\Uddesign\UddesignMerchDetail;
 use App\Models\Uddesign\UddesignPrintDetail;
 use App\Models\Uddesign\UddesignExpenseDetail;
@@ -56,7 +58,7 @@ class UddesignController extends Controller
         $financialTargetSales = null;
         $financialTotalSales = 0;
         if (!$uddesignTarget) {
-            $financialTargetSales = UddesignTargetSale::where('is_displayed', true)->first();
+            $financialTargetSales = TargetUdd::where('is_displayed', true)->first();
             if ($financialTargetSales) {
                 $financialStartDate = $financialTargetSales->start_date;
                 $financialEndDate = $financialTargetSales->end_date;
@@ -142,7 +144,7 @@ class UddesignController extends Controller
         $totalCustomExpenses = $chartdata->sum('custom_expenses');
 
         if (!$uddesignBudget) {
-            $budgetAllocation = UddesignBudget::where('is_displayed', true)->first();
+            $budgetAllocation = BudgetUdd::where('is_displayed', true)->first();
         }
         // Fetch the financial target dates
         $budgetStartDate = $budgetAllocation->start_date;

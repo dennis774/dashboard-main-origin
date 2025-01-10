@@ -9,10 +9,12 @@ use Illuminate\Support\Carbon;
 use App\Models\KuwagoTwoReport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Budgeting;
 use App\Models\KuwagoTwo\KuwagoTwoOrderDetails;
 use App\Models\KuwagoTwo\KuwagoTwoExpenseDetail;
 use App\Models\KuwagoTwoBudget;
 use App\Models\KuwagoTwoTargetSale;
+use App\Models\Targeting;
 
 class Kuwago_TwoController extends Controller
 {
@@ -221,7 +223,7 @@ class Kuwago_TwoController extends Controller
         $totalExpenseAmount = $chartExpenseData->sum('total_amount');
 
         if (!$kuwagoTwoTarget) {
-            $financialTargetSales = KuwagoTwoTargetSale::where('is_displayed', true)->first();
+            $financialTargetSales = Targeting::where('is_displayed', true)->first();
         }
         // Fetch the financial target dates
         $financialStartDate = $financialTargetSales->start_date;
@@ -231,7 +233,7 @@ class Kuwago_TwoController extends Controller
         $financialTotalSales = KuwagoTwoReport::whereBetween('date', [$financialStartDate, $financialEndDate])->sum('sales');
 
         if (!$kuwagoTwoBudget) {
-            $budgetAllocation = KuwagoTwoBudget::where('is_displayed', true)->first();
+            $budgetAllocation = Budgeting::where('is_displayed', true)->first();
         }
         // Fetch the financial target dates
         $budgetStartDate = $budgetAllocation->start_date;

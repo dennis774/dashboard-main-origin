@@ -126,60 +126,79 @@
         }
     }
 
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
+    const ctx2 = document.getElementById('myChart').getContext('2d');
+    const myChart2 = new Chart(ctx2, {
         type: 'line',
         data: {
             labels: @json($chartdata->pluck('date')),
             datasets: [{
-                label: 'Print/Photo',
+                label: 'Print/Photocopy',
                 data: @json($chartdata->pluck('print_expenses')),
-                borderColor: 'blue',
-                borderWidth: 1,
-                fill: 'origin'
-            }, {
+                borderColor: 'rgba(108, 229, 232, 1)',
+                pointBackgroundColor: 'rgba(108, 229, 232, 1)',
+                pointBorderColor: 'rgba(108, 229, 232, 1)', 
+                borderWidth: 2,
+                fill: false
+            },{
                 label: 'UdD Merch',
                 data: @json($chartdata->pluck('merch_expenses')),
-                borderColor: 'green',
-                borderWidth: 1,
-                fill: 'origin'
-            }, {
+                borderColor: '#FFA500',
+                pointBackgroundColor: '#FFA500',
+                pointBorderColor: '#FFA500', 
+                borderWidth: 2,
+                fill: false 
+            },{
                 label: 'Custom Deals',
                 data: @json($chartdata->pluck('custom_expenses')),
-                borderColor: 'yellow',
-                borderWidth: 1,
-                fill: 'origin'
+                borderColor: 'green',
+                pointBackgroundColor: 'green',
+                pointBorderColor: 'green', 
+                borderWidth: 2,
+                fill: false 
             }]
         },
         options: {
+            aspectRatio: 3,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 20,
+                    bottom: 10
+                },
+            },
             scales: {
-                x: {
+                y: {
+                    beginAtZero: true,
                     ticks: {
-                        color: 'white' // Set the color of the x-axis labels
+                        color: 'white',
+                        font: {
+                            size: 10,
+                            family: 'Poppins',
+                        }
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)' // Optionally lighten grid lines for better contrast
+                        color: 'rgba(255, 255, 255, 0.2)'
                     }
                 },
-                y: {
+                x: {
                     ticks: {
-                        color: 'white' // Set the color of the y-axis labels
+                        color: 'white',
+                        font: {
+                            size: 9,
+                            family: 'Poppins',
+                        }
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)' // Optionally lighten grid lines for better contrast
+                        lineWidth: 0,
+                        drawOnChartArea: false,
+                        color: 'white',
                     }
                 }
             },
             plugins: {
                 legend: {
-                    labels: {
-                        color: 'white' // Set the color of the legend labels
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Your Chart Title', // Replace with your chart title
-                    color: 'white' // Set the color of the chart title
+                    display: false,
                 },
                 bgColor:{
                     backgroundColor: 'rgb(210, 210, 210)',
@@ -191,7 +210,7 @@
     });
 </script>
 
-{{-- SCRIPT FOR HALF DONUT CHART --}}
+<!-- SCRIPT FOR HALF DONUT CHART -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var ctx = document.getElementById('arcChart').getContext('2d');

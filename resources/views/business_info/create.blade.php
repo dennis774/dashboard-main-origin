@@ -62,7 +62,7 @@ s        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-            <title>Manage Businesses</title>
+            <title>Manage Business</title>
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <link href="{{ url('assets/css/style.css') }}" rel="stylesheet" />
             <script src="{{ url('assets/js/chart.js') }}"></script>

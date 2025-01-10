@@ -2,8 +2,14 @@
 <div class="d-flex rounded-4 dashboard-panel">
     <div class="row d-flex flex-grow-1 m-0 column-gap-3 h-100 rounded-4 justify-content-center align-items-center text-white" style="padding-inline: 1.8%; padding-block: 2.5%;">
 
+
+
+
         <!-- LEFT COLUMN -->
         <div class="col-auto d-flex flex-column row-gap-1 p-0 px-2 pe-3 h-100" style="width: 74%;">
+
+
+
 
             <div class="row ps-2" style="height:30%;">
                 <!-- LEFT COLUMN -->
@@ -13,21 +19,33 @@
                         <span class="fw-bold text-start" id="deal-name" style="font-family: Poppins; font-size: 1rem; letter-spacing: 0.5px;">Deal Name: </span>
                     </div>
 
+
+
+
                     <!-- CLIENT NAME -->
                     <div class="col-12 d-flex">
                         <span class="uddeals-fields-text" id="client-name">Client Name:</span>
                     </div>
+
+
+
 
                     <!-- CONTACT NUMBER -->
                     <div class="col-12 d-flex">
                         <span class="uddeals-fields-text" id="contact-number">Contact Number:</span>
                     </div>
 
+
+
+
                     <!-- EMAIL -->
                     <div class="col-12 d-flex">
                         <span class="uddeals-fields-text" id="email">Email:</span>
                     </div>
                 </div>
+
+
+
 
                 <!-- RIGHT COLUMN -->
                 <div class="col d-flex flex-column pe-0 align-items-center justify-content-around">
@@ -36,15 +54,24 @@
                         <span class="uddeals-fields-text" id="date-approved">Date Approved: </span>
                     </div>
 
+
+
+
                     <!-- PRODUCTION DUE -->
                     <div class="col-12 d-flex">
                         <span class="uddeals-fields-text" id="production-due">Production Due: </span>
                     </div>
 
+
+
+
                     <!-- PAYMENT METHOD -->
                     <div class="col-12 d-flex">
                         <span class="uddeals-fields-text" id="payment-method">Payment Method:</span>
                     </div>
+
+
+
 
                     <!-- DATE CLOSED -->
                     <div class="col-12 d-flex">
@@ -52,6 +79,9 @@
                     </div>
                 </div>
             </div>
+
+
+
 
             <!-- MIDDLE ROW -->
             <div class="row" style="height:63%;">
@@ -73,9 +103,11 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
+
+
+
 
             <!-- GRAND TOTAL & STATUS -->
             <div class="row ps-3" style="height:10%;">
@@ -85,28 +117,27 @@
                         <span class="fw-bold" id="grand-total" style="font-family: Poppins; font-size: 1.2rem; letter-spacing: 1.5px;">Grand Total: </span>
                     </div>
                 </div>
-
                 <!-- STATUS -->
                 <div class="col d-flex flex-column align-items-center justify-content-around">
                     <div class="col-12 d-flex">
                         <span class="fw-bold" id="status" style="font-family: Poppins; font-size: 1.2rem; letter-spacing: 1.5px;">Status: </span>
                     </div>
                 </div>
-                <div class="row">
-                        <div class="col-lg-6">
-                            <a href="#" class="edit-link" data-deal-id="" style="font-size: 18px;"><i class="fa-regular fa-pen-to-square text-white text"></i></a>
-                        </div>
-                        <div class="col-lg-6 text-white text">
-                            <form action="#" method="POST" class="delete-form" data-deal-id="" style="display: inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" style="background: none; border: none; padding: 0;">
-                                    <i class="fa-regular fa-trash-can" style="color: white; font-size: 18px;"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-
+               
+                {{-- EDIT BUTTON --}}
+                <a href="#" class="position-absolute edit-link" data-deal-id="" style="font-size: 18px; bottom: 7%; right: 30%; width: 5%;">
+                    <i class="fa-regular fa-pen-to-square text-white text"></i>
+                </a>
+                       
+                {{-- DELETE BUTTON --}}
+               
+                    <button type="submit" class="position-absolute" id="delete-btn" data-bs-toggle="modal" data-bs-target="#delete-deal-modal" style="background: none; border: none; padding: 0; bottom: 7%; right: 26%; width: 5%;">
+                        <i class="fa-regular fa-trash-can" style="color: white; font-size: 18px;"></i>
+                    </button>
+                    <form action="#" method="POST" id="delete-form" class="d-none delete-form" data-deal-id="">
+                        @csrf
+                        @method('DELETE')
+                    </form>
             </div>
         </div>
         <!-- END LEFT COLUMN -->
@@ -116,17 +147,17 @@
 
         <!-- RIGHT COLUMN -->
         <div class="col d-flex flex-column align-items-center row-gap-3 p-0 h-100">
-            <div class="row">
+            {{-- ADD BUTTON --}}
+            <a href="{{route('deals.create')}}" class="position-absolute" style="right: 2%;">
+                <i class="fa-solid fa-plus text-white text"></i>
+            </a>
+            {{-- LIST TITLE --}}
+            <div class="row w-100">
                 <div class="col-12 d-flex ps-2 justify-content-start">
                     <span class="uddesign-side-text" style="font-size: 1.1rem;">List of Deals</span>
                 </div>
-                <div class="position-absolute justify-content-end">
-                <a href="{{route('deals.create')}}">
-                    <i class="fa-solid fa-plus text-white text"></i>
-                </a>
-                </div>
             </div>
-            
+           
             <div class="row d-flex w-100 h-100 ps-4 align-items-center justify-content-evenly overflow-y-scroll">
                 <ol class="col d-flex flex-column h-100 p-0 m-0 align-items-start justify-content-start ">
                     @foreach ($deals as $deal)
@@ -143,6 +174,23 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="delete-deal-modal" tabindex="-1" aria-labelledby="deleteDealModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center bg-white py-4" style="height: 300px; font-family: Poppins;">
+            <h5 class="modal-title fw-bold mb-0 mt-3" id="deleteDealModalLabel" style="font-size: 2rem; letter-spacing: 2px;">Delete Custom Deal</h5>
+            <hr class="align-self-center mt-1 mb-4 opacity-100" style="width:30%;">
+            <div class="modal-body text-center px-5" style="font-size: 1.2rem; letter-spacing: 1.5px;">
+                Are you sure you want to delete this custom deal? You might not be able to retrieved your data.
+            </div>
+            <div class="modal-footer d-flex justify-content-around border-0">
+                <button type="button" class="btn text-body-tertiary fw-bold" style="font-size: 1.2rem; letter-spacing: 2px;" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-black fw-bold" id="confirm-delete-btn" style="font-size: 1.2rem; letter-spacing: 2px;">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Select all links with the 'deal-link' class
@@ -151,15 +199,15 @@
 
         // Sort deals by ID
         deals.sort((a, b) => a.id - b.id);
-        
+       
         console.log(deals);  // Log the deals array for debugging
 
         dealLinks.forEach(function(dealLink) {
             dealLink.addEventListener('click', function(event) {
                 event.preventDefault();  // Prevent the default link behavior
-                
+               
                 const dealId = dealLink.getAttribute('data-deal-id');  // Get the clicked deal ID
-                
+               
                 console.log('Clicked Deal ID:', dealId);  // Output clicked deal ID
 
                 const deal = deals.find(d => d.id == dealId);  // Find the deal by ID
@@ -181,10 +229,8 @@
                 editLink.href = `/deals/${dealId}/edit`;
                 editLink.setAttribute('data-deal-id', dealId);
 
-                // Update delete form action
-                const deleteForm = document.querySelector('.delete-form');
-                deleteForm.action = `/deals/${dealId}`;
-                deleteForm.setAttribute('data-deal-id', dealId);
+
+
 
                 // Insert items into the deal's item list
                 const dealItemsTbody = document.getElementById('deal-items-tbody');
@@ -199,6 +245,30 @@
                     `;
                     dealItemsTbody.appendChild(row);
                 });
+
+
+                // CODE FOR DELETING DEALS
+                const deleteButton = document.getElementById('delete-btn');
+                const confirmDeleteButton = document.getElementById('confirm-delete-btn');
+                const deleteForm = document.getElementById('delete-form');
+
+
+                // Set the form action dynamically when delete button is clicked
+                deleteButton.addEventListener('click', function () {
+                    deleteForm.action = `/deals/${dealId}`;
+                    deleteForm.setAttribute('data-deal-id', dealId);
+                });
+
+
+                // Handle the confirmation button in the modal
+                confirmDeleteButton.addEventListener('click', function () {
+                    deleteForm.submit();
+                    setTimeout(() => {
+                        window.location.href = '/uddesign/uddeals'; // Redirect to the desired page
+                    }, 300);
+                });
+
+
             });
         });
     });

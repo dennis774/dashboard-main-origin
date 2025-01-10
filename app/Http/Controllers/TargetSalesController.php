@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Budgeting;
+use App\Models\BudgetUdd;
+use App\Models\Targeting;
+use App\Models\TargetUdd;
 use App\Models\TargetSales;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use App\Models\BudgetAllocation;
-use App\Models\KuwagoTwoBudget;
-use App\Models\KuwagoTwoTargetSale;
 use App\Models\UddesignBudget;
+use Illuminate\Support\Carbon;
+use App\Models\KuwagoTwoBudget;
+use App\Models\BudgetAllocation;
 use App\Models\UddesignTargetSale;
+use App\Models\KuwagoTwoTargetSale;
 
 class TargetSalesController extends Controller
 {
@@ -31,35 +35,59 @@ class TargetSalesController extends Controller
         });
 
         // Get all KuwagoTwo target sales and convert dates to Carbon instances, ordered by start_date descending
-        $kuwagoTwoTargets = KuwagoTwoTargetSale::orderBy('start_date', 'desc')->get()->map(function ($kuwagoTwoTarget) {
-            $kuwagoTwoTarget->start_date = Carbon::parse($kuwagoTwoTarget->start_date);
-            $kuwagoTwoTarget->end_date = Carbon::parse($kuwagoTwoTarget->end_date);
-            return $kuwagoTwoTarget;
+        // $kuwagoTwoTargets = KuwagoTwoTargetSale::orderBy('start_date', 'desc')->get()->map(function ($kuwagoTwoTarget) {
+        //     $kuwagoTwoTarget->start_date = Carbon::parse($kuwagoTwoTarget->start_date);
+        //     $kuwagoTwoTarget->end_date = Carbon::parse($kuwagoTwoTarget->end_date);
+        //     return $kuwagoTwoTarget;
+        // });
+
+        // // Get all KuwagoTwo budget allocations and convert dates to Carbon instances, ordered by start_date descending
+        // $kuwagoTwoBudgets = KuwagoTwoBudget::orderBy('start_date', 'desc')->get()->map(function ($kuwagoTwoBudget) {
+        //     $kuwagoTwoBudget->start_date = Carbon::parse($kuwagoTwoBudget->start_date);
+        //     $kuwagoTwoBudget->end_date = Carbon::parse($kuwagoTwoBudget->end_date);
+        //     return $kuwagoTwoBudget;
+        // });
+
+        // // Get all Uddesign target sales and convert dates to Carbon instances, ordered by start_date descending
+        // $uddesignTargets = UddesignTargetSale::orderBy('start_date', 'desc')->get()->map(function ($uddesignTarget) {
+        //     $uddesignTarget->start_date = Carbon::parse($uddesignTarget->start_date);
+        //     $uddesignTarget->end_date = Carbon::parse($uddesignTarget->end_date);
+        //     return $uddesignTarget;
+        // });
+
+        // // Get all Uddesign budget allocations and convert dates to Carbon instances, ordered by start_date descending
+        // $uddesignBudgets = UddesignBudget::orderBy('start_date', 'desc')->get()->map(function ($uddesignBudget) {
+        //     $uddesignBudget->start_date = Carbon::parse($uddesignBudget->start_date);
+        //     $uddesignBudget->end_date = Carbon::parse($uddesignBudget->end_date);
+        //     return $uddesignBudget;
+        // });
+
+        $targetings = Targeting::orderBy('start_date', 'desc')->get()->map(function ($targeting) {
+            $targeting->start_date = Carbon::parse($targeting->start_date);
+            $targeting->end_date = Carbon::parse($targeting->end_date);
+            return $targeting;
         });
 
-        // Get all KuwagoTwo budget allocations and convert dates to Carbon instances, ordered by start_date descending
-        $kuwagoTwoBudgets = KuwagoTwoBudget::orderBy('start_date', 'desc')->get()->map(function ($kuwagoTwoBudget) {
-            $kuwagoTwoBudget->start_date = Carbon::parse($kuwagoTwoBudget->start_date);
-            $kuwagoTwoBudget->end_date = Carbon::parse($kuwagoTwoBudget->end_date);
-            return $kuwagoTwoBudget;
+        $budgetings = Budgeting::orderBy('start_date', 'desc')->get()->map(function ($budgeting) {
+            $budgeting->start_date = Carbon::parse($budgeting->start_date);
+            $budgeting->end_date = Carbon::parse($budgeting->end_date);
+            return $budgeting;
         });
 
-        // Get all Uddesign target sales and convert dates to Carbon instances, ordered by start_date descending
-        $uddesignTargets = UddesignTargetSale::orderBy('start_date', 'desc')->get()->map(function ($uddesignTarget) {
-            $uddesignTarget->start_date = Carbon::parse($uddesignTarget->start_date);
-            $uddesignTarget->end_date = Carbon::parse($uddesignTarget->end_date);
-            return $uddesignTarget;
+        $targetUdds = TargetUdd::orderBy('start_date', 'desc')->get()->map(function ($targetUdd) {
+            $targetUdd->start_date = Carbon::parse($targetUdd->start_date);
+            $targetUdd->end_date = Carbon::parse($targetUdd->end_date);
+            return $targetUdd;
         });
 
-        // Get all Uddesign budget allocations and convert dates to Carbon instances, ordered by start_date descending
-        $uddesignBudgets = UddesignBudget::orderBy('start_date', 'desc')->get()->map(function ($uddesignBudget) {
-            $uddesignBudget->start_date = Carbon::parse($uddesignBudget->start_date);
-            $uddesignBudget->end_date = Carbon::parse($uddesignBudget->end_date);
-            return $uddesignBudget;
+        $budgetUdds = BudgetUdd::orderBy('start_date', 'desc')->get()->map(function ($budgetUdd) {
+            $budgetUdd->start_date = Carbon::parse($budgetUdd->start_date);
+            $budgetUdd->end_date = Carbon::parse($budgetUdd->end_date);
+            return $budgetUdd;
         });
 
         // Pass all data to the view
-        return view('roles.general.financial-target.index', compact('targetSales', 'budgetAllocations', 'kuwagoTwoTargets', 'kuwagoTwoBudgets', 'uddesignTargets', 'uddesignBudgets'));
+        return view('roles.general.financial-target.index', compact('targetSales', 'budgetAllocations', 'targetings', 'budgetings', 'targetUdds', 'budgetUdds'));
     }
 
 

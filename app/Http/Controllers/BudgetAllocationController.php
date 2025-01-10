@@ -69,7 +69,7 @@ class BudgetAllocationController extends Controller
         return redirect()->route('targetSales.index')->with('success', 'Budget allocation deleted successfully!');
     }
 
-    public function setDisplayUddesignTarget($id)
+    public function setDisplayBugetAllocation($id)
     {
         // Reset all other target sales
         BudgetAllocation::query()->update(['is_displayed' => false]);

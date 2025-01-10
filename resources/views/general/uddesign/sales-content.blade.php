@@ -108,35 +108,27 @@
 </div>
 
 
-{{-- DONUT CHART --}}
+<!-- DONUT CHART -->
 <script>
     // Doughnut Chart: Cash vs Gcash
     const totalCash = @json($totalCash);
     const totalGcash = @json($totalGcash);
 
-    const xValues = ["Cash", "Gcash"];
-    const yValues = [totalCash, totalGcash];
-    const barColors = ["#b91d47", "#00aba9"];
+    const xValues = ["Cash", "GCash"];
+    const yValues = (totalCash === 0 && totalGcash === 0) ? [0.5, 0.5] : [totalCash, totalGcash];
+    const barColors = ["#df9f14", "#e9e9e8"];
 
     const bgColor = {
         id: 'bgColor',
-        beforeDraw: (Chart, steps, options) => {
-            const {ctx, width, height} = Chart;
-            if(options.applyBackground){
+        beforeDraw: (chart, steps, options) => {
+            const {ctx, width, height} = chart;
+            if (options.applyBackground) {
                 ctx.fillStyle = options.backgroundColor;
-                ctx.fillRect(0, 0, width, height)
+                ctx.fillRect(0, 0, width, height);
                 ctx.restore();
             }
         }
-    }
-
-    const totalCash = @json($totalCash);
-    const totalGcash = @json($totalGcash);
-
-    const xValues = ["Cash ", "GCash"];
-    const yValues = (totalCash === 0 && totalGcash === 0) ? [0.5, 0.5] : [totalCash, totalGcash];
-
-    const barColors = ["#df9f14", "#e9e9e8"];
+    };
 
     new Chart("donutChart", {
         type: "doughnut",
@@ -155,29 +147,29 @@
                 padding: {
                     left: 13,
                     right: 13
-                },
+                }
             },
             plugins: {
                 legend: {
                     display: true,
-                        position: 'bottom', 
-                        align: 'center',
-                        labels: {
-                            color: 'white',
-                            font: {
-                                size: 9.5,
-                                family: 'Poppins'
-                            },
-                            usePointStyle: true, 
-                            pointStyle: 'rect',
-                            boxWidth: 15,
-                            padding: 0, 
-                        }
+                    position: 'bottom',
+                    align: 'center',
+                    labels: {
+                        color: 'white',
+                        font: {
+                            size: 9.5,
+                            family: 'Poppins'
+                        },
+                        usePointStyle: true,
+                        pointStyle: 'rect',
+                        boxWidth: 15,
+                        padding: 0
+                    }
                 },
                 title: {
                     display: false // Remove title
                 },
-                bgColor:{
+                bgColor: {
                     backgroundColor: 'rgb(210, 210, 210)',
                     applyBackground: false
                 }
@@ -187,7 +179,8 @@
     });
 </script>
 
-{{-- SALES TRENDS --}}
+
+<!-- SALES TRENDS -->
 <script>
     const ctx2 = document.getElementById('myChart2').getContext('2d');
     const myChart2 = new Chart(ctx2, {
@@ -195,23 +188,23 @@
         data: {
             labels: @json($chartdata->pluck('date')),
             datasets: [{
-                label: 'Printing/Photocopy ',
+                label: 'Printing/Photocopy',
                 data: @json($chartdata->pluck('print_sales')),
                 borderColor: 'rgba(108, 229, 232, 1)',
                 borderWidth: 2,
                 fill: false,
-                pointRadius: 5, 
+                pointRadius: 5,
                 pointBackgroundColor: 'rgba(108, 229, 232, 1)',
-                pointBorderColor: 'rgba(108, 229, 232, 1)', 
+                pointBorderColor: 'rgba(108, 229, 232, 1)'
             },{
                 label: 'UdD Merch',
                 data: @json($chartdata->pluck('merch_sales')),
                 borderColor: 'rgb(126, 217, 87)',
                 borderWidth: 2,
                 fill: false,
-                pointRadius: 5, 
+                pointRadius: 5,
                 pointBackgroundColor: 'rgb(126, 217, 87)',
-                pointBorderColor: 'rgb(126, 217, 87)', 
+                pointBorderColor: 'rgb(126, 217, 87)'
             }]
         },
         options: {
@@ -219,7 +212,7 @@
             maintainAspectRatio: false,
             elements: {
                 point: {
-                    
+                    // Additional point-specific options can go here
                 }
             },
             layout: {
@@ -228,7 +221,7 @@
                     right: 20,
                     top: 5,
                     bottom: 10
-                },
+                }
             },
             scales: {
                 y: {
@@ -237,7 +230,7 @@
                         color: 'white',
                         font: {
                             size: 10,
-                            family: 'Poppins',
+                            family: 'Poppins'
                         }
                     },
                     grid: {
@@ -249,7 +242,7 @@
                         color: 'white',
                         font: {
                             size: 9,
-                            family: 'Poppins',
+                            family: 'Poppins'
                         },
                         callback: function(value, index) {
                             const labels = @json($chartdata->pluck('date'));
@@ -261,14 +254,14 @@
                     grid: {
                         lineWidth: 0,
                         drawOnChartArea: false,
-                        color: 'white',
+                        color: 'white'
                     }
                 }
             },
             plugins: {
                 legend: {
                     display: true,
-                    position: 'top', 
+                    position: 'top',
                     align: 'end',
                     labels: {
                         color: 'white',
@@ -277,13 +270,13 @@
                             family: 'Poppins',
                             weight: 'bold'
                         },
-                        usePointStyle: true, 
+                        usePointStyle: true,
                         pointStyle: 'circle',
                         boxWidth: 15,
-                        padding: 3, 
+                        padding: 3
                     }
                 },
-                bgColor:{
+                bgColor: {
                     backgroundColor: 'rgb(210, 210, 210)',
                     applyBackground: false
                 }
@@ -294,7 +287,7 @@
 </script>
 
 
-<!-- PRINT PHOTO Category -->
+<!-- Bar Chart for PrintCategory -->
 <script>
     const printCategoryCtx = document.getElementById('printCategoryChart').getContext('2d');
     const printCategoryChart = new Chart(printCategoryCtx, {
@@ -304,20 +297,20 @@
             datasets: [{
                 label: 'Products Sold',
                 data: @json($printCategoryData->pluck('total_pcs')),
-                backgroundColor: 'rgba(108, 229, 232, 1)',
-                borderColor: 'rgba(108, 229, 232, 1)',
+                backgroundColor: 'rgba(108, 229, 232, 1)', // Adjusted background color
+                borderColor: 'rgba(108, 229, 232, 1)', // Adjusted border color
                 borderWidth: 1
             }]
         },
         options: {
-            aspectRatio: 1,
+            aspectRatio: 1, // Adjust aspect ratio
             layout: {
                 padding: {
                     left: 10,
                     right: 10,
                     top: 20,
                     bottom: 10
-                },
+                }
             },
             scales: {
                 y: {
@@ -326,7 +319,7 @@
                         color: 'white',
                         font: {
                             size: 9,
-                            family: 'Poppins',
+                            family: 'Poppins'
                         }
                     },
                     grid: {
@@ -338,33 +331,32 @@
                         color: 'white',
                         font: {
                             size: 9,
-                            family: 'Poppins',
+                            family: 'Poppins'
                         },
-                        padding: 9,
+                        padding: 9
                     },
                     grid: {
-                        lineWidth: 0,
+                        lineWidth: 0
                     }
                 }
             },
             plugins: {
                 legend: {
-                    display: false,
+                    display: false // Hide legend
                 },
                 tooltip: {
                     bodyColor: 'white',
                     titleColor: 'white',
                     titleFont: {
-                        size: 12,
+                        size: 12
                     },
                     bodyFont: {
                         size: 10,
                         family: 'Poppins'
                     },
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
-                    
                 },
-                bgColor:{
+                bgColor: {
                     backgroundColor: 'rgb(210, 210, 210)',
                     applyBackground: false
                 }
@@ -375,9 +367,7 @@
 </script>
 
 
-
-
-<!-- OTHER CATEGORY -->
+<!-- Bar Chart for MerchCategory -->
 <script>
     const categoryCtx = document.getElementById('categoryChart').getContext('2d');
     const categoryChart = new Chart(categoryCtx, {
@@ -387,26 +377,30 @@
             datasets: [{
                 label: 'Products Sold',
                 data: @json($chartCategoryData->pluck('total_pcs')),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: 'rgba(75, 192, 192, 1)', // Adjusted background color to be fully opaque
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
         },
         options: {
-            aspectRatio: 2,
+            aspectRatio: 2, // Adjusted aspect ratio
             layout: {
                 padding: {
                     left: 10,
                     right: 10,
                     top: 20,
                     bottom: 10
-                },
+                }
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'white' // Set Y-axis text color to white
+                        color: 'white', // Set Y-axis text color to white
+                        font: {
+                            size: 9,
+                            family: 'Poppins'
+                        }
                     },
                     grid: {
                         color: 'rgba(255, 255, 255, 0.2)' // Set horizontal grid line color
@@ -414,7 +408,12 @@
                 },
                 x: {
                     ticks: {
-                        color: 'white' // Set X-axis text color to white
+                        color: 'white', // Set X-axis text color to white
+                        font: {
+                            size: 9,
+                            family: 'Poppins'
+                        },
+                        padding: 9
                     },
                     grid: {
                         display: false // Disable vertical grid lines
@@ -423,17 +422,22 @@
             },
             plugins: {
                 legend: {
-                    labels: {
-                        color: 'white' // Set legend text color to white
-                    }
+                    display: false // Hide legend
                 },
                 tooltip: {
                     bodyColor: 'white', // Tooltip text color
                     titleColor: 'white', // Tooltip title color
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)' // Optional: change tooltip background for better contrast
+                    titleFont: {
+                        size: 12
+                    },
+                    bodyFont: {
+                        size: 10,
+                        family: 'Poppins'
+                    },
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)' // Dark tooltip background for contrast
                 },
-                bgColor:{
-                    backgroundColor: 'rgb(177, 177, 177)',
+                bgColor: {
+                    backgroundColor: 'rgb(177, 177, 177)', // Background color for plugin
                     applyBackground: false
                 }
             }
@@ -443,7 +447,8 @@
 </script>
 
 
-<!-- TOP SELLING -->
+
+<!-- Bar Chart for Top 5 Dishes -->
 <script>
     const topDishesCtx = document.getElementById('topDishesChart').getContext('2d');
     const topDishesChart = new Chart(topDishesCtx, {
@@ -453,7 +458,7 @@
             datasets: [{
                 label: 'Total PCS',
                 data: @json($topMerches->pluck('total_pcs')),
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                backgroundColor: 'rgba(54, 162, 235, 1)', // Adjusted to be fully opaque
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }]
@@ -467,11 +472,11 @@
                         color: 'white',
                         font: {
                             size: 9,
-                            family: 'Poppins',
+                            family: 'Poppins'
                         }
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.2)'
+                        color: 'rgba(255, 255, 255, 0.2)' // Set horizontal grid line color
                     }
                 },
                 x: {
@@ -479,17 +484,12 @@
                         color: 'white',
                         font: {
                             size: 8,
-                            family: 'Poppins',
+                            family: 'Poppins'
                         },
-                        callback: function(value, index) {
-                            const labels = @json($chartCategoryData->pluck('merchcategory'));
-                            const maxLabelLength = 5;
-                            const label = labels[index] || '';
-                            return label.length > maxLabelLength ? label.substring(0, maxLabelLength) + '...' : label;
-                        }
+                        
                     },
                     grid: {
-                        display: false
+                        display: false // Disable vertical grid lines
                     }
                 }
             },
@@ -504,8 +504,8 @@
                     titleColor: 'white',
                     backgroundColor: 'rgba(0, 0, 0, 0.8)'
                 },
-                bgColor:{
-                    backgroundColor: 'rgb(177, 177, 177)'   ,
+                bgColor: {
+                    backgroundColor: 'rgb(177, 177, 177)',
                     applyBackground: false
                 }
             }
@@ -513,6 +513,8 @@
         plugins: [bgColor]
     });
 </script>
+
+
 
 
 
