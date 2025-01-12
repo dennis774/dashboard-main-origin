@@ -118,7 +118,8 @@ class ExecutiveController extends Controller
 
         try{
             $kwago_url = 'http://127.0.0.1:8080/kwago_predict';
-        
+            // Comment this if there is an error 
+            Http::get("http://127.0.0.1:8080/kwago_update");
             $kwago_response = Http::get($kwago_url);
 
             if($kwago_response->successful()){
