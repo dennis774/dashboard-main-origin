@@ -111,21 +111,18 @@ class ExecutiveController extends Controller
 
     public function combinedDashboard(Request $request)
     {
-        $prediction_data[0]['Number of Sales Prediction'] = 0;
+        $prediction_data[0]['Total Orders Prediction'] = 0;
         $prediction_data[0]['Total Sales Prediction'] = 0;
         $prediction_data[0]['Total Expenses Prediction'] = 0;
         $prediction_data[0]['Total Profit Prediction'] = 0;
 
         try{
             $kwago_url = 'http://127.0.0.1:8080/kwago_predict';
-            $weather_url = 'http://127.0.0.1:8080/weather_predict';
         
             $kwago_response = Http::get($kwago_url);
-            $weather_response = Http::get($weather_url);
 
-            if($kwago_response->successful() && $weather_response->successful()){
+            if($kwago_response->successful()){
                 $prediction_data = $kwago_response->json();
-                $weather_data = $weather_response->json();
             }
         }catch (Exception $th) {}
 
@@ -223,7 +220,7 @@ class ExecutiveController extends Controller
             ]
         ];
 
-        return view('general.executive.dashboard', compact('actionRoute', 'totals', 'dealData', 'chartData', 'jsonData1', 'jsonData2', 'date', 'time', 'prediction_data', 'weatherDescription', 'simpleWeatherDescription', 'forecastDate'));
+        return view('general.executive.dashboard', compact('actionRoute', 'totals', 'interval', 'dealData', 'chartData', 'jsonData1', 'jsonData2', 'date', 'time', 'prediction_data', 'weatherDescription', 'simpleWeatherDescription', 'forecastDate'));
     }
 
 

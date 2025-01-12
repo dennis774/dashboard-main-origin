@@ -373,7 +373,6 @@
 
             // Define your table data
             const totalSalesTable = [
-                ["Total Sales"]
                 ["Print/Photo", "UdD Merch", "Custom Deals", "Total Sales"],
                 [salesPhoto.innerText.split(":")[1]?.trim(), salesMerch.innerText.split(":")[1]?.trim(), salesDeals.innerText.split(":")[1]?.trim(), totalSales.innerText],
             ];
@@ -393,7 +392,8 @@
                 [targetSales.innerText]
             ];
         
-
+            console.log(totalSalesTable)
+            console.log(totalExpensesTable)
            // Starting position for the table
             let totalSales_x = 35;
             let totalSales_y = 150;

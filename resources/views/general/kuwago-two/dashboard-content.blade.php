@@ -19,7 +19,7 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 pb-3 align-items-center" style="max-width: 240px;">
                             <div class="col-12 align-self-middle dashboard-total-text">
-                                <span>{{ number_format($totalSales, 2) }}</span>
+                                <span id="totalSales">{{ number_format($totalSales, 2) }}</span>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 pb-3 align-items-center" style="max-width: 240px;">
                             <div class="col-12 align-self-middle dashboard-total-text">
-                                <span>{{ number_format($totalProfit, 2) }}</span>
+                                <span id="totalProfit">{{ number_format($totalProfit, 2) }}</span>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 pb-3 align-items-center" style="max-width: 240px;">
                             <div class="col-12 align-self-middle dashboard-total-text">
-                                <span>{{ number_format($totalExpenses, 2) }}</span>
+                                <span id="totalExpenses">{{ number_format($totalExpenses, 2) }}</span>
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                         <!-- DB CARD CONTENT -->
                         <div class="row d-flex flex-grow-1 pb-3 align-items-center" style="max-width: 240px;">
                             <div class="col-12 align-self-middle dashboard-total-text">
-                                <span>{{ number_format($totalOrders) }}</span>
+                                <span id="totalOrders">{{ number_format($totalOrders) }}</span>
                             </div>
                         </div>
                     </div>
@@ -100,10 +100,11 @@
                                     <div class="col-7 align-self-middle text-start lh-1 dashboard-total-text">
 
                                     @if ($financialTargetSales)
-                                        {{$financialTargetSales->amount}}<br>
+                                        <span id="targetSales">{{$financialTargetSales->amount}}<br></span>
                                         <span style="font-size: 0.65rem; font-weight: normal;">{{ $financialTargetSales->start_date }} - {{ $financialTargetSales->end_date }}</span>
                                     @else
                                         <p>No target sale found for display.</p>
+                                        <span id="targetSales" hidden="hidden">0</span>
                                         <span style="font-size: 8px;">No target sale found for display.</span>
                                     @endif
                                     
@@ -114,10 +115,11 @@
                                     <div class="col-7 align-self-middle text-start lh-1 dashboard-total-text">
 
                                     @if ($financialTargetSales)
-                                        {{$financialTargetSales->amount}}<br>
+                                        <span id="targetSales">{{$financialTargetSales->amount}}<br></span>
                                         <span style="font-size: 0.65rem; font-weight: normal;">{{ $financialTargetSales->start_date }} - {{ $financialTargetSales->end_date }}</span>
                                     @else
                                         <p>No target sale found for display.</p>
+                                        <span id="targetSales" hidden="hidden">0</span>
                                         <span style="font-size: 8px;">No target sale found for display.</span>
                                     @endif
                                     

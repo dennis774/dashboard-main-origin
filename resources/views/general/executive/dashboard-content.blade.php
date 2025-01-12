@@ -5,6 +5,17 @@
         <!-- LEFT COLUMN -->
         <div class="col-auto d-flex flex-column row-gap-2 p-0 h-100" style="width: 74%;">
 
+            @php
+                 $currentDate = now()->toDateString(); // Get the current date dynamically
+                $startDate = now()->startOfMonth()->toDateString(); // First day of the month
+                $endDate = now()->endOfMonth()->toDateString(); // Last day of the month
+
+                // Filter the passed predictionData
+                $filteredData = collect($prediction_data)->filter(function ($item) use ($startDate, $endDate) {
+                    return $item['date'] >= $startDate && $item['date'] <= $endDate;
+                })->values();
+            @endphp
+
             {{-- UPPER ROW --}}
             <div class="row d-flex flex-grow-1" style="height: 50%">
                 <div class="col d-flex flex-column align-items-center">
@@ -16,7 +27,7 @@
                         <span id="totalSalesActual">{{ number_format($totals['totalSales'],2) }}</span>
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        <span id="totalSalesPred">Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Sales Prediction'))) }}</span>
+                        <span id="totalSalesPred">Predicted: {{ round($filteredData->sum('Total Sales Prediction')) }}</span>
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="SalesChart" class="p-0"></canvas>
@@ -32,7 +43,9 @@
                         <span id="totalProfitActual">{{ number_format($totals['totalProfit'],2) }}</span>
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        <span id="totalProfitPred">Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Profit Prediction'))) }}</span>
+                        <span id="totalProfitPred">
+                        Predicted: {{ round($filteredData->sum('Total Profit Prediction')) }}
+                        </span>
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="ProfitChart" class="p-0"></canvas>
@@ -48,7 +61,7 @@
                         <span id="totalExpenseActual">{{ number_format($totals['totalExpenses'],2) }}</span>
                     </div>
                     <div class="row d-flex justify-content-center align-items-center" style="height: 10%; font-size: 0.9rem; letter-spacing:1px;">
-                        <span id="totalExpensePred"> Predicted: {{ round(array_sum(array_column($prediction_data, 'Total Expenses Prediction'))) }}</span>
+                        <span id="totalExpensePred"> Predicted: {{ round($filteredData->sum('Total Expenses Prediction')) }}</span>
                     </div>
                     <div class="row d-flex flex-grow-1 w-100 align-items-center justify-content-center" style="height: 100%">
                         <canvas id="ExpenseChart" class="p-0"></canvas>
@@ -162,32 +175,70 @@
                 <div class="row d-flex w-100 h-100 pe-0 justify-content-center align-items-start">
                     {{-- <span class="d-flex align-items-center justify-content-center h-100 fst-italic fw-light text-white opacity-50">No forecasts found.</span> --}}
                     
-                    <!-- {{-- AI FORECAST --}}
+                    @php
+                        use Carbon\Carbon;
+
+                        // Set the current date
+                        $currentDate = Carbon::now();
+
+                        // Store results for each day
+                        $salesProjections = [];
+
+                        // Calculate percentage change for each of the next 7 days
+                        for ($i = 1; $i <= 7; $i++) {
+                            $nextDay = $currentDate->copy()->addDays($i); // Calculate the next day
+                            $currentSales = null;
+                            $nextDaySales = null;
+
+                            foreach ($filteredData as $data) {
+                                $dataDate = Carbon::parse($data['date']);
+
+                                // Get sales for the current date
+                                if ($dataDate->isSameDay($currentDate)) {
+                                    $currentSales = $data['Total Sales Prediction'];
+                                }
+
+                                // Get sales for the next day
+                                if ($dataDate->isSameDay($nextDay)) {
+                                    $nextDaySales = $data['Total Sales Prediction'];
+                                }
+                            }
+
+                            // Calculate percentage change if both values are available
+                            if (!is_null($currentSales) && !is_null($nextDaySales)) {
+                                $percentageChange = (($nextDaySales - $currentSales) / $currentSales) * 100;
+                                $salesProjections[] = [
+                                    'date' => $nextDay->toDateString(),
+                                    'projection' => round($percentageChange, 2),
+                                ];
+                            } else {
+                                $salesProjections[] = [
+                                    'date' => $nextDay->toDateString(),
+                                    'projection' => null,
+                                ];
+                            }
+                        }
+                    @endphp
+                    {{-- AI FORECAST --}}
                     <ul class="text-start ps-1 h-100 mb-0 overflow-y-scroll weather-column" id="ai-forecast" style="font-size: 0.75rem; text-align: justify; text-justify: auto; display:block;">
                         {{-- FORECAST ITEMS --}}
+                        @foreach($salesProjections as $projection)
                         <li class="ms-3 mb-2">
-                            Sales Projected to increase by 5% tomorrow due to good weather condition
+                            @if(!is_null($projection['projection']))
+                                @if($projection['projection'] >= 0)
+                                    Sales are expected to rise by {{ $projection['projection'] }}%, driven by strong market demand.
+                                @else
+                                    Sales are expected to drop by {{ abs($projection['projection']) }}%, due to weaker market demand.
+                                @endif
+                            @else
+                                Sales projection data for {{ $projection['date'] }} is not available.
+                            @endif
                         </li>
-                        
-                        <li class="ms-3 mb-2">
-                            Sales Projected to increase by 5% tomorrow due to good weather condition
-                        </li>
-
-                        <li class="ms-3 mb-2">
-                            Sales Projected to increase by 5% tomorrow due to good weather condition
-                        </li>
-
-                        <li class="ms-3 mb-2">
-                            Sales Projected to increase by 5% tomorrow due to good weather condition
-                        </li>
-
-                        <li class="ms-3 mb-2">
-                            Sales Projected to increase by 5% tomorrow due to good weather condition
-                        </li>
-                    </ul> -->
+                    @endforeach
+                    </ul>
 
                     {{-- WEATHER FORECAST --}}
-                    <div class="text-start p-0 h-100 mb-0 overflow-y-scroll weather-column" id="weather-forecast" style="font-size: 0.75rem; text-align: justify; text-justify: auto; display: block;">
+                    <div class="text-start p-0 h-100 mb-0 overflow-y-scroll weather-column" id="weather-forecast" style="font-size: 0.75rem; text-align: justify; text-justify: auto; display: none;">
                         {{-- FORECAST ITEMS --}}
                         <div class="col-12 pb-3 d-flex flex-row">
                             {{-- CLOUD ICON --}}
@@ -362,19 +413,19 @@
                 </div>
             </div>
 
-<!--             
+             
             {{-- CHECK WEATHER --}}
             <div class="row d-flex w-100 px-1 pb-0 align-items-end justify-content-end" id="check-weather-btn" style="height: 10%">
                 <a href="#" class="text-white text-end opacity-75" id="check-btn" style="font-size: 0.75rem; display:block;">Check Weather</a>
                 <a href="#" class="text-white text-end opacity-75" id="back-btn" style="font-size: 0.75rem; display:none;">Back</a>
-            </div> -->
+            </div> 
 
         </div>
         <!-- END RIGHT COLUMN -->
     </div>
 </div>
 
-<!-- {{-- SCRIPT FOR FORECASTS DIVS --}}
+{{-- SCRIPT FOR FORECASTS DIVS --}}
 <script>
     const aiForecastDiv = document.getElementById('ai-forecast');
     const weatherDiv = document.getElementById('weather-forecast');
@@ -398,7 +449,7 @@
         backButton.style.display = 'none';
 
     });
-</script> -->
+</script>
 
 {{-- SCRIPT FOR CHARTS --}}
 <script>
@@ -431,7 +482,7 @@
                 }, {
                     label: 'Predicted',
                     // AI PREDICTION DATA HERE
-                    data: [@json($prediction_data[0]['Total Sales Prediction']), @json($prediction_data[1]['Total Sales Prediction']),, @json($prediction_data[2]['Total Sales Prediction']),],
+                    data: [@json(round($filteredData->sum('Total Sales Prediction'))), @json(round($filteredData->sum('Total Sales Prediction'))), @json(round($filteredData->sum('Total Sales Prediction'))),],
                     backgroundColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'], 
                     borderColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'],
                     borderWidth: 1,
@@ -510,7 +561,7 @@
                 }, {
                     label: 'Predicted',
                     // AI PREDICTION DATA HERE
-                    data: [ @json($prediction_data[0]['Total Profit Prediction']), @json($prediction_data[1]['Total Profit Prediction']), @json($prediction_data[2]['Total Profit Prediction']),],
+                    data: [@json(round($filteredData->sum('Total Profit Prediction'))), @json(round($filteredData->sum('Total Profit Prediction'))), @json(round($filteredData->sum('Total Profit Prediction'))),],
                     backgroundColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'], 
                     borderColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'],
                     borderWidth: 1,
@@ -589,7 +640,7 @@
                 }, {
                     label: 'Predicted',
                     // AI PREDICTION DATA HERE
-                    data: [@json($prediction_data[0]['Total Expenses Prediction']),  @json($prediction_data[1]['Total Expenses Prediction']),  @json($prediction_data[2]['Total Expenses Prediction']),],
+                    data: [@json(round($filteredData->sum('Total Expenses Prediction'))), @json(round($filteredData->sum('Total Expenses Prediction'))), @json(round($filteredData->sum('Total Expenses Prediction'))),],
                     backgroundColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'], 
                     borderColor: ['rgba(255,255,255, 1)', 'rgba(255,255,255, 1)', 'rgba(255,255,255, 1)'],
                     borderWidth: 1,

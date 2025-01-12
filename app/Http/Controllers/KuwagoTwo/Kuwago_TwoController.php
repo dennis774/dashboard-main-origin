@@ -226,6 +226,7 @@ class Kuwago_TwoController extends Controller
             $financialTargetSales = Targeting::where('is_displayed', true)->first();
         }
         // Fetch the financial target dates
+
         $financialStartDate = $financialTargetSales->start_date;
         $financialEndDate = $financialTargetSales->end_date;
 
